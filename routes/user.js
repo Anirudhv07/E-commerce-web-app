@@ -38,9 +38,6 @@ router.get('/checkOut',userCheckOutController.getCheckOut)
 
 router.get('/addAddress',userProfileController.getAddAddress)
 
-
-
-
 // router.get('/category',userProductController.getCategory)
 
 module.exports = router;
