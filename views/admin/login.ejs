@@ -1,0 +1,96 @@
+<section class="content-main mt-80 mb-80 " style="margin-right: 20rem">
+    <div class="card mx-auto card-login ">
+        <div class="card-body">
+            <h4 class="card-title mb-4 text-center">Admin Login</h4>
+            <form method="POST" action="/admin" id="form">
+                <div class="mb-3">
+                    <input class="form-control" id="email" onkeyup="validateEmail()" name="email" placeholder=" Email"
+                        type="text">
+                    <p id="emailerror" class="validation-label"></p>
+
+                </div> <!-- form-group// -->
+                <div class="mb-3">
+                    <input class="form-control" name="password" id="password" onkeyup="validatePassword()"
+                        placeholder="Password" type="password">
+                    <p id="passworderror" class="validation-label"></p>
+
+                </div> <!-- form-group// -->
+
+                <div class="mb-4">
+                    <button type="submit" name="login" class="btn btn-primary w-100"> Login </button>
+                </div> <!-- form-group// -->
+            </form>
+
+        </div>
+    </div>
+</section>
+
+<script>
+
+    //validation//
+
+
+    const emailError = document.getElementById('emailerror')
+
+    const passwordError = document.getElementById('passworderror')
+
+    function validateEmail() {
+        const email = document.getElementById('email').value
+        const emailInput = document.getElementById("email")
+
+        if (email.length == 0) {
+            emailError.innerHTML = 'Email is Required'
+            emailError.style.color = "red"
+            emailInput.style.border = "solid 2px red"
+
+            return false
+
+        }
+        if (!email.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)) {
+            emailError.innerHTML = 'Email Invalid'
+            emailError.style.color = 'red'
+            emailInput.style.border = 'solid 2px red'
+            return false
+        }
+        emailError.innerHTML = ''
+        emailError.style.color = "green"
+        emailInput.style.border = "solid 2px green"
+
+        return true
+    }
+    function validatePassword() {
+        const password = document.getElementById('password').value
+        const passwordInput = document.getElementById('password')
+
+
+
+        if (password.length == 0) {
+            passwordError.innerHTML = 'Password is required'
+            passwordError.style.color = 'red'
+            passwordInput.style.border = 'solid 2px red'
+
+            return false
+
+        }
+        passwordError.innerHTML = ''
+        passwordInput.style.border = ''
+
+    }
+    // form.addEventListener('submit', (event) => {
+    //     event.preventDefault()
+    //     if (!validateEmail() || !validatePassword()) {
+    //         Swal.fire({
+    //             icon: 'error',
+    //             title: 'Enter details correctly!!'
+    //         })
+    //         return false
+    //     } else {
+    //         form.submit()
+    //     }
+    // })
+
+
+
+
+
+</script>

@@ -1,0 +1,321 @@
+<section class="content-main">
+    <form method="post" action="/admin/editProduct/<%=editProduct._id%>" id="form" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-9">
+                <div class="content-header">
+                    <h2 class="content-title">Edit Product</h2>
+                    <div>
+                        <!-- <button class="btn btn-light rounded font-sm mr-5 text-body hover-up">Save to draft</button> -->
+                        <button type="submit" class="btn btn-md rounded font-sm hover-up">Publish</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h4>Basic</h4>
+                    </div>
+                    <div class="card-body">
+
+                        <div class="mb-4">
+                            <label for="product_name" class="form-label">Product title</label>
+                            <input type="text" name="productName" id="title" onkeyup="validateTitle()"
+                                placeholder="Type here" value="<%=editProduct.Productname%>" class="form-control"
+                                id="product_name">
+                            <p id="titleerror" class="validation-label"></p>
+
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label">Full description</label>
+                            <input type="text" name="productDescription" id="description" onkeyup="validateDescription()"
+                                placeholder="Type here" value="<%=editProduct.ProductDescription%>" class="form-control">
+                         
+                            <p id="descriptionerror" class="validation-label"></p>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="mb-4">
+                                    <label class="form-label">Price</label>
+                                    <div class="row gx-2">
+                                        <input placeholder="Type here" id="price" onkeyup="price()"
+                                            value="<%=editProduct.Price%>" name="productPrice" type="number"
+                                            class="form-control">
+                                        <p id="priceerror" class="validation-label"></p>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div> <!-- card end// -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h4>Organization</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row gx-2">
+                            <div class="col-sm-6 mb-3">
+                                <label class="form-label">Category</label>
+                                <select class="form-select" id="proCategory" name="productCategory" onchange="categoryChange()">
+                                    <option>
+                                        <%=editProduct.Category %>
+                                    </option>
+                                    <%proCategory.forEach(function(proCategory){%>
+                                        <% if (proCategory.CategoryName===editProduct.Category){ %>
+                                            
+                                            <% }else{%>
+                                                <option>
+                                                    <%=proCategory.CategoryName %>
+                                                </option>
+
+
+
+                                                <% }%>
+
+                                                    <% })%>
+
+                                </select>
+                            </div>
+                            <div class="col-sm-6 mb-3">
+                                <label class="form-label">Sub-category</label>
+                                <select class="form-select" id="subCategories" name="productSubCategory">
+                                    <option>
+                                        <%=editProduct.SubCategory %>
+                                    </option>
+                                    <%proCategory.forEach(function(proCategory){%>
+                                        <% if (proCategory.CategoryName==editProduct.Category){ %>
+                                            <%proCategory.SubCategory.forEach(function(subCategory){%>
+                                
+                                                <% if (subCategory==editProduct.SubCategory){ %>
+                                
+                                
+                                                    <% }else{%>
+                                                        <option>
+                                                            <%=subCategory %>
+                                                        </option>
+                                
+                                
+                                
+                                                        <% }%>
+                                
+                                                            <% })%>
+                                                                <% }%>
+                                                                    <% })%>
+
+
+                                </select>
+                            </div>
+                            <div class="mb-4">
+                                <label for="product_name" class="form-label">Quantity</label>
+                                <input type="text" name="productQuantity" id="quantity" onkeyup="validateQuantity()"
+                                    class="form-control" value="<%=editProduct.Quantity%>">
+                                <p id="quantityerror" class="validation-label"></p>
+
+                            </div>
+                        </div> <!-- row.// -->
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-lg-3">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h4>Media</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="input-upload">
+                            <img src="/uploads/<%=editProduct?.Image[0]%>" alt="">
+                            <input class="form-control" name="image1" id="image"
+                                value="<%=editProduct?.Image[0]%>" type="file">
+                            <p id="imageerror" class="validation-label"></p>
+                            <input type="hidden" name="image1" value="<%=editProduct?.Image[0]%>">
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="input-upload">
+                            <img src="/uploads/<%=editProduct?.Image[1]%>" alt="">
+                            <input class="form-control" name="image2" value="<%=editProduct?.Image[1]%>" type="file">
+                            <input type="hidden" name="image2" value="<%=editProduct?.Image[1]%>">
+
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="input-upload">
+                            <img src="/uploads/<%=editProduct?.Image[2]%>" alt="">
+                            <input class="form-control" name="image3" value="<%=editProduct?.Image[2]%>" type="file">
+                            <input type="hidden" name="image3" value="<%=editProduct?.Image[2]%>">
+
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="input-upload">
+                            <img src="/uploads/<%=editProduct?.Image[3]%>" alt="">
+                            <input class="form-control" name="image4" value="<%=editProduct?.Image[3]%>" type="file">
+                            <input type="hidden" name="image4" value="<%=editProduct?.Image[3]%>">
+
+                        </div>
+                    </div>
+                </div>
+                <!-- card end// -->
+            </div>
+    </form> <!-- card end// -->
+    </div>
+</section> <!-- content-main end// -->
+
+<script>
+    const titleError = document.getElementById('titleerror')
+    const descriptionError = document.getElementById('descriptionerror')
+    const imageError = document.getElementById('imageerror')
+    const priceError = document.getElementById('priceerror')
+    const quantityError = document.getElementById('quantityerror')
+
+
+
+    function validateTitle() {
+    const title = document.getElementById('title').value.trim(); // Remove leading and trailing spaces
+    const titleInput = document.getElementById("title");
+
+    if (title.length === 0) {
+        titleError.innerHTML = 'Title is required';
+        titleError.style.color = "red";
+        titleInput.style.border = "solid 2px red";
+
+        return false;
+    } else if (/^\s+$/.test(title)) { // Check if title contains only spaces
+        titleError.innerHTML = 'Title cannot be just spaces';
+        titleError.style.color = "red";
+        titleInput.style.border = "solid 2px red";
+
+        return false;
+    }
+
+    titleError.innerHTML = '';
+    titleInput.style.border = "solid 2px green";
+
+    return true;
+}
+
+
+
+    function validateDescription() {
+        const description = document.getElementById('description').value.trim()
+        const descriptionInput = document.getElementById('description')
+
+
+
+        if (description.length == 0) {
+            descriptionError.innerHTML = 'Description is required'
+            descriptionError.style.color = 'red'
+            descriptionInput.style.border = 'solid 2px red'
+
+            return false
+
+        }else if (/^\s+$/.test(description)) { // Check if title contains only spaces
+            descriptionError.innerHTML = 'Description cannot be just spaces';
+            descriptionError.style.color = "red";
+            descriptionInput.style.border = "solid 2px red";
+
+        return false;
+    }
+        descriptionError.innerHTML = ''
+        descriptionInput.style.border = "solid 2px green"
+
+        return true
+
+    }
+
+
+    function validatePrice() {
+        const price = document.getElementById('price').value.trim()
+        const priceInput = document.getElementById('price')
+
+
+
+        if (price.length == 0) {
+            priceError.innerHTML = 'price is required'
+            priceError.style.color = 'red'
+            priceInput.style.border = 'solid 2px red'
+
+            return false
+
+        }else if (/^\s+$/.test(price)) { // Check if title contains only spaces
+            priceError.innerHTML = 'Price cannot be just spaces';
+            priceError.style.color = "red";
+            priceInput.style.border = "solid 2px red";
+
+        return false;
+    }
+        priceError.innerHTML = ''
+        priceInput.style.border = "solid 2px green"
+
+        return true
+
+    }
+    function validateQuantity() {
+        const quantity = document.getElementById('quantity').value
+        const quantityInput = document.getElementById('quantity')
+
+
+
+        if (quantity.length == 0) {
+            quantityError.innerHTML = 'quantity is required'
+            quantityError.style.color = 'red'
+            quantityInput.style.border = 'solid 2px red'
+
+            return false
+
+        }else if (/^\s+$/.test(quantity)) { // Check if title contains only spaces
+            quantityError.innerHTML = 'Quantity cannot be just spaces';
+            quantityError.style.color = "red";
+            quantityInput.style.border = "solid 2px red";
+
+        return false;
+    }
+        quantityError.innerHTML = ''
+        quantityInput.style.border = "solid 2px green"
+
+        return true
+
+    }
+ 
+    form.addEventListener('submit', (event) => {
+        event.preventDefault()
+        if (!validateTitle() || !validateDescription() || !validatePrice() || !validateQuantity()) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Enter details correctly!!'
+            })
+            return false
+        } else {
+            form.submit()
+        }
+    })
+     function categoryChange(){
+        let proCategory = document.getElementById('proCategory').value
+
+        $.ajax({
+            url:'/admin/getSubCategory',
+            method:'get',
+            data:{
+                proCategory
+            },
+            success:(response)=>{
+                let subCategory=''
+                response.forEach((value)=>{
+                    subCategory+=`<option>${value}</option>` 
+                })
+                document.getElementById('subCategories').innerHTML=subCategory
+                
+            }
+        })
+
+    }
+
+
+
+</script>

@@ -1,0 +1,28 @@
+<section class="content-main mt-80 mb-80 ">
+    <div class="card mx-auto card-login ">
+        <div class="card-body">
+            <h4 class="card-title mb-4 text-center">Edit Product</h4>
+            <form method="POST" action="/admin/editCategory/<%=response._id %>">
+                <div class="mb-3">
+                    <label for="">Category Name</label>
+                    <input class="form-control" name="editCategory" placeholder=" Type here"
+                        value="<%=response.CategoryName %>" type="text">
+                </div> <!-- form-group// -->
+                <div class="mb-3">
+                    <label for="">Sub Category Name</label>
+
+                    <input class="form-control" name="editSubCategory" placeholder="Type here"
+                        value="<%=response.SubCategory %>" type="text">
+                </div> <!-- form-group// -->
+                <div class="mb-3">
+
+
+                </div> <!-- form-group form-check .// -->
+                <div class="mb-4">
+                    <button type="submit" class="btn btn-primary w-100">Submit </button>
+                </div> <!-- form-group// -->
+            </form>
+
+        </div>
+    </div>
+</section>

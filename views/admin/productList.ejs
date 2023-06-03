@@ -1,0 +1,93 @@
+<section class="content-main">
+    <div class="content-header">
+        <div>
+            <h2 class="content-title card-title">Products List</h2>
+
+        </div>
+        <div>
+
+            <a href="/admin/addProducts" class="btn btn-primary btn-sm rounded">Create new</a>
+        </div>
+    </div>
+    <div class="card mb-4 ">
+        <div class="card-header">
+            <div class="row align-items-center">
+                <div class="table-responsive ">
+                    <table class="table table-nowrap ">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Image</th>
+                                <th>Product Name</th>
+                                <th>Category</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                                <th class="text-end">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <% response.forEach(function(response,index){%>
+                                    <td>
+                                        <%=index+1%>
+                                    </td>
+                                    <td><img src="/uploads/<%=response.Image[0]%>" alt=""
+                                            style="width:50px;height:50px"></td>
+                                    <td>
+                                        <%=response.Productname%>
+                                    </td>
+                                    <td>
+                                        <%=response.Category%>
+                                    </td>
+                                    <td>
+                                        <%=response.Quantity%>
+                                    </td>
+                                    <td>
+                                        <%=response.Price%>
+                                    </td>
+
+                                    <td class="text-end"><a href="/admin/editProduct/<%=response._id%>"><button
+                                                class="btn btn-primary">Edit</button></a>
+
+                                        <% if(response.unlist){%>
+                                            <a href=""><button class="btn btn-success text-white"
+                                                    onclick="unlistProduct('<%=response._id%>',false)">List</button></a>
+                                            <%}else{%>
+                                                <a href=""><button class="btn btn-danger "
+                                                        onclick="unlistProduct('<%=response._id%>',true)">Unlist</button></a>
+
+                                                <%}%>
+                                    </td>
+                            </tr>
+
+                            <%})%>
+                        </tbody>
+
+                    </table>
+                </div>
+
+            </div>
+        </div>
+        <!-- card-header end// -->
+        <!-- card-body end// -->
+    </div> <!-- card end// -->
+
+</section> <!-- content-main end// -->
+
+
+<script>
+    function unlistProduct(proId, condition) {
+        $.ajax({
+            url: '/admin/unListProduct/',
+            method: 'PUT',
+            data: {
+                proId: proId,
+                condition: condition
+
+            },
+            success: (response) => {
+                location.reload()
+            }
+        })
+    }
+</script>

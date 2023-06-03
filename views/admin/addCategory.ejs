@@ -1,0 +1,136 @@
+<section class="content-main">
+    <div class="content-header">
+        <div>
+            <h2 class="content-title card-title">Categories </h2>
+            <p>Add, edit or delete a category</p>
+        </div>
+        <div>
+            <input type="text" placeholder="Search Categories" class="form-control bg-white">
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-3">
+                    <form method="post" action="/admin/addCategory">
+                        <div class="mb-4">
+                            <label for="product_name" class="form-label">Category Name</label>
+                            <input type="text" name="categoryname" placeholder="Type here" class="form-control"
+                                id="product_name" />
+                        </div>
+                        <div class="mb-4">
+                            <label for="product_slug" class="form-label">Sub Category Name</label>
+                            <input type="text" name="subcategoryname" placeholder="Type here" class="form-control"
+                                id="product_slug" />
+                        </div>
+                        <!-- <div class="mb-4">
+                            <label class="form-label">Parent</label>
+                            <select class="form-select">
+                                <option>Clothes</option>
+                                <option>T-Shirts</option>
+                            </select>
+                        </div> -->
+                        <!-- <div class="mb-4">
+                            <label class="form-label">Description</label>
+                            <textarea placeholder="Type here" class="form-control"></textarea>
+                        </div> -->
+                        <div class="d-grid">
+                            <button class="btn btn-primary">Create category</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-9">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <!-- <th class="text-center">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" />
+                                        </div>
+                                    </th> -->
+                                    <th>No</th>
+                                    <th>Category Name</th>
+                                    <!-- <th>Description</th> -->
+                                    <th>Sub Category Name</th>
+                                    <!-- <th>Order</th> -->
+                                    <th class="text-end">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% viewCategory.forEach(function(viewCategory,index){ %>
+                                    <tr>
+                                        <td>
+                                            <%= index+1 %>
+                                        </td>
+                                        <td>
+                                            <%= viewCategory.CategoryName %>
+                                        </td>
+                                        <td>
+                                            <%= viewCategory.SubCategory %>
+                                        </td>
+
+                                        <td class="text-end">
+                                            <a href="/admin/editCategory/<%= viewCategory._id %>"><button
+                                                    class="btn btn-success text-white">Edit</button></a>
+                                            <button class="btn btn-danger"
+                                                onclick="deleteCategory('<%= viewCategory._id %>')">Delete</button>
+                                        </td>
+
+
+
+
+                                    </tr>
+
+
+
+
+                                    <% }) %>
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div> <!-- .col// -->
+            </div> <!-- .row // -->
+        </div> <!-- card body .// -->
+    </div> <!-- card .// -->
+</section>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+
+<script>
+
+    function deleteCategory(id) {
+
+        $.ajax({
+            url: `/admin/deleteCategory/${id}`,
+            method: 'delete',
+            success: (deleteResponse) => {
+                if (deleteResponse) {
+                    showSwalAlert('success', 'Category deleted successfully');
+                }
+            }
+        });
+    }
+
+    function showSwalAlert(icon, message) {
+        Swal.fire({
+            icon: icon,
+            title: 'Deleted Successfully',
+            text: message,
+
+            position: 'center',
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer);
+                toast.addEventListener('mouseleave', Swal.resumeTimer);
+            }
+        }).then(() => {
+            location.reload()
+        })
+    }
+
+</script>
