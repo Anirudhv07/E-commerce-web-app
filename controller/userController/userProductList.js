@@ -62,12 +62,16 @@ module.exports = {
             
             const count = await cartAndWishlistHelpers.getCartCount(req.session.user.userId);
             let total=await userCheckOutHelper.totalCheckOutAmount(req.session.user.userId)
+            let subtotal = await userCheckOutHelper.subtotal(req.session.user.userId);
+
+
 
 
             
             await cartAndWishlistHelpers.listCart(req.session.user.userId).then((cartItems)=>{
+                console.log(subtotal);
     
-                res.render('user/cart',{layout:'layout',cartItems,users,count,total})
+                res.render('user/cart',{layout:'layout',cartItems,users,count,total,subtotal})
             })
 
         }else{
@@ -77,10 +81,12 @@ module.exports = {
 
     },
     postChangeQuantity:async(req,res)=>{
-        console.log('------------------------------');
+     
         await cartAndWishlistHelpers.changeProQuantity(req.body).then(async(response)=>{
             console.log(req.session.user);
             response.total=await userCheckOutHelper.totalCheckOutAmount(req.session.user.userId)
+            response.subtotal = await userCheckOutHelper.subtotal(req.session.user.userId);
+
 
            console.log(response);
             res.json(response)

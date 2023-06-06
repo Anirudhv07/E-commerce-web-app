@@ -42,15 +42,15 @@
                                         <td class="price" data-title="Price"><span>₹ <%=cartItems.carted.Price%></span></td>
                                         <td class="text-center" data-title="Stock">
                                             <div class="detail-qty border radius  m-auto">
-                                                <div>  <button class="cart-item-count border border-success" onclick="changeQuantity('<%= cartItems._id%>','<%= cartItems.item %>','<%=users.userId%>' ,1)" >+</button></div> 
+                                                <div>  <button class="cart-item-count border border-success" onclick="changeQuantity('<%= cartItems._id%>','<%= cartItems.item %>','<%=users.userId%>' ,1,'<%=index%>')" >+</button></div> 
                                                 
                                                 <span class="qty-val" id="<%= cartItems.item %>"><%=cartItems.quantity%></span>
-                                                <div>  <button class="cart-item-count border border-success" onclick="changeQuantity('<%= cartItems._id%>','<%= cartItems.item %>','<%=users.userId%>',-1)"  >-</button></div> 
+                                                <div>  <button class="cart-item-count border border-success" onclick="changeQuantity('<%= cartItems._id%>','<%= cartItems.item %>','<%=users.userId%>',-1,'<%=index%>')"  >-</button></div> 
                                                 
                                             </div>
                                         </td>
                                         <td class="text-right" data-title="Cart">
-                                            <span><%=cartItems.carted.Price%></span>
+                                            <span id='<%=index%>'><%=subtotal[index].total%></span>
                                         </td>
                                         <td class="action" data-title="Remove"><button class="border border-success"  onclick="deleteProduct('<%=cartItems._id%>','<%=cartItems.item %>')"><i class="fi-rs-trash"></i></button></td>
                                     </tr>
@@ -68,27 +68,7 @@
                     <div class="row mb-50">
                         <div class="col-lg-6 col-md-12">
                             
-                            <div class="mb-30 mt-50">
-                                <div class="heading_s1 mb-3">
-                                    <h4>Apply Coupon</h4>
-                                </div>
-                                <div class="total-amount">
-                                    <div class="left">
-                                        <div class="coupon">
-                                            <form action="#" target="_blank">
-                                                <div class="form-row row justify-content-center">
-                                                    <div class="form-group col-lg-6">
-                                                        <input class="font-medium" name="Coupon" placeholder="Enter Your Coupon">
-                                                    </div>
-                                                    <div class="form-group col-lg-6">
-                                                        <button class="btn  btn-sm"><i class="fi-rs-label mr-10"></i>Apply</button>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        
                         </div>
                         <div class="col-lg-6 col-md-12">
                             <div class="border p-md-4 p-30 border-radius cart-totals">
@@ -125,9 +105,9 @@
 
 
 <script>
-   function changeQuantity(cartId, productId,userId, count) {
+   function changeQuantity(cartId, productId,userId, count,index) {
     const quantity = parseInt(document.getElementById(productId).textContent);
-    console.log(cartId, productId,userId, count);
+    console.log(cartId, productId,userId, count,index);
     $.ajax({
         url: '/changeQuantity',
         data: {
@@ -139,11 +119,15 @@
         },
         method: 'post',
         success: (response) => {
+            console.log(response.subtotal[index]);
+            let sub=document.getElementById(index).innerHTML=response.subtotal[index].total
+            console.log(sub);
             if (response.status) {
                 const updatedQuantity = quantity + count;
                 document.getElementById(productId).textContent = updatedQuantity;
                 document.getElementById('subTotalValue').textContent ='₹'+response.total;
                 document.getElementById('totalValue').textContent ='₹'+ response.total;
+                
 
 
             }

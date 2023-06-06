@@ -49,6 +49,57 @@ module.exports = {
             })
         })
     },
+    subtotal: (userId) => {
+        return new Promise(async (resolve, reject) => {
+          await user.cart
+            .aggregate([
+              {
+                $match: {
+                  user:new ObjectId(userId),
+                },
+              },
+    
+              {
+                $unwind: "$cartItems",
+              },
+    
+              {
+                $project: {
+                  item: "$cartItems.productId",
+                  quantity: "$cartItems.Quantity",
+                },
+              },
+    
+              {
+                $lookup: {
+                  from: "products",
+                  localField: "item",
+                  foreignField: "_id",
+                  as: "carted",
+                },
+              },
+              {
+                $project: {
+                  item: 1,
+                  quantity: 1,
+    
+                  price: {
+                    $arrayElemAt: ["$carted.Price", 0],
+                  },
+                },
+              },
+              {
+                $project: {
+                  total: { $multiply: ["$quantity", "$price"] },
+                },
+              },
+            ])
+            .then((total) => {
+               
+              resolve(total);
+            });
+        });
+      },
     postAddAddress: (userId, data) => {
         return new Promise(async (resolve, reject) => {
           try {
