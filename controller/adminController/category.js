@@ -68,6 +68,17 @@ module.exports = {
             res.json(response)
 
         })
+    },
+    unlistCategory: async (req, res) => {
+        const condition = JSON.parse(req.body.condition)
+        const catId = req.body.catId
+        const catName=req.body.catName
+        await  adminCategoryHelper.unlistCategory(catId, condition)
+        adminCategoryHelper.unlistAllProduct(catName,condition)
+           
+                res.json(true)
+          
+
     }
 
 

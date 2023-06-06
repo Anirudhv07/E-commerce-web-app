@@ -6,23 +6,75 @@
             <div class="col-md-6">
                 <div >
                     <h4 class="mb-4 ">Select Your Address</h4>
-                    <h4 class="mb-4" style="width: 35rem; height: 3rem;background-color: whitesmoke; padding:1rem"><a href="/addAddress">+ Add new Address</a></h4>
+
                     
                 </div>
-                
-                <div class="panel-body">
-                    <p class="mb-30 font-sm">If you have a coupon code, please apply it below.</p>
-                    <form method="post">
-                        <div class="form-group">
-                            <input type="text" placeholder="Enter Coupon Code...">
-                        </div>
-                        <div class="form-group">
-                            <button class="btn  btn-md" name="login">Apply Coupon</button>
-                        </div>
-                    </form>
+                <% if ( checkOutAddress.length == 0) { %>
+
+                    <h2>No Addrerss added</h2>
+                  
+                    <%} else { %>
+                  
+                      <form  action="/checkOut" method="POST" id="checkOutForm">
+                        <% checkOutAddress.forEach(function(checkOutAddress) { %>
+                        <div>
+                    <div class="payment_option">
+                        
+                        <div class="custome-radio" style="width: 35rem; height: 13rem;background-color: whitesmoke; padding: 20px; border-radius: 30px;">
+                            
+                                                                   
+                            <input type="radio" id="address1" name="address" checked value="<%=checkOutAddress.item._id%>" style="height: 10px;width:10px;">
+                             
+                            <h4><%=checkOutAddress.item.fname%>:<%=checkOutAddress.item.lname%></h4>
+                            <h5><%=checkOutAddress.item.housename%></h6>
+                                <h5><%=checkOutAddress.item.street%></h5>
+                                <h5><%=checkOutAddress.item.city%></h6>
+                                    <h5><%=checkOutAddress.item.state%></h5>
+                                    <h5><%=checkOutAddress.item.pincode%></h5>
+                                <h5><%=checkOutAddress.item.phone%></h5>
+                                <h5><%=checkOutAddress.item.email%></h5>
+                                                                 
+                                <br>                                                             
+                        </div>    
+                                                   
+                    </div>
+                    
+                    
+                  </div>
+                  <% }) %> 
+                  <div style="width: 35rem; height: 3rem;background-color: whitesmoke; padding: 20px;">
+                    <a href="/addAddress"> <h5>+ Add an address</h5></a>
+                     
                 </div>
-                
-            </div>
+                  <div class="payment_method pt-3">
+                  <h3>Payment Method</h3>
+                  <div class="form-check">
+                      <input class="form-check-input" type="radio" name="payment-method" value="COD" checked >
+                      <label class="form-check-label" for="flexRadioDefault1">
+                        COD
+                      </label>
+                    </div>
+                    <div class="form-group">
+                        <input   name="user"  value="<%=users.userId%>" type="hidden" >
+                        <input   name="total" id="total1"  value="<%=total%>" type="hidden" >
+                    
+                  
+                    </div>
+                </div>
+                <button type="submit"  class="btn btn-fill-out btn-block mt-30">Proceed to payment</button>
+                </form>
+                    <% } %>
+                    
+                       
+                    <br>
+             
+
+                       
+                    <br>
+                   
+
+</div>
+
             <div class="col-md-6">
                 <div class="order_review">
                     <div class="mb-20">
@@ -37,13 +89,15 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <% cartItems.forEach(function(cartItems){%>
                                 <tr>
-                                    <td class="image product-thumbnail"><img src="assets/imgs/shop/product-1-1.jpg" alt="#"></td>
+                                    <td class="image product-thumbnail"><img src="/uploads/<%=cartItems.carted.Image[0]%>" alt="#"></td>
                                     <td>
-                                        <h5><a href="shop-product-full.html">Yidarton Women Summer Blue</a></h5> <span class="product-qty">x 2</span>
+                                        <h5><a href="shop-product-full.html"><%=cartItems.carted.Productname%></a></h5> <span class="product-qty">x <%=cartItems.quantity%></span>
                                     </td>
-                                    <td>$180.00</td>
+                                    <td><%= cartItems.carted.Price%></td>
                                 </tr>
+                           <% })%>
                                
                                 <tr>
                                     <th>SubTotal</th>
@@ -61,35 +115,23 @@
                         </table>
                     </div>
                     <div class="bt-1 border-color-1 mt-30 mb-30"></div>
-                    <div class="payment_method">
-                        <div class="mb-25">
-                            <h5>Payment</h5>
+                   
+                        <div class="panel-body ">
+                            <p class="mb-30 font-sm">If you have a coupon code, please apply it below.</p>
+                            <form method="post">
+                                <div class="form-group">
+                                    <input type="text" placeholder="Enter Coupon Code...">
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn  btn-md" name="login">Apply Coupon</button>
+                                </div>
+                            </form>
                         </div>
-                        <div class="payment_option">
-                            <div class="custome-radio">
-                                <input class="form-check-input" required="" type="radio" name="payment_option" id="exampleRadios3" checked="">
-                                <label class="form-check-label" for="exampleRadios3" data-bs-toggle="collapse" data-target="#bankTranfer" aria-controls="bankTranfer">Direct Bank Transfer</label>
-                                <div class="form-group collapse in" id="bankTranfer">
-                                    <p class="text-muted mt-5">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration. </p>
-                                </div>
-                            </div>
-                            <div class="custome-radio">
-                                <input class="form-check-input" required="" type="radio" name="payment_option" id="exampleRadios4" checked="">
-                                <label class="form-check-label" for="exampleRadios4" data-bs-toggle="collapse" data-target="#checkPayment" aria-controls="checkPayment">Check Payment</label>
-                                <div class="form-group collapse in" id="checkPayment">
-                                    <p class="text-muted mt-5">Please send your cheque to Store Name, Store Street, Store Town, Store State / County, Store Postcode. </p>
-                                </div>
-                            </div>
-                            <div class="custome-radio">
-                                <input class="form-check-input" required="" type="radio" name="payment_option" id="exampleRadios5" checked="">
-                                <label class="form-check-label" for="exampleRadios5" data-bs-toggle="collapse" data-target="#paypal" aria-controls="paypal">Paypal</label>
-                                <div class="form-group collapse in" id="paypal">
-                                    <p class="text-muted mt-5">Pay via PayPal; you can pay with your credit card if you don't have a PayPal account.</p>
-                                </div>
-                            </div>
-                        </div>
+             
+
+                        
                     </div>
-                    <a href="#" class="btn btn-fill-out btn-block mt-30">Place Order</a>
+                    <!-- <a href="#" class="btn btn-fill-out btn-block mt-30">Place Order</a> -->
                 </div>
             </div>
         </div>
@@ -97,5 +139,17 @@
 </section>
 
 <script>
-    $('')
+    $('#checkOutForm').submit((e)=>{
+        e.preventDefault()
+
+        $.ajax({
+            url:'/checkOut',
+            method:'post',
+            data:$('#checkOutForm').serialize(),
+            success:(response)=>{
+                console.log(response);   
+            }
+            
+        })
+    })
 </script>

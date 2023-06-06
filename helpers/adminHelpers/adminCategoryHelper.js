@@ -68,5 +68,27 @@ module.exports = {
                 resolve(response.SubCategory)
             })
         })
+    },
+    unlistCategory: (catId, condition) => {
+        return new Promise(async (resolve, reject) => {
+            await user.category.updateOne({ _id: catId }, { $set: { unlist: condition } })
+                .then((response) => {
+                    resolve(response)
+                }).catch((err) => {
+                    reject(err)
+
+                })
+        })
+    },
+    unlistAllProduct:(catName,condition)=>{
+        return new Promise(async (resolve,reject)=>{
+            await user.product.updateMany({Category:catName},{$set:{unlist:condition}})
+            .then((response)=>{
+                resolve(response)
+            }).catch((err)=>{
+                reject(err)
+            })
+        })
+
     }
 }

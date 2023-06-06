@@ -20,6 +20,7 @@ module.exports = {
             const category = await adminCategoryHelper.viewCategory()
 
             await userProductHelpers.shopListProducts(pageNum).then((response) => {
+                console.log(category)
 
                 res.render('user/shop', { layout: 'layout', users, pages, pageNum,count, category, response })
 
@@ -82,6 +83,11 @@ module.exports = {
             response.total=await userCheckOutHelper.totalCheckOutAmount(req.session.user.userId)
 
            console.log(response);
+            res.json(response)
+        })
+    },
+    deleteCartProduct:async(req,res)=>{
+        await cartAndWishlistHelpers.deleteCartProduct(req.body).then((response)=>{
             res.json(response)
         })
     }

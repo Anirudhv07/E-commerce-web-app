@@ -15,12 +15,12 @@
 
 
                                     <form method="post" action="/login" id="form">
-                                        <%if(locals.err){%>
+                                        <%if(locals.error){%>
 
 
 
                                             <p style="color: red" class="message" id="errorMessage">
-                                                <%=err.reason%>
+                                                <%=error.reason%>
                                             </p>
                                             <%}%>
                                                 <div class="form-group">

@@ -69,6 +69,7 @@ module.exports={
                 }}
 
             ]).then((cartItems)=>{
+                
 
                 resolve(cartItems)
             })
@@ -114,5 +115,16 @@ module.exports={
             }
 
         })
+    },
+    deleteCartProduct:(userData)=>{
+        const cartId=userData.cartId
+       const proId=userData.proId
+        return new Promise((resolve,reject)=>{
+             user.cart.updateOne({_id:cartId},{$pull:{cartItems:{productId:proId}}}).then(()=>{
+                resolve({removeProduct:true})
+             })
+
+        })
+
     }
 }

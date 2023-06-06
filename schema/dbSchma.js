@@ -53,6 +53,10 @@ const categorySchema = new mongoose.Schema({
         type: String,
 
     },
+    unlist: {
+        type: Boolean,
+        default: false
+    },
     SubCategory: {
         type: Array
 
@@ -100,10 +104,66 @@ const cartSchema = new mongoose.Schema({
     ]
 })
 
+const addressSchema= new mongoose.Schema({
+    user:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'user'
+    },
+    Address:[
+        {
+            fname:{type:String},
+            lname:{type:String},
+            housename:{type:String},
+            street:{type:String},
+            city:{type:String},
+            state:{type:String},
+            pincode:{type:Number},
+            phone:{type:Number},
+            email:{type:String}
+        }
+    ]
+})
+
+const orderSchema= new mongoose.Schema({
+    user:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'user'
+    },
+    orders:[
+        {
+            fname:String,
+            lname:String,
+            mobile:Number,
+            paymentMethod:String,
+            paymentStatus:String,
+            totalPrice:Number,
+            totalQuantity:Number,
+            productDetails:Array,
+            shippingAddress:Object,
+            paymentMode:String,
+            status:{
+                type:Boolean,
+                default:true
+            },
+            paymentTypes:String,
+            creditedAt:{
+                type:Date,
+                default:new Date(),
+            },
+            orderConfirm:{
+                type:String,
+                default:'ordered'
+            }
+        }
+    ]
+})
+
 module.exports = {
     user: mongoose.model('user', userSchema),
     admin: mongoose.model('admin', adminSchema),
     category: mongoose.model('category', categorySchema),
     product: mongoose.model('product', productSchema),
-    cart: mongoose.model('cart',cartSchema)
+    cart: mongoose.model('cart',cartSchema),
+    address: mongoose.model('address',addressSchema),
+    order:mongoose.model('order',orderSchema)
 }

@@ -134,9 +134,11 @@
                     <h5 class="section-title style-1 mb-30 wow fadeIn animated">Category</h5>
                     <ul class="categories">
                         <%category.forEach(function(response){%>
+                            <%if(response.unlist==false){%>
                             <li><a href="/category?cname=<%response.CategoryName%>">
                                     <%=response.CategoryName%>
                                 </a></li>
+                                <%}%>
 
                             <%})%>
                     </ul>

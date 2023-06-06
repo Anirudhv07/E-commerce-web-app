@@ -5,37 +5,57 @@
                 <div class="mb-25">
                     <h4>Add Address</h4>
                 </div>
-                <form method="post" id="form">
+                <form method="post" id="form" action="/addAddress">
                     <div class="form-group">
-                        <input type="text" required="" name="fname" placeholder="First name">
+                        <input type="text" required="" name="fname"  onkeyup="validateTitle()"  id="fname" placeholder="First name">
+                        <p id="fnameerror" class="validation-label"></p>
+
                     </div>
                     <div class="form-group">
-                        <input type="text" required="" name="lname" placeholder="Last name">
+                        <input type="text" required="" name="lname"  id="lname" onkeyup="validateTitle()" placeholder="Last name">
+                        <p id="lnameerror" class="validation-label"></p>
+
                     </div>
           
                     <div class="form-group">
-                        <input type="text" name="billing_address" required="" placeholder="House name/No.">
+                        <input type="text" name="housename" id="housename" required="" onkeyup="validateTitle()" placeholder="House name/No.">
+                        <p id="housenameerror" class="validation-label"></p>
+
                     </div>
                     <div class="form-group">
-                        <input type="text" name="billing_address2" required="" placeholder="Street Name">
+                        <input type="text" name="streetname" id="streetname" required="" placeholder="Street Name">
+                        <p id="streetnameerror" class="validation-label"></p>
+
                     </div>
                     <div class="form-group">
-                        <input required="" type="text" name="city" placeholder="City">
+                        <input required="" type="text" name="city" id="city" placeholder="City">
+                        <p id="cityerror" class="validation-label"></p>
+
                     </div>
                     <div class="form-group">
-                        <input required="" type="text" name="state" placeholder="State">
+                        <input required="" type="text" name="state" id="state" placeholder="State">
+                        <p id="stateerror" class="validation-label"></p>
+
                     </div>
                     <div class="form-group">
-                        <input required="" type="text" name="zipcode" placeholder="Pin Code">
+                        <input required="" type="numberz" name="pincode" id="pincode" placeholder="Pin Code">
+                        <p id="pincodeerror" class="validation-label"></p>
+
                     </div>
                     <div class="form-group">
-                        <input required="" type="text" name="phone" placeholder="Phone ">
+                        <input required="" type="number" name="phone" id="phone" placeholder="Phone ">
+                        <p id="phoneerror" class="validation-label"></p>
+
                     </div>
                     <div class="form-group">
-                        <input required="" type="text" name="email" placeholder="Email address ">
+                        <input required="" type="text" name="email" id="email" placeholder="Email address ">
+                        <p id="emailerror" class="validation-label"></p>
+
                     </div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-dark">Submit</button>
+                        <span><a href="/checkOut" class="btn btn-white">cancel</a></span>
+
                     </div>
 
                     

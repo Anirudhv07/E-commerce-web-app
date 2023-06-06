@@ -64,7 +64,7 @@ module.exports = {
                                 }
                             })
                     } else {
-                        resolve({ blockedStatus: true })
+                        reject({ reason: 'User Blocked!!!!!' })
                     }
                 } else {
 

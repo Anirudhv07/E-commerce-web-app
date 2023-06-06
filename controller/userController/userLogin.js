@@ -65,9 +65,10 @@ module.exports = {
             res.redirect('/')
 
         }).catch((error) => {
-            err = error
+            console.log(error);
+            
 
-            res.render('user/login', { layout: "emptylayout", err })
+            res.render('user/login', { layout: "emptylayout", error })
         })
     },
     getLogout: (req, res) => {
