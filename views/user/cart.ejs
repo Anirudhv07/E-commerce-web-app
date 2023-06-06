@@ -50,7 +50,7 @@
                                             </div>
                                         </td>
                                         <td class="text-right" data-title="Cart">
-                                            <span id='<%=index%>'><%=subtotal[index].total%></span>
+                                            <span id='<%=index%>'>₹ <%=subtotal[index].total%></span>
                                         </td>
                                         <td class="action" data-title="Remove"><button class="border border-success"  onclick="deleteProduct('<%=cartItems._id%>','<%=cartItems.item %>')"><i class="fi-rs-trash"></i></button></td>
                                     </tr>
@@ -106,8 +106,14 @@
 
 <script>
    function changeQuantity(cartId, productId,userId, count,index) {
+    
     const quantity = parseInt(document.getElementById(productId).textContent);
     console.log(cartId, productId,userId, count,index);
+    if(quantity == 1 && count == -1)
+       {
+        deleteProduct(cartId,productId)
+       }else{
+
     $.ajax({
         url: '/changeQuantity',
         data: {
@@ -133,6 +139,7 @@
             }
         }
     });
+}
 }
 
 
