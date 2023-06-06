@@ -10,7 +10,7 @@ module.exports = {
             const count = await cartAndWishlistHelpers.getCartCount(req.session.user.userId);
 
 
-            const pageNum = req.query.page
+            const pageNum = parseInt(req.query.page) || 1
 
             const perPage = 2
             const users = req.session.user

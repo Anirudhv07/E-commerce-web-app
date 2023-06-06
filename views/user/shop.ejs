@@ -117,14 +117,13 @@
                 <div class="pagination-area mt-15 mb-sm-5 mb-lg-0">
                     <nav aria-label="Page navigation example">
                         <ul class="pagination justify-content-start">
-                            <% for(let i=1;i<=pages;i++){%>
-                                <li class="page-item active">
+                            <% for (let i = 1; i <= pages; i++) { %>
+                                <li class="page-item <%= (pageNum === i) ? 'active' : '' %>">
                                     <a class="page-link" href="/shop?page=<%= i %>">
                                         <%= i %>
                                     </a>
                                 </li>
-                                <%}%>
-
+                            <% } %>
                         </ul>
                     </nav>
                 </div>
