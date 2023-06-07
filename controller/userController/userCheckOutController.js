@@ -14,7 +14,9 @@ module.exports = {
             const count = await cartAndWishlistHelpers.getCartCount(req.session.user.userId);
             const checkOutAddress=await userCheckOutHelper.checkOutAddress(req.session.user.userId)
             const cartItems=await cartAndWishlistHelpers.listCart(req.session.user.userId)
-            res.render('user/checkout', { layout: 'layout', users, cartItems, count,total,checkOutAddress })
+            const subtotal = await userCheckOutHelper.subtotal(req.session.user.userId);
+
+            res.render('user/checkout', { layout: 'layout', users, cartItems,subtotal, count,total,checkOutAddress })
         }else{
             res.redirect('/login')
         }

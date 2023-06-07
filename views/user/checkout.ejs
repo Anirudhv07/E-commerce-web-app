@@ -89,13 +89,13 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <% cartItems.forEach(function(cartItems){%>
+                                <% cartItems.forEach(function(cartItems,index){%>
                                 <tr>
                                     <td class="image product-thumbnail"><img src="/uploads/<%=cartItems.carted.Image[0]%>" alt="#"></td>
                                     <td>
                                         <h5><a href="shop-product-full.html"><%=cartItems.carted.Productname%></a></h5> <span class="product-qty">x <%=cartItems.quantity%></span>
                                     </td>
-                                    <td><%= cartItems.carted.Price%></td>
+                                    <td>₹ <%=subtotal[index].total%></td>
                                 </tr>
                            <% })%>
                                

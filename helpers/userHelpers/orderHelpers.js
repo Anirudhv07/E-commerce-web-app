@@ -1,3 +1,4 @@
+const { response } = require('express');
 const user=require('../../schema/dbSchma')
 const ObjectId = require("mongodb").ObjectId;
 
@@ -47,7 +48,7 @@ module.exports={
     },
     placeOrder:(userData,total)=>{
         return new Promise(async(resolve,reject)=>{
-            const updateCart=await user.cart.aggregate([
+            let updateCart=await user.cart.aggregate([
                 {$match:{
                     user: new ObjectId(userData.user)
                 }},
@@ -105,13 +106,13 @@ module.exports={
                 paymentStatus:status,
                 paymentMode:userData['payment-method'],
                 paymentMethod:userData['payment-method'],
-                productsDetails:updateCart,
+                productDetails:updateCart,
                 shippingAddress:orderAddress,
                 orderStatus:orderStatus,
                 totalPrice:total
 
             }
-            const order= await user.order.findOne({user:orderdata.user})
+            const order= await user.order.findOne({user:userData.user})
             if(order){
                 await user.order.updateOne({user:userData.user},
                     {
@@ -137,5 +138,24 @@ module.exports={
             
         })
 
+    },
+    getOrderList:(userId)=>{
+        return new Promise(async(resolve,reject)=>{
+            await user.order.aggregate([
+                {$match:{user:new ObjectId(userId)}},
+                {$unwind:'$orders'},
+                {$sort:{
+                    'orders.creditedAt':-1
+                }},
+                {$project:{
+                    orders:1
+                }}
+                
+            ]).then((response)=>{
+
+                resolve(response)
+            })
+        })
+        
     }
 }

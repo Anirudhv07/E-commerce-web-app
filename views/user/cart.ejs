@@ -14,6 +14,15 @@
         
         <div class="container">
             <div class="row">
+                <%if(count==0){%>
+                    <div class="text-center " style="margin-top: 10rem; margin-bottom: 10rem;">
+                        <h1>My Cart</h1>
+                        <p>Your cart is currently empty.</p>
+                        <p>Start adding items to your cart by browsing our products.</p>
+                        <a href="/shop">Browse products</a>
+          
+                      </div>
+                <%}else{%>
                 <div class="col-12">
                     <div class="table-responsive">
                         <table class="table shopping-summery text-center clean">
@@ -63,6 +72,7 @@
                         </table>
                         
                     </div>
+                    
                    
                     <!-- <div class="divider center_icon mt-50 mb-50"><i class="fi-rs-fingerprint"></i></div> -->
                     <div class="row mb-50">
@@ -98,6 +108,7 @@
                         </div>
                     </div>
                 </div>
+                <%}%>
             </div>
         </div>
     </section>

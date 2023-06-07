@@ -48,6 +48,8 @@ router.post('/addAddress',userCheckOutController.postAddAddress)
 
 router.get('/orderSuccess',auths.userauth,auths.userBlockBug,userCheckOutController.getOrderSuccess)
 
+router.get('/profile',auths.userauth,auths.userBlockBug,userProfileController.getUserProfile)
+
 
 
 
