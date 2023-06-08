@@ -1,6 +1,7 @@
 const user = require('../../schema/dbSchma')
 const ObjectId = require('mongodb').ObjectId
 
+
 module.exports = {
     totalCheckOutAmount: (userId) => {
         return new Promise(async (resolve, reject) => {
