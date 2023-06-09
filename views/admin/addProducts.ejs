@@ -1,3 +1,6 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.9/cropper.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.9/cropper.min.css" />
+
 <section class="content-main">
     <div class="row">
         <div class="col-9">
@@ -101,26 +104,42 @@
                 </div>
                 <div class="card-body">
                     <div class="input-upload">
-                        <img src="assets/imgs/theme/upload.svg" alt="">
-                        <input class="form-control" name="files" id="image" onkeyup="validateImage()" type="file">
+                        <img src="assets/imgs/theme/upload.svg" alt="" id="imgView1">
+                        <input class="form-control" name="files" id="input1" onchange="if (validateImage(this)) viewImage1(event),viewImage(event, 1)" type="file">
+                        <div class="image-cropper" style="display:none;">
+                            <img src="" id="croppedImg1" alt="">
+                            <button type="button" id="saveButton1" class="btn-sm btn-primary">Save</button>
+                          </div>
                     </div>
                 </div>
                 <div class="card-body">
                     <div class="input-upload">
-                        <img src="assets/imgs/theme/upload.svg" alt="">
-                        <input class="form-control" name="files" type="file">
+                        <img src="assets/imgs/theme/upload.svg" alt="" id="imgView2">
+                        <input class="form-control" name="files" id="input2" onchange="if (validateImage(this)) viewImage2(event),viewImage(event, 2)" type="file">
+                        <div class="image-cropper" style="display:none;">
+                            <img src="" id="croppedImg2" alt="">
+                            <button type="button" id="saveButton2" class="btn-sm btn-primary">Save</button>
+                          </div>
                     </div>
                 </div>
                 <div class="card-body">
                     <div class="input-upload">
-                        <img src="assets/imgs/theme/upload.svg" alt="">
-                        <input class="form-control" name="files" type="file">
+                        <img src="assets/imgs/theme/upload.svg" alt="" id="imgView3">
+                        <input class="form-control" name="files" id="input3" onchange="if (validateImage(this)) viewImage3(event),viewImage(event, 3)" type="file">
+                        <div class="image-cropper" style="display:none;">
+                            <img src="" id="croppedImg3" alt="">
+                            <button type="button" id="saveButton3" class="btn-sm btn-primary">Save</button>
+                          </div>
                     </div>
                 </div>
                 <div class="card-body">
                     <div class="input-upload">
-                        <img src="assets/imgs/theme/upload.svg" alt="">
-                        <input class="form-control" name="files" type="file">
+                        <img src="assets/imgs/theme/upload.svg" alt="" id="imgView4">
+                        <input class="form-control" name="files" id="input4" onchange="if (validateImage(this)) viewImage4(event),viewImage(event, 4)" type="file">
+                        <div class="image-cropper" style="display:none;">
+                            <img src="" id="croppedImg4" alt="">
+                            <button type="button" id="saveButton4" class="btn-sm btn-primary">Save</button>
+                          </div>
                     </div>
                 </div>
             </div>
@@ -245,6 +264,142 @@
         return true
 
     }
+
+
+    function viewImage1(event) {
+    document.getElementById('imgView1').src = URL.createObjectURL(event.target.files[0])
+  }
+
+  function viewImage2(event) {
+    document.getElementById('imgView2').src = URL.createObjectURL(event.target.files[0])
+  }
+
+  function viewImage3(event) {
+    document.getElementById('imgView3').src = URL.createObjectURL(event.target.files[0])
+  }
+
+  function viewImage4(event) {
+    document.getElementById('imgView4').src = URL.createObjectURL(event.target.files[0])
+  }
+  function validateImage(fileInput) {
+    const allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif|\.avif|\.webp)$/i;
+    const maxSize = 5242880; // 5MB
+    const fileSize = fileInput.files[0].size;
+
+    if (!allowedExtensions.exec(fileInput.value)) {
+      swal({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Please select an image file to upload!',
+      })
+      fileInput.value = "";
+      return false;
+    }
+
+    if (fileSize > maxSize) {
+      swal({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'File is too large. Please upload an image that is smaller than 5MB.',
+      })
+      fileInput.value = "";
+      return false;
+    }
+
+    return true;
+  }
+
+
+
+
+  function viewImage(event, index) {
+    let input = event.target;
+    let reader = new FileReader();
+
+    reader.onload = function() {
+      let dataURL = reader.result;
+      let image = document.getElementById('imgView' + index);
+      image.src = dataURL;
+
+      // Initialize Cropper.js on the image
+      let cropper = new Cropper(image, {
+        aspectRatio: 1 / 1, // Set the aspect ratio to 1:1 for square images
+        viewMode: 1, // Set the view mode to crop box
+        guides: true, // Show the crop guides
+        background: false, // Do not show the background behind the image
+        autoCropArea: 1, // Set the initial crop area to cover the whole image
+        zoomable: false // Disable zooming to keep the image size fixed
+      });
+
+      // Show the image cropper container
+      let cropperContainer = document.querySelector('#croppedImg' + index).parentNode;
+      cropperContainer.style.display = 'block';
+
+      // Update the cropped image when the "Save" button is clicked
+      let saveButton = document.querySelector('#saveButton' + index);
+      saveButton.addEventListener('click', async function() {
+        let croppedCanvas = cropper.getCroppedCanvas({
+          width: 1100, // Set the width of the cropped image to 400 pixels
+          height: 1100 // Set the height of the cropped image to 400 pixels
+        });
+        let croppedImage = document.getElementById("croppedImg" + index);
+        croppedImage.src = croppedCanvas.toDataURL('image/jpeg', 1.0);
+
+        // Generate a unique name for the cropped image file based on the current timestamp
+        let timestamp = new Date().getTime();
+        let fileName = `cropped-img-${timestamp}-${index}.png`;
+
+        await croppedCanvas.toBlob(blob => {
+          let input = document.getElementById('input' + index)
+          let imgFile = new File([blob], fileName, blob)
+          const fileList = new DataTransfer();
+          fileList.items.add(imgFile);
+          input.files = fileList.files
+        });
+        // cropperContainer.style.display = 'none';
+      });
+
+    };
+
+    reader.readAsDataURL(input.files[0]);
+  }
+
+  //to find the subcategories
+
+  $(document).ready(function() {
+    // When the user selects a category, update the subcategory options
+    $('#category').on('change', function() {
+      var category = $(this).val();
+      $.ajax({
+        url: '/admin/getSubcategories',
+        type: 'POST',
+        data: {
+          category: category
+        },
+        success: function(data) {
+          // Clear existing options
+          $('#sub_category').empty();
+          // Extract subcategory names from data array
+          var subcategories = data.map(function(subcategory) {
+            return subcategory.name;
+          });
+          // Add the new options
+          if (subcategories.length > 0) {
+            for (var i = 0; i < subcategories.length; i++) {
+              var subcategory = subcategories[i];
+              $('#sub_category').append('<option value="' + subcategory + '">' + subcategory + '</option>');
+            }
+          } else {
+            $('#sub_category').append('<option value="">-- No subcategories found --</option>');
+          }
+        },
+
+        error: function(jqXHR, textStatus, errorThrown) {
+          console.log('AJAX error: ' + textStatus + ' - ' + errorThrown);
+        }
+      });
+    });
+  });
     
  
     form.addEventListener('submit', (event) => {
