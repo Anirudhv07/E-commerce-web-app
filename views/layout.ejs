@@ -40,6 +40,37 @@
         <%- include('partials/userFooter') %>
 
     </main>
+
+
+<style>
+   .tooltipPos {
+  position: relative;
+}
+
+.tooltip {
+  position: absolute;
+  background-color: #000;
+  color: #fff;
+  padding: 5px;
+  border-radius: 5px;
+  font-size: 12px;
+  bottom: calc(100% + 5px);
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  white-space: nowrap;
+  z-index: 1;
+}
+
+.tooltipPos:hover .tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
+</style>
+
   
 
 

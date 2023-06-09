@@ -13,23 +13,26 @@
                             <input type="text" placeholder="Search for items...">
                         </form>
                     </div>
-                    <div class="header-action-right">
-                        <div class="header-action-2">
-                            <div class="header-action-icon-2">
+                    <div class="header-action-right ">
+                        <div class="header-action-2 ">
+                            <div class="header-action-icon-2 tooltipPos">
                                 <a href="shop-wishlist.html">
                                     <img class="svgInject" alt="Evara" src="assets/imgs/theme/icons/icon-heart.svg">
                                     <!-- <span class="pro-count blue">4</span> -->
                                 </a>
+                                <span class="tooltip ">This is the Wishlist</span>
+
                             </div>
-                            <div class="header-action-icon-2">
+                            <div class="header-action-icon-2 tooltipPos">
                                 <a class="mini-cart-icon" href="/cart">
-                                    <img alt="Evara" src="assets/imgs/theme/icons/icon-cart.svg">
-                                    <span class="pro-count blue text-white" id="cartCount"><%=locals.count%></span>
+                                  <img alt="Evara" src="assets/imgs/theme/icons/icon-cart.svg">
+                                  <span class="pro-count blue text-white" id="cartCount"><%=locals.count%></span>
                                 </a>
+                                <span class="tooltip">This is the cart</span>
+                              </div>
+                                                          
 
-                            </div>
-
-                            <div class="btn-group" style="padding-left:2rem ">
+                            <div class="btn-group    tooltipPos" style="padding-left:2rem ">
                                 <%if(locals.users){%>
                                     <a href="/login" class="btn btn-dark dropdown-toggle" type="button"
                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -42,12 +45,15 @@
                                     </div>
 
 
+
                                     <%}else{%>
                                         <a href="/login"><button class="btn btn-success"> Log In</button> </a>
 
                                         <%}%>
                                             <!-- <img alt="Evara" src="assets/imgs/theme/icons/person.svg"> -->
                                             <!-- <i class="btn btn-success  "><a class="text-white" href="/login">Log In / Sign Up</a></i>  -->
+                                <span class="tooltip">Click here</span>
+
                             </div>
 
                         </div>
@@ -59,8 +65,11 @@
     <div class="header-bottom header-bottom-bg-color sticky-bar">
         <div class="container">
             <div class="header-wrap header-space-between position-relative">
-                <div class="logo logo-width-1 d-block d-lg-none">
+                <div class="logo logo-width-1 d-block d-lg-none tooltipPos">
                     <a href="index.html"><img src="assets/imgs/theme/logo.svg" alt="logo"></a>
+                    <span class="tooltip">AristocraticStyle</span>
+
+
                 </div>
 
                 <div class="header-nav d-none d-lg-flex">
@@ -69,11 +78,16 @@
 
                             <ul>
 
-                                <li><a class="active" href="/">Home </a>
+                                <li class="tooltipPos"><a class="active" href="/">Home </a>
+                    <span class="tooltip">Go to Home</span>
+
+                                    
 
                                 </li>
 
-                                <li><a href="/shop">Shop </a>
+                                <li class="tooltipPos"><a href="/shop">Shop </a>
+                    <span class="tooltip">Click here to Shop</span>
+
 
                                 </li>
 
@@ -89,3 +103,10 @@
         </div>
     </div>
 </header>
+
+
+
+
+
+
+
