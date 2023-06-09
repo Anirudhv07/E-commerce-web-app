@@ -50,6 +50,10 @@ router.get('/orderSuccess',auths.userauth,auths.userBlockBug,userCheckOutControl
 
 router.get('/profile',auths.userauth,auths.userBlockBug,userProfileController.getUserProfile)
 
+router.get('/orderDetails/:id',auths.userauth,auths.userBlockBug,userProfileController.getOrderDetails)
+
+router.put('/cancelOrder/:id',userProfileController.putCancelOrder)
+
 
 
 

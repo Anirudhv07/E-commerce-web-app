@@ -4,6 +4,7 @@ const adminCategoryController = require("../controller/adminController/category"
 const adminProductController = require('../controller/adminController/productList')
 const adminUserController = require('../controller/adminController/user')
 const upload = require('../multer/multer.js')
+const adminOrderController=require('../controller/adminController/adminOrder')
 const auths=require('../middleware/middleware')
 
 
@@ -47,6 +48,8 @@ router.put('/unListCategory', adminCategoryController.unlistCategory)
 router.get('/userList', auths.auth,adminUserController.getAdminUserList)
 
 router.put('/blockUser',auths.auth, adminUserController.putBlockUser)
+
+router.get('/orderList',auths.auth,adminOrderController.getOrderList)
 
 express.Router
 

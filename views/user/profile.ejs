@@ -75,7 +75,7 @@
                                                             <td><%= response.orders.paymentMethod %></td>
 
                                                             <td><%= response.orders.totalPrice %></td>
-                                                            <td><a href="#" class="btn btn-sm success d-block"> More Details</a></td>
+                                                            <td><a href="/orderDetails/<%=response.orders._id%>" class="btn btn-sm success d-block"> More Details</a></td>
                                                         </tr>
                                                     <% }) %>
                                                     

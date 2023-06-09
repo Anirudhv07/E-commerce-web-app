@@ -1,0 +1,169 @@
+<section>
+    <div class="container py-5 ">
+        <h4 class=" text-center">Receipt</h4>
+        <div class="card ">
+            <div class="card-header text-center">
+                <h5>Thank You for your order.<%=users.username%>!!!!</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <h4 class="col-lg-6 text-center"></h4>
+                    <h6 class="text-end col-lg-6 text-muted"><span class="fw-bold"> Reciept voucher:</span>57CHGGU6889H
+                    </h6>
+
+                    <div class="pl-2 ">
+                        <h5 class="fw-bold">Address</h5>
+                        <%=response[0].ShippingAddress.fname%>
+                            <%=response[0].ShippingAddress.lname%> <br>
+                                <%=response[0].ShippingAddress.housename%> <br>
+                                    <%=response[0].ShippingAddress.street%> , <%=response[0].ShippingAddress.city%> <br>
+                                            <%=response[0].ShippingAddress.state%> <br>
+                                                Pincode: <%=response[0].ShippingAddress.pincode%>
+
+                    </div>
+
+                </div>
+                <div class="container border border-secondary">
+                    <div class="row">
+                        <div class="card-header">
+                            <div class="row align-items-center">
+                                <div class="table-responsive ">
+                                    <table class="table table-nowrap ">
+                                        <thead>
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Image</th>
+                                                <th>Product Name</th>
+                                                <th>Quantity</th>
+                                                <th>Date and Time</th>
+                                                <th>Price</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <%response.forEach(function(response,index){%>
+                                                <tr>
+
+                                                    <td>
+                                                        <%=index+1%>
+                                                    </td>
+                                                    <td><img src="/uploads/<%=response.productImage%>" alt=""
+                                                            width="100" height="100">
+
+                                                    <td>
+                                                        <h5>
+                                                            <%=response.productName%>
+                                                        </h5>
+
+                                                    </td>
+                                                    <td>
+                                                        <h5>
+                                                            <%=response.productQuantity%>
+                                                        </h5>
+
+                                                    </td>
+                                                    <td>
+                                                        <h5>
+                                                            <%=response.creditedAt.toLocaleString() %>
+                                                        </h5>
+                                                    </td>
+                                                    <td>
+                                                        <h5>₹ <%=response.productPrice%>
+                                                        </h5>
+
+                                                    </td>
+
+
+
+                                                </tr>
+                                                <%})%>
+
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <%if(orderStatus[0].orderStatus=='ordered'){%>
+                    <div class="pt-2  col-lg-6">
+                        <button class="btn btn-info" onclick="cancelOrder('<%=orderStatus[0].orderId%>')">
+                            Cancel Order
+                        </button>
+                    </div>
+                        <div class="col-lg-6 text-end" >
+
+                            <h3 class="pt-3 text-success">PLACED</h3>
+                        </div>
+                            <%}else if(orderStatus[0].orderStatus=='cancelled'){%>
+                                <div class="pt-2  col-lg-6">
+                                
+                                </div>
+                                <div class="col-lg-6 text-end" >
+
+                                    <h3 class="pt-3 text-danger">CANCELLED</h3>
+                                </div>
+
+                            <%}else{%>
+                                <div class="pt-2  col-lg-6">
+                                    <button class="btn btn-info" onclick="cancelOrder('<%=orderStatus[0].orderId%>')">
+                                        Return Order
+                                    </button>
+                                </div>
+                            <h3 class="pt-3 text-primary">SHIPPED</h3>
+                            <%}%>
+
+                        </div>
+                    <div><br></div>
+
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h4 class="title pt-2">Order Details</h4>
+                        <h6 class="text-muted">Mobile Number: <%=response[0].ShippingAddress.phone%>
+                        </h6>
+                        <h6 class="text-muted">Email:<%=response[0].ShippingAddress.email%>
+                        </h6>
+
+                    </div>
+                    <div class="text-end col-lg-6 pt-2">
+                        <h5 class="text-muted"><span class="fw-bold">Total:</span> ₹ <%=response[0].totalPrice %>
+                        </h5>
+                        <h5 class="text-muted"><span class="fw-bold">Delivery Charges:</span>Free</h5>
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="card-footer text-muted bg-dark text-end">
+                <div>
+                    <h1 class="text-white">Total: ₹ <%=response[0].totalPrice%>
+                    </h1>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<script>
+function cancelOrder(orderId){
+    $.ajax({
+        url:'/cancelOrder/'+orderId,
+        method:'put',
+        data:{
+            orderId:orderId
+        },
+        success: (response) => {
+        if (response) {
+          location.reload();
+        }}
+    })
+}
+
+</script>
