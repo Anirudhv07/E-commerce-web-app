@@ -1,10 +1,16 @@
-adminOrderHelpers=require('../../helpers/adminHelpers/adminOrderListHelper')
+const adminOrderHelpers=require('../../helpers/adminHelpers/adminOrderListHelper')
+
+
+
 
 
 
 module.exports={
-    getOrderList:(req,res)=>{
-        res.render('admin/orderList',{layout:'adminLayout'})
+    getOrderList:async(req,res)=>{
+        const admin=req.session.admin
+        const response=await adminOrderHelpers.getOrderList()
+        
+        res.render('admin/orderList',{layout:'adminLayout',response,admin})
     }
 
 }

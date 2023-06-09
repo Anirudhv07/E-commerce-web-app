@@ -1,55 +1,63 @@
 <section class="content-main">
     <div class="content-header">
         <div>
-            <h2 class="content-title card-title">Products List</h2>
-
+            <h2 class="content-title card-title">Order List </h2>
+           
         </div>
-       
+      
     </div>
-    <div class="card mb-4 ">
-        <div class="card-header">
-            <div class="row align-items-center">
-                <div class="table-responsive ">
-                    <table class="table table-nowrap ">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Image</th>
-                                <th>Product Name</th>
-                                <th>Quantity</th>
-                                <th>Date & Time</th>
-                                <th>Price</th>
-                                <th class="text-end">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                    <td>
-                                    </td>
-                                    <td>
-                                    <td>
-                                    </td>
-                                    <td>
-                                    </td>
-                                    <td>
-                                    </td>
-                                    <td>
-                                       
-                                    </td>
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>#ID</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Total</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Date & Time</th>
+                            <th scope="col" class="text-end"> Action </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <%response.forEach((response)=>{%>
+                        <tr>
 
-                                    
-                            </tr>
+                            <td><%=response.orderId%></td>
+                            <td><b><%=response.userName%></b></td>
+                            <td>₹ <%=response.total%></td>
+                            <td>
+                                <%if(response.status=='ordered'){%>
+                                    <span class="badge rounded-pill alert-warning">Pending</span></td>
+                                <%}else if(response.status=='cancelled'){%>
+                                    <span class="badge rounded-pill alert-danger">Cancelled</span></td>
 
-                          
-                        </tbody>
-
-                    </table>
-                </div>
-
-            </div>
-        </div>
-        <!-- card-header end// -->
-        <!-- card-body end// -->
+                                    <%}%>
+                            <td><%=response.date.toLocaleString()%></td>
+                            <td class="text-end">
+                                <a href="#" class="btn btn-md rounded font-sm">Detail</a>
+                               
+                            </td>
+                            
+                        </tr>
+                        <%})%>
+                        
+                    </tbody>
+                </table>
+            </div> <!-- table-responsive //end -->
+        </div> <!-- card-body end// -->
     </div> <!-- card end// -->
-
+    <div class="pagination-area mt-15 mb-50">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-start">
+                <li class="page-item active"><a class="page-link" href="#">01</a></li>
+                <li class="page-item"><a class="page-link" href="#">02</a></li>
+                <li class="page-item"><a class="page-link" href="#">03</a></li>
+                <li class="page-item"><a class="page-link dot" href="#">...</a></li>
+                <li class="page-item"><a class="page-link" href="#">16</a></li>
+                <li class="page-item"><a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a></li>
+            </ul>
+        </nav>
+    </div>
 </section>
