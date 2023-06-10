@@ -29,16 +29,24 @@
                             <td>₹ <%=response.total%></td>
                             <td>
                                 <%if(response.status=='ordered'){%>
-                                    <span class="badge rounded-pill alert-warning">Pending</span></td>
+                                    <span class="badge rounded-pill alert-warning">Ordered</span></td>
                                 <%}else if(response.status=='cancelled'){%>
                                     <span class="badge rounded-pill alert-danger">Cancelled</span></td>
+                                    <%}else if(response.status=='orderPlaced'){%>
+                                        <span class="badge rounded-pill alert-primary">Placed</span></td>
+                                        <%}else if(response.status=='orderDispatched'){%>
+                                            <span class="badge rounded-pill alert-primary">Dispatched</span></td>
+                                            <%}else if(response.status=='outForDelivery'){%>
+                                                <span class="badge rounded-pill alert-primary">Out for Delivery</span></td>
+                                                <%}else if(response.status=='delivered'){%>
+                                                    <span class="badge rounded-pill alert-success">Delivered</span></td>
 
                                     <%}%>
                             <td><%=response.date.toLocaleString()%></td>
                             <td class="text-end">
-                                <a href="#" class="btn btn-md rounded font-sm">Detail</a>
-                               
-                            </td>
+                                <a href="/admin/orderDetail?orderId=<%=response.orderId%>&userId=<%=response.userId%>" class="btn btn-md rounded font-sm">Detail</a>
+                              </td>
+                              
                             
                         </tr>
                         <%})%>
@@ -48,7 +56,7 @@
             </div> <!-- table-responsive //end -->
         </div> <!-- card-body end// -->
     </div> <!-- card end// -->
-    <div class="pagination-area mt-15 mb-50">
+    <!-- <div class="pagination-area mt-15 mb-50">
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-start">
                 <li class="page-item active"><a class="page-link" href="#">01</a></li>
@@ -59,5 +67,5 @@
                 <li class="page-item"><a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a></li>
             </ul>
         </nav>
-    </div>
+    </div> -->
 </section>

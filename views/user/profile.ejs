@@ -71,7 +71,22 @@
                                                                 <% }) %>
                                                             </td>
                                                             <td><%= response.orders.creditedAt.toLocaleString() %></td>
-                                                            <td><%= response.orders.orderConfirm %></td>
+                                                            <td>
+                                                                <%if(response.orders.orderConfirm=='ordered'){%>
+                                                                    <span class="badge rounded-pill alert-warning">Ordered</span></td>
+                                                                <%}else if(response.orders.orderConfirm=='cancelled'){%>
+                                                                    <span class="badge rounded-pill alert-danger">Cancelled</span></td>
+                                                                    <%}else if(response.orders.orderConfirm=='orderPlaced'){%>
+                                                                        <span class="badge rounded-pill alert-primary">Placed</span></td>
+                                                                        <%}else if(response.orders.orderConfirm=='orderDispatched'){%>
+                                                                            <span class="badge rounded-pill alert-primary">Dispatched</span></td>
+                                                                            <%}else if(response.orders.orderConfirm=='outForDelivery'){%>
+                                                                                <span class="badge rounded-pill alert-primary">Out for Delivery</span></td>
+                                                                                <%}else if(response.orders.orderConfirm=='delivered'){%>
+                                                                                    <span class="badge rounded-pill alert-success">Delivered</span></td>
+                                
+                                                                    <%}%>
+                                                            </td>
                                                             <td><%= response.orders.paymentMethod %></td>
 
                                                             <td><%= response.orders.totalPrice %></td>

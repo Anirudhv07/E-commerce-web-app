@@ -51,6 +51,11 @@ router.put('/blockUser',auths.auth, adminUserController.putBlockUser)
 
 router.get('/orderList',auths.auth,adminOrderController.getOrderList)
 
+router.get('/orderDetail',auths.auth,adminOrderController.getOrderDetails)
+
+router.put('/orderStatus',auths.auth,adminOrderController.putOrderStatus)
+
+
 express.Router
 
 
