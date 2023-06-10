@@ -2,6 +2,7 @@ const userCheckOutHelper = require('../../helpers/userHelpers/checkOutHelper')
 const cartAndWishlistHelpers = require('../../helpers/userHelpers/cartAndWishlistHelper')
 const checkOutHelper = require('../../helpers/userHelpers/checkOutHelper')
 const orderHelpers= require('../../helpers/userHelpers/orderHelpers')
+const userProfileHelpers=require('../../helpers/userHelpers/userProfileHelper')
 
 
 module.exports = {
@@ -48,6 +49,18 @@ module.exports = {
         }else{
             res.redirect('/login')
         }
+    },
+    getEditCheckoutAddress:async(req,res)=>{
+        const users=req.session.user
+        await userProfileHelpers.editAddress(req.params.id,req.session.user.userId).then((response)=>{
+            res.render('user/editAddress',{layout:'layout',users,response})
+        })
+
+    },
+    postEditCheckoutAddress:async(req,res)=>{
+        await userProfileHelpers.postEditAddress(req.params.id,req.body,req.session.user.userId).then((response)=>{
+            res.redirect('/checkOut')
+        })
     },
     postCheckOut:async(req,res)=>{
         console.log(req.body)

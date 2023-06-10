@@ -11,7 +11,11 @@
                 </div>
                 <% if ( checkOutAddress.length == 0) { %>
 
-                    <h2>No Addrerss added</h2>
+                    <h2>No Address added</h2>
+                    <div style="width: 35rem; height: 3rem;background-color: whitesmoke; padding: 20px;">
+                        <a href="/addAddress"> <h5>+ Add an address</h5></a>
+                         
+                    </div>
                   
                     <%} else { %>
                   
@@ -22,9 +26,17 @@
                         
                         <div class="custome-radio" style="width: 35rem; height: 13rem;background-color: whitesmoke; padding: 20px; border-radius: 30px;">
                             
-                                                                   
-                            <input type="radio" id="address1" name="address" checked value="<%=checkOutAddress.item._id%>" style="height: 10px;width:10px;">
-                             
+                                 <div class="row">   
+                                    <div class="col-lg-6">
+
+                                        <input type="radio" id="address1" name="address"  checked value="<%=checkOutAddress.item._id%>" style="height: 10px;width:10px;">
+                                    </div>                              
+                            <div class="col-lg-6 text-end">
+                                <a onclick="deleteAddress('<%=checkOutAddress.item._id%>')"><i class="fi-rs-trash mr-10 "></i></a>
+
+                            </div>
+                        </div> 
+                            
                             <h4><%=checkOutAddress.item.fname%>:<%=checkOutAddress.item.lname%></h4>
                             <h5><%=checkOutAddress.item.housename%></h6>
                                 <h5><%=checkOutAddress.item.street%></h5>
@@ -33,6 +45,9 @@
                                     <h5><%=checkOutAddress.item.pincode%></h5>
                                 <h5><%=checkOutAddress.item.phone%></h5>
                                 <h5><%=checkOutAddress.item.email%></h5>
+                                <h6 class="text-end"><a href="/editAddress/<%=checkOutAddress.item._id%>" class="btn-small">Edit</a></h6>
+                                
+                                
                                                                  
                                 <br>                                                             
                         </div>    
@@ -152,4 +167,40 @@
             
         })
     })
+
+
+
+ 
+    function deleteAddress(addressId){
+        event.preventDefault()
+     Swal.fire({
+  title: 'Are you sure?',
+  text: "You won't be able to revert this!",
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Yes, delete it!',
+  timer: 3000 
+}).then((result)=>{
+    if(result.isConfirmed){
+        $.ajax({
+            url:'/deleteNewAddress',
+            method:'delete',
+            data:{
+                addressId:addressId
+            },
+            success:(response)=>{
+                if(response.deleteAddress)
+            {
+                location.reload()
+            } 
+                
+            }
+        })
+    }
+})
+return false
+    }
+
 </script>

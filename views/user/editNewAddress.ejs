@@ -1,0 +1,353 @@
+<section class="mt-50 mb-50">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-25">
+                    <h4>Add Address</h4>
+                </div>
+                <form method="post" id="form" action="/editNewAddress/<%=response[0].Address._id%>">
+                    <div class="form-group">
+                        <input type="text" required="" name="fname" value="<%=response[0].Address.fname%>"  onkeyup="validatefname()"  id="fname" placeholder="First name">
+                        <p id="fnameerror"  class="validation-label"></p>
+
+                    </div>
+                    <div class="form-group">
+                        <input type="text" required="" name="lname"  id="lname" value="<%=response[0].Address.lname%>" onkeyup="validatelname()" placeholder="Last name">
+                        <p id="lnameerror" class="validation-label"></p>
+
+                    </div>
+          
+                    <div class="form-group">
+                        <input type="text" name="housename" id="housename" required="" value="<%=response[0].Address.housename%>" onkeyup="validatehousename()" placeholder="House name/No.">
+                        <p id="housenameerror" class="validation-label"></p>
+
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="streetname" id="streetname" required="" value="<%=response[0].Address.street%>" onkeyup="validatestreetname()" placeholder="Street Name">
+                        <p id="streetnameerror" class="validation-label"></p>
+
+                    </div>
+                    <div class="form-group">
+                        <input required="" type="text" name="city" id="city" value="<%=response[0].Address.city%>"  onkeyup="validatecity()" placeholder="City">
+                        <p id="cityerror" class="validation-label"></p>
+
+                    </div>
+                    <div class="form-group">
+                        <input required="" type="text" name="state" id="state" value="<%=response[0].Address.state%>"  onkeyup="validatestate()" placeholder="State">
+                        <p id="stateerror" class="validation-label"></p>
+
+                    </div>
+                    <div class="form-group">
+                        <input required="" type="number" name="pincode" id="pincode" value="<%=response[0].Address.pincode%>"  onkeyup="validatepincode()" placeholder="Pin Code">
+                        <p id="pincodeerror" class="validation-label"></p>
+
+                    </div>
+                    <div class="form-group">
+                        <input required="" type="number" name="phone" id="phone" value="<%=response[0].Address.phone%>"  onkeyup="validatephone()" placeholder="Phone ">
+                        <p id="phoneerror" class="validation-label"></p>
+
+                    </div>
+                    <div class="form-group">
+                        <input required="" type="text" name="email" id="email" value="<%=response[0].Address.email%>"  onkeyup="validateemail()" placeholder="Email address ">
+                        <p id="emailerror" class="validation-label"></p>
+
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-dark">Submit</button>
+                        <span><a href="/checkOut" class="btn btn-white">cancel</a></span>
+
+                    </div>
+
+                    
+
+
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    const fnameError = document.getElementById('fnameerror')
+    const lnameError = document.getElementById('lnameerror')
+    const housenameError = document.getElementById('housenameerror')
+    const streetnameError = document.getElementById('streetnameerror')
+    const cityError = document.getElementById('cityerror')
+    const stateError = document.getElementById('stateerror')
+    const pincodeError = document.getElementById('pincodeerror')
+    const phoneError = document.getElementById('phoneerror')
+    const emailError = document.getElementById('emailerror')
+
+
+
+
+    function validatefname() {
+    const fname = document.getElementById('fname').value.trim(); // Remove leading and trailing spaces
+    const fnameInput = document.getElementById("fname");
+
+    if (fname.length === 0) {
+        fnameError.innerHTML = 'First Name is required';
+        fnameError.style.color = "red";
+        fnameInput.style.border = "solid 2px red";
+
+        return false;
+    } else if (/^\s+$/.test(fname)) { 
+        fnameError.innerHTML = 'First Name cannot be just spaces';
+        fnameError.style.color = "red";
+        fnameInput.style.border = "solid 2px red";
+
+        return false;
+    }else if (!fname.match(/^[A-Za-z]{3,}$/)) { 
+        fnameError.innerHTML = 'Write Valid Name';
+        fnameError.style.color = "red";
+        fnameInput.style.border = "solid 2px red";
+
+        return false;
+    }
+
+    fnameError.innerHTML = '';
+    fnameInput.style.border = "solid 2px green";
+
+    return true;
+}
+
+
+function validatelname() {
+    const lname = document.getElementById('lname').value.trim(); // Remove leading and trailing spaces
+    const lnameInput = document.getElementById("lname");
+
+    if (lname.length === 0) {
+        lnameError.innerHTML = 'Last Name is required';
+        lnameError.style.color = "red";
+        lnameInput.style.border = "solid 2px red";
+
+        return false;
+    } else if (/^\s+$/.test(lname)) { 
+        lnameError.innerHTML = 'Last Name cannot be just spaces';
+        lnameError.style.color = "red";
+        lnameInput.style.border = "solid 2px red";
+
+        return false;
+    }
+
+    lnameError.innerHTML = '';
+    lnameInput.style.border = "solid 2px green";
+
+    return true;
+}
+
+function validatehousename() {
+    const housename = document.getElementById('housename').value.trim(); // Remove leading and trailing spaces
+    const housenameInput = document.getElementById("housename");
+
+    if (housename.length === 0) {
+        housenameError.innerHTML = 'House Name/No is required';
+        housenameError.style.color = "red";
+        housenameInput.style.border = "solid 2px red";
+
+        return false;
+    } else if (/^\s+$/.test(housename)) { 
+        housenameError.innerHTML = 'House Name/No cannot be just spaces';
+        housenameError.style.color = "red";
+        housenameInput.style.border = "solid 2px red";
+
+        return false;
+    }
+
+    housenameError.innerHTML = '';
+    housenameInput.style.border = "solid 2px green";
+
+    return true;
+}
+
+
+function validatestreetname() {
+    const streetname = document.getElementById('streetname').value.trim(); // Remove leading and trailing spaces
+    const streetnameInput = document.getElementById("streetname");
+
+    if (streetname.length === 0) {
+        streetnameError.innerHTML = 'Street name is required';
+        streetnameError.style.color = "red";
+        streetnameInput.style.border = "solid 2px red";
+
+        return false;
+    } else if (/^\s+$/.test(streetname)) { 
+        streetnameError.innerHTML = 'Street name cannot be just spaces';
+        streetnameError.style.color = "red";
+        streetnameInput.style.border = "solid 2px red";
+
+        return false;
+    }
+
+    streetnameError.innerHTML = '';
+    streetnameInput.style.border = "solid 2px green";
+
+    return true;
+}
+
+
+
+
+
+
+function validatecity() {
+    const city = document.getElementById('city').value.trim(); // Remove leading and trailing spaces
+    const cityInput = document.getElementById("city");
+
+    if (city.length === 0) {
+        cityError.innerHTML = 'City is required';
+        cityError.style.color = "red";
+        cityInput.style.border = "solid 2px red";
+
+        return false;
+    } else if (/^\s+$/.test(city)) { 
+        cityError.innerHTML = 'City cannot be just spaces';
+        cityError.style.color = "red";
+        cityInput.style.border = "solid 2px red";
+
+        return false;
+    }
+
+    cityError.innerHTML = '';
+    cityInput.style.border = "solid 2px green";
+
+    return true;
+}
+
+
+
+
+function validatestate() {
+    const state = document.getElementById('state').value.trim(); // Remove leading and trailing spaces
+    const stateInput = document.getElementById("state");
+
+    if (state.length === 0) {
+        stateError.innerHTML = 'State is required';
+        stateError.style.color = "red";
+        stateInput.style.border = "solid 2px red";
+
+        return false;
+    } else if (/^\s+$/.test(state)) { 
+        stateError.innerHTML = 'State cannot be just spaces';
+        stateError.style.color = "red";
+        stateInput.style.border = "solid 2px red";
+
+        return false;
+    }
+
+    stateError.innerHTML = '';
+    stateInput.style.border = "solid 2px green";
+
+    return true;
+}
+
+
+
+
+function validatepincode() {
+    const pincode = document.getElementById('pincode').value.trim(); // Remove leading and trailing spaces
+    const pincodeInput = document.getElementById("pincode");
+
+    if (pincode.length === 0) {
+        pincodeError.innerHTML = 'Pincode is required';
+        pincodeError.style.color = "red";
+        pincodeInput.style.border = "solid 2px red";
+
+        return false;
+    } else if (/^\s+$/.test(pincode)) { 
+        pincodeError.innerHTML = 'Pincode cannot be just spaces';
+        pincodeError.style.color = "red";
+        pincodeInput.style.border = "solid 2px red";
+
+        return false;
+    }else if (!pincode.match(/^\d{6}$/)) { 
+        pincodeError.innerHTML = 'Write Valid Pincode';
+        pincodeError.style.color = "red";
+        pincodeInput.style.border = "solid 2px red";
+
+        return false;
+    }
+    pincodeError.innerHTML = '';
+    pincodeInput.style.border = "solid 2px green";
+
+    return true;
+}
+
+
+function validatephone() {
+    const phone = document.getElementById('phone').value.trim(); // Remove leading and trailing spaces
+    const phoneInput = document.getElementById("phone");
+
+    if (phone.length === 0) {
+        phoneError.innerHTML = 'Phone number is required';
+        phoneError.style.color = "red";
+        phoneInput.style.border = "solid 2px red";
+
+        return false;
+    } else if (/^\s+$/.test(phone)) { 
+        phoneError.innerHTML = 'Phone number cannot be just spaces';
+        phoneError.style.color = "red";
+        phoneInput.style.border = "solid 2px red";
+
+        return false;
+    }else if (!phone.match(/^\d{10}$/)) { 
+        phoneError.innerHTML = 'Write Valid Number';
+        phoneError.style.color = "red";
+        phoneInput.style.border = "solid 2px red";
+
+        return false;
+    }
+
+    phoneError.innerHTML = '';
+    phoneInput.style.border = "solid 2px green";
+
+    return true;
+}
+
+
+function validateemail() {
+        const email = document.getElementById('email').value
+        const emailInput = document.getElementById("email")
+
+        if (email.length == 0) {
+            emailError.innerHTML = 'Email is Required'
+            emailError.style.color = "red"
+            emailInput.style.border = "solid 2px red"
+
+            return false
+
+        }
+        if (!email.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)) {
+            emailError.innerHTML = 'Email Invalid'
+            emailError.style.color = 'red'
+            emailInput.style.border = 'solid 2px red'
+            return false
+        }
+        emailError.innerHTML = ''
+        emailError.style.color = "green"
+        emailInput.style.border = "solid 2px green"
+
+        return true
+    }
+
+
+
+    form.addEventListener('submit', (event) => {
+        event.preventDefault()
+        if (!validatefname() || !validatelname() || !validatehousename() || !validatestreetname()|| !validatecity()|| !validatestate()|| !validatephone()|| !validateemail()) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Enter details correctly!!'
+            })
+            return false
+        } else {
+            form.submit()
+        }
+    })
+
+
+
+
+
+</script>
+

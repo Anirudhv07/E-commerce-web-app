@@ -44,6 +44,10 @@ router.post('/checkOut',userCheckOutController.postCheckOut)
 
 router.get('/addAddress',auths.userauth,auths.userBlockBug,userCheckOutController.getAddAddress)
 
+router.get('/editAddress/:id',auths.userauth,auths.userBlockBug,userCheckOutController.getEditCheckoutAddress)
+
+router.post('/editAddress/:id',userCheckOutController.postEditCheckoutAddress)
+
 router.post('/addAddress',userCheckOutController.postAddAddress)
 
 router.get('/orderSuccess',auths.userauth,auths.userBlockBug,userCheckOutController.getOrderSuccess)
@@ -53,6 +57,15 @@ router.get('/profile',auths.userauth,auths.userBlockBug,userProfileController.ge
 router.get('/orderDetails/:id',auths.userauth,auths.userBlockBug,userProfileController.getOrderDetails)
 
 router.put('/cancelOrder/:id',userProfileController.putCancelOrder)
+
+router.get('/editNewAddress/:id',auths.userauth,auths.userBlockBug,userProfileController.getEditAddress)
+
+router.post('/editNewAddress/:id',userProfileController.postEditAddress)
+
+router.delete('/deleteNewAddress',userProfileController.deleteNewAddress)
+
+
+
 
 
 
