@@ -64,6 +64,8 @@ router.post('/editNewAddress/:id',userProfileController.postEditAddress)
 
 router.delete('/deleteNewAddress',userProfileController.deleteNewAddress)
 
+router.post('/verify_payment',userCheckOutController.postVerifyPayment)
+
 
 
 

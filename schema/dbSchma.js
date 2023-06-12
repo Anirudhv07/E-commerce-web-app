@@ -141,10 +141,10 @@ const orderSchema= new mongoose.Schema({
             productDetails:Array,
             shippingAddress:Object,
             paymentMode:String,
-            status:{
-                type:Boolean,
-                default:true
-            },
+            status: {
+                type: String, // Update the data type to String
+                default: "pending", // Set a default value if needed
+              },
             paymentTypes:String,
             creditedAt:{
                 type:Date,

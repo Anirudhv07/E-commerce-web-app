@@ -1,6 +1,11 @@
 const { response } = require('express');
 const user = require('../../schema/dbSchma')
 const ObjectId = require("mongodb").ObjectId;
+const Razorpay = require("razorpay");
+const instance = new Razorpay({
+    key_id: "rzp_test_pQj2XugS33hOJo",
+    key_secret: "fEyxM29Rrx1eiAHLQeXCOnep",
+});
 
 
 
@@ -220,7 +225,7 @@ module.exports = {
                 }
 
             ]).then((response) => {
-               
+
                 resolve(response)
             })
         })
@@ -240,13 +245,15 @@ module.exports = {
                 {
                     $match: { 'orders._id': new ObjectId(proId) }
                 },
-                {$project:{
-                    orderStatus:'$orders.orderConfirm',
-                    orderId:'$orders._id'
-                }}
+                {
+                    $project: {
+                        orderStatus: '$orders.orderConfirm',
+                        orderId: '$orders._id'
+                    }
+                }
 
-            ]).then((response)=>{
-                console.log(response);
+            ]).then((response) => {
+
                 resolve(response)
             })
 
@@ -255,14 +262,70 @@ module.exports = {
     cancelOrder: (orderId) => {
         console.log(orderId, 'oooooooooooooooooor');
         return new Promise(async (resolve, reject) => {
-          await user.order.updateOne({ 'orders._id': orderId }, { $set: { 'orders.$.orderConfirm': 'cancelled' } }).then((response) => {
-            console.log(response);
-            resolve(response);
-          });
+            await user.order.updateOne({ 'orders._id': orderId }, { $set: { 'orders.$.orderConfirm': 'cancelled' } }).then((response) => {
+                console.log(response);
+                resolve(response);
+            });
         });
-      }
-      
-      
+    },
+    generateRazorpay: async (userId, total) => {
+        const orders = await user.order.find({ user: userId });
+        console.log(orders, 'ordersssssssssss');
+
+        const order = orders[0].orders.slice().reverse();
+        const orderId = order[0]._id;
+        return new Promise(async (resolve, reject) => {
+
+            var options = {
+                amount: total*100,
+                currency: 'INR',
+                receipt: orderId.toString(),
+            }
+            instance.orders.create(options, function (err, order) {
+                if (err) {
+                } else {
+                    console.log('new Order:', order);
+                    resolve(order);
+                }
+            });
+        });
+    },
+    verifyPayment: (details) => {
+        console.log(details,'deeeeeeeeeeeeeeeeee');
+        return new Promise((resolve, reject) => {
+            const crypto = require("crypto");
+            let hmac = crypto.createHmac("sha256", 'fEyxM29Rrx1eiAHLQeXCOnep');
+            hmac.update(
+                details["payment[razorpay_order_id]"] +
+                "|" +
+                details["payment[razorpay_payment_id]"]
+            );
+            hmac = hmac.digest("hex");
+            if (hmac == details["payment[razorpay_signature]"]){
+                
+                resolve()
+            }else{
+                reject('not match')
+            }
+        })
+    },
+    changePaymentStatus:(orderId)=>{
+        console.log(orderId,'ooooooooooooooooooorrrrr');
+        return new Promise(async(resolve,reject)=>{
+           await user.order.updateOne({"orders._id":orderId},
+                {
+                    $set: {
+                        "orders.$.status": "success",
+                        "orders.$.paymentStatus": "paid",
+                      },
+                }).then((result)=>{
+                    console.log(result,'resssssssssssss');
+                    resolve()
+                })
+        })
+    }
+
+
 
 
 

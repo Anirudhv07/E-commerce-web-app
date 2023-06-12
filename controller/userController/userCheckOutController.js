@@ -69,8 +69,15 @@ module.exports = {
         const proId=await orderHelpers.getProId(req.body)
         await orderHelpers.placeOrder(req.body,total).then(async(result)=>{
             if(req.body['payment-method']=='COD'){
-                res.redirect('/orderSuccess')
-            }
+                res.json({codstatus:true})
+            }  else if (req.body["payment-method"] == "online") {
+                await orderHelpers
+                  .generateRazorpay(req.session.user.userId, total)
+                  .then((order) => {
+                    console.log(order,'l;l;;l;;;');
+                    res.json(order);
+                  });
+              }
         })
 
         
@@ -81,5 +88,17 @@ module.exports = {
         const count = await cartAndWishlistHelpers.getCartCount(req.session.user.userId);
 
         res.render('user/orderSuccess',{layout:'layout',users,count})
+    },
+    postVerifyPayment:async(req,res)=>{
+        console.log(req.body)
+        await orderHelpers.verifyPayment(req.body).then(async()=>{
+           await orderHelpers.changePaymentStatus(req.body["order[reciept]"]).then(()=>{
+                res.json({status:true})
+            })
+
+        }).catch((err)=>{
+            console.log(err)
+            res.json({status:false,errMsg:''});
+        })
     }
 }
