@@ -10,7 +10,7 @@ module.exports = {
         try {
             if (req.session.loggedIn) {
                 const users = req.session.user;
-            const wishlistCount = await cartAndWishlistHelpers.getWishlistCount(req.session.user.userId);
+            const wishlistCount = await cartAndWishlistHelper.getWishlistCount(req.session.user.userId);
 
                 const count = await cartAndWishlistHelper.getCartCount(req.session.user.userId);
                 const response = await userHelpers.homePage();

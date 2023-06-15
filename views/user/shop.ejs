@@ -140,7 +140,7 @@
                     <ul class="categories">
                         <%category.forEach(function(response){%>
                             <%if(response.unlist==false){%>
-                            <li><a onclick="filterCategory('<%=response.CategoryName%>')">
+                            <li><a href="/category?cname=<%response.CategoryName%>">
                                     <%=response.CategoryName%>
                                 </a></li>
                                 <%}%>
@@ -288,8 +288,6 @@
         // location.reload()
        
     }
-
-    function filterCategory()
     
 
 
