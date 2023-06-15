@@ -29,12 +29,20 @@ module.exports = {
         const orderStatus=await orderHelpers.getOrderStatus(req.params.id,req.session.user.userId)
         const wishlistCount = await cartAndWishlistHelpers.getWishlistCount(req.session.user.userId);
 
+        console.log(orderStatus,'userrrrrrorderrrrrrrrr');
+
 
         console.log(response,'resssss');
         res.render('user/orderDetails',{layout:'layout',response,count,users,orderStatus,wishlistCount})
     },
     putCancelOrder:async(req,res)=>{
         await orderHelpers.cancelOrder(req.params.id).then((response)=>{
+            console.log(response);
+            res.json(response)
+        })
+    },
+    putReturnOrder:async(req,res)=>{
+        await orderHelpers.returnOrder(req.params.id).then((response)=>{
             console.log(response);
             res.json(response)
         })
@@ -46,7 +54,7 @@ module.exports = {
 
 
         await userProfileHelpers.editAddress(req.params.id,req.session.user.userId).then((response)=>{
-            res.render('user/editNewAddress',{layout:'layout',users,count,wishlistCount})
+            res.render('user/editNewAddress',{layout:'layout',users,count,wishlistCount,response})
         })
          
     },

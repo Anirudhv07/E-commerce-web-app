@@ -62,13 +62,15 @@
                     <%}else if(response[0].orderConfirm=='orderPlaced'){%>
                     <h3 class="text-warning ">ORDER PLACED</h3>
                     <%}else if(response[0].orderConfirm=='orderDispatched'){%>
-                    <h3 class="text-success ">ORDER DISPATCHED</h3>
+                    <h3 class="text-info ">ORDER DISPATCHED</h3>
                     <%}else if(response[0].orderConfirm=='outForDelivery'){%>
-                    <h3 class="text-success ">ORDER OUT FOR DELIVERY</h3>
+                    <h3 class="text-info ">ORDER OUT FOR DELIVERY</h3>
                     <%}else if(response[0].orderConfirm=='delivered'){%>
                     <h3 class="text-success ">DELIVERED</h3>
                     <%}else if(response[0].orderConfirm=='cancelled'){%>
                     <h3 class="text-danger">CANCELLED</h3>
+                    <%}else{%>
+                        <h3 class="text-danger">RETURNED</h3>
                     <%}%>
 
                 </div>

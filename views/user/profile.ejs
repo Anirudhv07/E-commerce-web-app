@@ -89,35 +89,32 @@
                                                             <td>
                                                                 <%if(response.orders.orderConfirm=='ordered'){%>
                                                                     <span
-                                                                        class="badge rounded-pill alert-warning">Ordered</span>
+                                                                        class="badge rounded-pill alert-primary">Ordered</span>
                                                             </td>
                                                             <%}else if(response.orders.orderConfirm=='cancelled' ){%>
                                                                 <span
                                                                     class="badge rounded-pill alert-danger">Cancelled</span>
                                                                 </td>
-                                                                <%}else if(response.orders.orderConfirm=='orderPlaced'
-                                                                    ){%>
+                                                                <%}else if(response.orders.orderConfirm=='orderPlaced'){%>
                                                                     <span
-                                                                        class="badge rounded-pill alert-primary">Placed</span>
+                                                                        class="badge rounded-pill alert-warning">Placed</span>
                                                                     </td>
-                                                                    <%}else
-                                                                        if(response.orders.orderConfirm=='orderDispatched'
-                                                                        ){%>
+                                                                    <%}else if(response.orders.orderConfirm=='orderDispatched'){%>
                                                                         <span
-                                                                            class="badge rounded-pill alert-primary">Dispatched</span>
+                                                                            class="badge rounded-pill alert-info">Dispatched</span>
                                                                         </td>
-                                                                        <%}else
-                                                                            if(response.orders.orderConfirm=='outForDelivery'
-                                                                            ){%>
+                                                                        <%}else if(response.orders.orderConfirm=='outForDelivery'){%>
                                                                             <span
-                                                                                class="badge rounded-pill alert-primary">Out
+                                                                                class="badge rounded-pill alert-info">Out
                                                                                 for Delivery</span></td>
-                                                                            <%}else
-                                                                                if(response.orders.orderConfirm=='delivered'
-                                                                                ){%>
+                                                                            <%}else if(response.orders.orderConfirm=='delivered'){%>
                                                                                 <span
                                                                                     class="badge rounded-pill alert-success">Delivered</span>
                                                                                 </td>
+                                                                                <%}else{%>
+                                                                                    <span
+                                                                                        class="badge rounded-pill alert-danger">Returned</span>
+                                                                                    </td>
 
                                                                                 <%}%>
                                                                                     </td>
@@ -178,7 +175,7 @@
                                    
                                 </div >
                                 <div class=" text-center pt-3">
-                                    <a href="" class="btn btn-success">Add new Address</a>
+                                    <a href="/addNewAddress" class="btn btn-success">Add new Address</a>
 
                                 </div>
                             </div>

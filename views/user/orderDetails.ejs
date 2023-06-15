@@ -95,7 +95,7 @@
                     </div>
                         <div class="col-lg-6 text-end" >
 
-                            <h3 class="pt-3 text-success">PLACED</h3>
+                            <h3 class="pt-3 text-primary">ORDERED</h3>
                         </div>
                             <%}else if(orderStatus[0].orderStatus=='cancelled'){%>
                                 <div class="pt-2  col-lg-6">
@@ -106,14 +106,51 @@
                                     <h3 class="pt-3 text-danger">CANCELLED</h3>
                                 </div>
 
-                            <%}else{%>
+                            <%}else if(orderStatus[0].orderStatus=='returned'){%>
                                 <div class="pt-2  col-lg-6">
-                                    <button class="btn btn-info" onclick="cancelOrder('<%=orderStatus[0].orderId%>')">
-                                        Return Order
-                                    </button>
+                                   
                                 </div>
-                            <h3 class="pt-3 text-primary">SHIPPED</h3>
-                            <%}%>
+                                <div class="col-lg-6 text-end">
+
+                                    <h3 class="pt-3 text-danger ">ORDER RETURNED</h3>
+                                </div>
+                            <%}else if(orderStatus[0].orderStatus=='orderPlaced'){%>
+                                <div class="pt-2  col-lg-6">
+                                   
+                                </div>
+                                <div class="col-lg-6 text-end">
+
+                                    <h3 class="pt-3 text-warning">ORDER PLACED</h3>
+                                </div>
+                            <%}else if(orderStatus[0].orderStatus=='orderDispatched'){%>
+                                <div class="pt-2  col-lg-6">
+                                   
+                                </div>
+                                <div class="col-lg-6 text-end">
+
+                                    <h3 class="pt-3 text-info">ORDER DISPATCHED</h3>
+                                </div>
+                            <%}else if(orderStatus[0].orderStatus=='outForDelivery'){%>
+                                <div class="pt-2  col-lg-6">
+                                   
+                                </div>
+                                <div class="col-lg-6 text-end">
+
+                                    <h3 class="pt-3 text-info">OUT FOR DELIVERY</h3>
+                                </div>
+                            
+                            
+                            <%}else{%>
+                            <div class="pt-2  col-lg-6">
+                                <button class="btn btn-info" onclick="returnOrder('<%=orderStatus[0].orderId%>')">
+                                    Return Order
+                                </button>
+                            </div>
+                            <div class="col-lg-6 text-end">
+
+                                <h3 class="pt-3 text-success">DELIVERED</h3>
+                            </div>
+                        <%}%>
 
                         </div>
                     <div><br></div>
@@ -167,5 +204,17 @@ function cancelOrder(orderId){
         }}
     })
 }
-
+function returnOrder(orderId){
+    $.ajax({
+        url:'/returnOrder/'+orderId,
+        method:'put',
+        data:{
+            orderId:orderId
+        },
+        success: (response) => {
+        if (response) {
+          location.reload();
+        }}
+    })
+}
 </script>

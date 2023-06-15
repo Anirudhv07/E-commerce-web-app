@@ -40,6 +40,9 @@
                                                 <span class="badge rounded-pill alert-primary">Out for Delivery</span></td>
                                                 <%}else if(response.status=='delivered'){%>
                                                     <span class="badge rounded-pill alert-success">Delivered</span></td>
+                                                    <%}else if(response.status=='returned'){%>
+                                                        <span class="badge rounded-pill alert-danger">Returned</span></td>
+    
 
                                     <%}%>
                             <td><%=response.date.toLocaleString()%></td>

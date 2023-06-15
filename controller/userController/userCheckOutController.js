@@ -35,6 +35,18 @@ module.exports = {
             res.redirect('/login')
         }
     },
+    getNewAddAddress:async(req, res) => {
+        if(req.session.loggedIn){
+            const users = req.session.user
+            const wishlistCount = await cartAndWishlistHelpers.getWishlistCount(req.session.user.userId);
+    
+            const count = await cartAndWishlistHelpers.getCartCount(req.session.user.userId);
+            res.render('user/addNewAddress', { layout: 'layout' ,users,count,wishlistCount})
+
+        }else{
+            res.redirect('/login')
+        }
+    },
     postAddAddress:async(req,res)=>{
         console.log(req.body);
         if(req.session.loggedIn){
@@ -45,6 +57,23 @@ module.exports = {
             await checkOutHelper.postAddAddress(req.session.user.userId,req.body).then(()=>{
 
                 res.redirect('/checkOut')
+            })
+            
+
+        }else{
+            res.redirect('/login')
+        }
+    },
+    postNewAddAddress:async(req,res)=>{
+        console.log(req.body);
+        if(req.session.loggedIn){
+            const users = req.session.user
+    
+            const count = await cartAndWishlistHelpers.getCartCount(req.session.user.userId);
+
+            await checkOutHelper.postAddAddress(req.session.user.userId,req.body).then(()=>{
+
+                res.redirect('/profile')
             })
             
 

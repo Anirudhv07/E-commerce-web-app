@@ -274,6 +274,15 @@ module.exports = {
             });
         });
     },
+    returnOrder: (orderId) => {
+       
+        return new Promise(async (resolve, reject) => {
+            await user.order.updateOne({ 'orders._id': orderId }, { $set: { 'orders.$.orderConfirm': 'returned' } }).then((response) => {
+                console.log(response);
+                resolve(response);
+            });
+        });
+    },
     generateRazorpay: async (userId, total) => {
         const orders = await user.order.find({ user: userId });
         console.log(orders, 'ordersssssssssss');
