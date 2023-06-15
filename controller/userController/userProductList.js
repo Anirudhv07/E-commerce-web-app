@@ -8,6 +8,7 @@ module.exports = {
     getShop: async (req, res) => {
         if (req.session.loggedIn) {
             const count = await cartAndWishlistHelpers.getCartCount(req.session.user.userId);
+            const wishlistCount = await cartAndWishlistHelpers.getWishlistCount(req.session.user.userId);
 
 
             const pageNum = parseInt(req.query.page) || 1
@@ -22,7 +23,7 @@ module.exports = {
             await userProductHelpers.shopListProducts(pageNum).then((response) => {
                 console.log(category)
 
-                res.render('user/shop', { layout: 'layout', users, pages, pageNum,count, category, response })
+                res.render('user/shop', { layout: 'layout', users, pages, pageNum,count, category,wishlistCount, response })
 
             })
         } else {
@@ -35,11 +36,12 @@ module.exports = {
         if (req.session.loggedIn) {
             const count = await cartAndWishlistHelpers.getCartCount(req.session.user.userId);
 
+            const wishlistCount = await cartAndWishlistHelpers.getWishlistCount(req.session.user.userId);
 
             const users = req.session.user
             await userProductHelpers.detailView(req.params.id).then((response) => {
 
-                res.render('user/productDetailView', { layout: 'layout', users, response })
+                res.render('user/productDetailView', { layout: 'layout', users,wishlistCount, response })
 
             })
 
@@ -55,10 +57,19 @@ module.exports = {
         })
 
     },
+    getAddToWishlist:async(req,res)=>{
+      
+        let wishlistCount
+         await cartAndWishlistHelpers.addtoWishlist(req.params.id,req.session.user.userId,wishlistCount).then((response)=>{
+            res.json(response)
+        })
+
+    },
 
     listCart:async(req,res)=>{
         if(req.session.user){
             users=req.session.user
+            const wishlistCount = await cartAndWishlistHelpers.getWishlistCount(req.session.user.userId);
             
             const count = await cartAndWishlistHelpers.getCartCount(req.session.user.userId);
             let total=await userCheckOutHelper.totalCheckOutAmount(req.session.user.userId)
@@ -71,7 +82,28 @@ module.exports = {
             await cartAndWishlistHelpers.listCart(req.session.user.userId).then((cartItems)=>{
                 console.log(subtotal);
     
-                res.render('user/cart',{layout:'layout',cartItems,users,count,total,subtotal})
+                res.render('user/cart',{layout:'layout',cartItems,users,count,total,wishlistCount,subtotal})
+            })
+
+        }else{
+           res.redirect('/login')
+        }
+        
+
+    },
+    listWishlist:async(req,res)=>{
+        if(req.session.user){
+            users=req.session.user
+            
+            const count = await cartAndWishlistHelpers.getCartCount(req.session.user.userId);
+            
+            const wishlistCount = await cartAndWishlistHelpers.getWishlistCount(req.session.user.userId);
+                   
+            await cartAndWishlistHelpers.listWishlist(req.session.user.userId).then((wishlistItems)=>{
+                console.log(wishlistItems,users,wishlistCount,'wiiiiiiiiiiiiiiiii');
+              
+    
+                res.render('user/wishlist',{layout:'layout',wishlistItems,users,wishlistCount,count})
             })
 
         }else{
@@ -96,7 +128,12 @@ module.exports = {
         await cartAndWishlistHelpers.deleteCartProduct(req.body).then((response)=>{
             res.json(response)
         })
-    }
+    },
+    deleteWishlistProduct:async(req,res)=>{
+        await cartAndWishlistHelpers.deleteWishlistProduct(req.body).then((response)=>{
+            res.json(response)
+        })
+    },
     // getCategory:async(req,res)=>{
     //     const user= req.session.user
     //     const viewCategory= await adminCategoryHelper.viewCategory()

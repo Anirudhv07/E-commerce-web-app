@@ -71,7 +71,13 @@
                                             <a aria-label="Quick view" class="action-btn hover-up"
                                                 data-bs-toggle="modal" data-bs-target="#quickViewModal">
                                                 <i class="fi-rs-search"></i></a>
-                                            <a aria-label="Add To Wishlist" class="action-btn hover-up" href="#"><i
+                                            <a aria-label="Add To Wishlist" class="action-btn hover-up" onclick="addtoWishlist('<%=response._id%>'),Swal.fire({
+                                                position: 'center',
+                                                icon: 'success',
+                                                title: 'Item Added Successfully To Wishlist',
+                                                showConfirmButton: false,
+                                                timer: 2000
+                                              })" href="#"><i
                                                     class="fi-rs-heart"></i></a>
                                             <a aria-label="Compare" class="action-btn hover-up" href="#"><i
                                                     class="fi-rs-shuffle"></i></a>
@@ -134,7 +140,7 @@
                     <ul class="categories">
                         <%category.forEach(function(response){%>
                             <%if(response.unlist==false){%>
-                            <li><a href="/category?cname=<%response.CategoryName%>">
+                            <li><a onclick="filterCategory('<%=response.CategoryName%>')">
                                     <%=response.CategoryName%>
                                 </a></li>
                                 <%}%>
@@ -262,6 +268,28 @@
         // location.reload()
        
     }
+
+    function addtoWishlist(proId){
+      console.log(proId);
+        $.ajax({
+            url:`/addToWishlist/${proId}`,
+            method:"GET",
+            success:(response)=>{
+                if(response.status){
+                    const count=$('#wishlistCount').html()
+                    let num = parseInt(count)
+                    console.log(typeof(num));
+                    $('#wishlistCount').html(num+1)
+                    
+                }
+
+            }
+        })
+        // location.reload()
+       
+    }
+
+    function filterCategory()
     
 
 

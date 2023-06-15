@@ -105,7 +105,16 @@
                                           </div>
                                         <div class="form-group">
                                             <input name="user" value="<%=users.userId%>" type="hidden">
-                                            <input name="total" id="total1" value="<%=total%>" type="hidden">
+                                            <input name="couponTotal" id="couponTotal" value="<%=total%>" type="hidden">
+                                            
+                                            
+                                            <input name="discountAmount" id="discountAmount"  type="hidden">
+                                            <input name="couponCode" id="couponCode"  type="hidden">
+
+                 
+
+
+
 
 
                                         </div>
@@ -155,7 +164,7 @@
 
                                         <tr>
                                             <th>SubTotal</th>
-                                            <td class="product-subtotal" colspan="2">₹ <%=total%>
+                                            <td class="product-subtotal" id="subtotal" colspan="2">₹ <%=total%>
                                             </td>
                                         </tr>
                                         <tr>
@@ -164,8 +173,8 @@
                                         </tr>
                                         <tr>
                                             <th>Total</th>
-                                            <td colspan="2" class="product-subtotal"><span
-                                                    class="font-xl text-brand fw-900">₹ <%=total%></span></td>
+                                            <td colspan="2" class="product-subtotal" ><span
+                                                    class="font-xl text-brand fw-900" id="maintotal" >₹ <%=total%></span></td>
                                         </tr>
                             </tbody>
                         </table>
@@ -175,11 +184,18 @@
                     <div class="panel-body ">
                         <p class="mb-30 font-sm">If you have a coupon code, please apply it below.</p>
                         <form method="post">
+                            
+
                             <div class="form-group">
-                                <input type="text" placeholder="Enter Coupon Code...">
+                                <input type="text" id="enteredCoupon" placeholder="Enter Coupon Code...">
+                                <h5 class="pt-4 text-success" id="discountCurrentAmount" ></h5><br>
+                                <span class="text-primary" id="successCoupon" ></span>
+                                <span class="text-danger" id="errCoupon" ></span>
+
+
                             </div>
                             <div class="form-group">
-                                <button class="btn  btn-md" name="login">Apply Coupon</button>
+                                <button type="button" class="btn btn-md" onclick="validateCoupon('<%=total%>')" name="login">Apply Coupon</button>
                             </div>
                         </form>
                     </div>
@@ -199,7 +215,53 @@
  
 
 <script>
+    function validateCoupon(total){
+    const code=document.getElementById('enteredCoupon').value.trim()
+    console.log(code);
+    $.ajax({
+        url:'/validateCode?code='+code,
+        method:'post',
+        success:(response)=>{
+            console.log(response);
+            if (response.discountAmount && response.couponTotal) {
+                    document.getElementById('subtotal').innerHTML='₹'+ response.couponTotal
+                    document.getElementById('maintotal').innerHTML='₹'+ response.couponTotal
+
+                    document.getElementById('discountCurrentAmount').innerHTML= '₹'+ response.discountAmount + 'off'
+                    document.getElementById('successCoupon').innerHTML=response.success
+                document.getElementById('errCoupon').innerHTML=''
+                document.getElementById('discountAmount').value=response.discountAmount
+                document.getElementById('couponTotal').value=response.couponTotal
+                
+                document.getElementById('couponCode').value=code
+
+
+
+
+
+                
+
+                    
+            }else{
+                document.getElementById('errCoupon').innerHTML=response.err
+
+                document.getElementById('subtotal').innerHTML='₹' + response.total
+                    document.getElementById('maintotal').innerHTML='₹' + response.total
+               
+
+
+                    document.getElementById('discountCurrentAmount').innerHTML=''
+                    document.getElementById('successCoupon').innerHTML=''
+                
+
+            } 
+        }
+    })
+
+}
     $('#checkOutForm').submit((e) => {
+        console.log($('#checkOutForm').serialize());
+
         e.preventDefault()
 
         $.ajax({
@@ -307,5 +369,9 @@
         })
         return false
     }
+
+
+
+
 
 </script>

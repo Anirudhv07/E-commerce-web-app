@@ -28,7 +28,13 @@ const userSchema = new mongoose.Schema({
         type: String,
         // minlength:10,
         unique: true
-    }
+    },
+    coupons: Array,
+
+    wallet: {
+        type: Number,
+        default: 0,
+    },
 })
 const adminSchema = new mongoose.Schema({
     name: {
@@ -91,79 +97,115 @@ const productSchema = new mongoose.Schema({
     }
 })
 const cartSchema = new mongoose.Schema({
-    user:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"user",
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "user",
     },
-    cartItems:[
+    cartItems: [
         {
-            productId:{type: mongoose.Schema.Types.ObjectId,ref:'product'},
-            Quantity:{type:Number,default: 1},
-            price:{type:Number}
+            productId: { type: mongoose.Schema.Types.ObjectId, ref: 'product' },
+            Quantity: { type: Number, default: 1 },
+            price: { type: Number }
         }
     ]
 })
 
-const addressSchema= new mongoose.Schema({
-    user:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'user'
+const addressSchema = new mongoose.Schema({
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user'
     },
-    Address:[
+    Address: [
         {
-            fname:{type:String},
-            lname:{type:String},
-            housename:{type:String},
-            street:{type:String},
-            city:{type:String},
-            state:{type:String},
-            pincode:{type:Number},
-            phone:{type:Number},
-            email:{type:String}
+            fname: { type: String },
+            lname: { type: String },
+            housename: { type: String },
+            street: { type: String },
+            city: { type: String },
+            state: { type: String },
+            pincode: { type: Number },
+            phone: { type: Number },
+            email: { type: String }
         }
     ]
 })
 
-const orderSchema= new mongoose.Schema({
-    user:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'user'
+const orderSchema = new mongoose.Schema({
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user'
     },
-    orders:[
+    orders: [
         {
-            fname:String,
-            lname:String,
-            mobile:Number,
-            paymentMethod:String,
-            paymentStatus:String,
-            totalPrice:Number,
-            totalQuantity:Number,
-            productDetails:Array,
-            shippingAddress:Object,
-            paymentMode:String,
+            fname: String,
+            lname: String,
+            mobile: Number,
+            paymentMethod: String,
+            paymentStatus: String,
+            totalPrice: Number,
+            totalQuantity: Number,
+            productDetails: Array,
+            shippingAddress: Object,
+            discountAmount:Number,
+            paymentMode: String,
             status: {
                 type: String, // Update the data type to String
                 default: "pending", // Set a default value if needed
-              },
-            paymentTypes:String,
-            creditedAt:{
-                type:Date,
-                default:new Date(),
             },
-            orderConfirm:{
-                type:String,
-                default:'ordered'
+            paymentTypes: String,
+            creditedAt: {
+                type: Date,
+                default: new Date(),
+            },
+            orderConfirm: {
+                type: String,
+                default: 'ordered'
             }
         }
     ]
 })
+
+const couponSchema = new mongoose.Schema({
+    couponName: String,
+    expiry: {
+        type: Date,
+        default: new Date()
+    },
+    minPurchase: Number,
+    discountPercentage: Number,
+    maxDiscountValue: Number,
+    description: String,
+    createdAt: {
+        type: Date,
+        default: new Date()
+    }
+
+})
+const wishlistSchema = new mongoose.Schema({
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "user",
+    },
+  
+    wishlistItems: [
+      {
+        productId: { type: mongoose.Schema.Types.ObjectId, ref: "product" },
+      },
+    ],
+    createdAt: {
+      type: Date,
+      default: new Date(),
+    },
+  });
 
 module.exports = {
     user: mongoose.model('user', userSchema),
     admin: mongoose.model('admin', adminSchema),
     category: mongoose.model('category', categorySchema),
     product: mongoose.model('product', productSchema),
-    cart: mongoose.model('cart',cartSchema),
-    address: mongoose.model('address',addressSchema),
-    order:mongoose.model('order',orderSchema)
+    cart: mongoose.model('cart', cartSchema),
+    address: mongoose.model('address', addressSchema),
+    order: mongoose.model('order', orderSchema),
+    coupon: mongoose.model('coupon', couponSchema),
+    wishlist:mongoose.model('wishlist',wishlistSchema)
 }

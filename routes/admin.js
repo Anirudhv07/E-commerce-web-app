@@ -6,6 +6,7 @@ const adminUserController = require('../controller/adminController/user')
 const upload = require('../multer/multer.js')
 const adminOrderController=require('../controller/adminController/adminOrder')
 const auths=require('../middleware/middleware')
+const adminCouponController=require('../controller/adminController/adminCoupon')
 
 
 var router = express.Router();
@@ -54,6 +55,16 @@ router.get('/orderList',auths.auth,adminOrderController.getOrderList)
 router.get('/orderDetail',auths.auth,adminOrderController.getOrderDetails)
 
 router.put('/orderStatus',auths.auth,adminOrderController.putOrderStatus)
+
+router.get('/coupon',auths.auth,adminCouponController.getCouponPage)
+
+router.get('/generateCoupon',auths.auth,adminCouponController.getGenerateCoupon)
+
+router.post('/generateCoupon',auths.auth,adminCouponController.postGenerateCoupon)
+
+router.get('/addNewCoupon',auths.auth,adminCouponController.getaddNewCoupon)
+
+router.delete('/deleteCoupon',auths.auth,adminCouponController.deleteCoupon)
 
 
 express.Router

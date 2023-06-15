@@ -53,7 +53,7 @@ module.exports = {
             resolve(updateCart)
         })
     },
-    placeOrder: (userData, total) => {
+    placeOrder: (userData, total,couponName,discountAmount) => {
         return new Promise(async (resolve, reject) => {
             let updateCart = await user.cart.aggregate([
                 {
@@ -92,7 +92,7 @@ module.exports = {
                     }
                 }
             ])
-            console.log(updateCart, 'caaaaaaaaaaaaaaaaaaaaaat');
+            
 
             let Address = await user.address.aggregate([
                 { $match: { user: new ObjectId(userData.user) } },
@@ -104,14 +104,17 @@ module.exports = {
                     }
                 }
             ])
-            console.log(Address);
+            
             const items = Address.map((obj) => obj.item)
             let status, orderStatus
             let orderAddress = items[0]
             if (userData['payment-method'] === 'COD') {
                 status = 'Placed'
                 orderStatus = 'Success'
-            }
+            }else{
+                status = 'pending'
+                orderstatus = 'pending'
+              }
 
             let orderdata = {
                 name: orderAddress.fname,
@@ -121,6 +124,7 @@ module.exports = {
                 productDetails: updateCart,
                 shippingAddress: orderAddress,
                 orderStatus: orderStatus,
+                discountAmount:discountAmount,
                 totalPrice: total
 
             }
@@ -194,6 +198,7 @@ module.exports = {
                         ShippingAddress: '$orders.shippingAddress',
                         creditedAt: '$orders.creditedAt',
                         totalPrice: '$orders.totalPrice',
+                        discountAmount:'$orders.discountAmount',
                         products: {
                             $map: {
                                 input: '$orders.productDetails',
@@ -216,6 +221,7 @@ module.exports = {
                         productName: '$products.productName',
                         productPrice: '$products.productPrice',
                         totalPrice: 1,
+                        discountAmount:1,
                         productImage: { $arrayElemAt: ['$products.productImage', 0] },
                         productQuantity: '$products.productQuantity',
                         ShippingAddress: 1,
@@ -253,7 +259,7 @@ module.exports = {
                 }
 
             ]).then((response) => {
-
+                
                 resolve(response)
             })
 
@@ -321,6 +327,59 @@ module.exports = {
                 }).then((result)=>{
                     console.log(result,'resssssssssssss');
                     resolve()
+                })
+        })
+    },
+    validateCouponCode:(code,total,userId)=>{
+        
+        return new Promise(async(resolve,reject)=>{
+            let discountAmount
+            let couponTotal
+            await user.coupon.findOne({couponName:code}).then(async (response)=>{
+                if(response){
+                    if(new Date(response.expiry)-new Date()>0){
+                        const usedCoupon=await user.user.findOne({_id:userId,coupons:code})
+                    
+                        if(!usedCoupon){
+                            if(total>=response.minPurchase){
+                                discountAmount=((total*response.discountPercentage)/100)
+                                if(discountAmount>=response.maxDiscountValue){
+                                    discountAmount=response.maxDiscountValue
+                                    couponTotal=total-discountAmount
+    
+                                    resolve({discountAmount,couponTotal,total, success:'Coupon  Applied  SuccessFully'})
+                                }else{
+                                    couponTotal=total-discountAmount
+    
+                                    resolve({discountAmount,couponTotal,total, success: 'Coupon  Applied  SuccessFully'})
+
+                                }
+                            }else{
+                                resolve({status:false,err:'Coupon doesnt applicable for this purchase',total})
+                                
+                            }
+                        }else{
+                            resolve({status:false,err:'Coupon already used',total})
+
+                        }
+                    }else{
+                        resolve({status:false,err:'Coupon is Expired',total})
+
+
+                    }
+                }else{
+                    resolve({status:false,err:'Coupon is not valid',total})
+
+                }
+        })
+        })
+    },
+    addCoupontoUser:(couponName,userId)=>{
+        return new Promise(async(resolve,reject)=>{
+            await user.user.updateOne({_id:userId},
+                {$push:{coupons:couponName}}).then((response)=>{
+                    console.log(response)
+                    resolve(response)
                 })
         })
     }

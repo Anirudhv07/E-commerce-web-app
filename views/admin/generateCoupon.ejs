@@ -1,0 +1,182 @@
+<section class="content-main">
+    <div class="content-header">
+        <div>
+            <h2 class="content-title card-title">Generate Coupon </h2>
+
+        </div>
+
+    </div>
+    <div class="container">
+        <div class="card col-md-6 ">
+            <div class="card-body ">
+                <div class="row ">
+                    <div>
+                        <form  action="#">
+                            <div class="alert alert-danger" id="errorDisplay" role="alert" hidden></div>
+                            <div class="mb-4 ">
+                                <!-- <label for="product_name" class="form-label">Coupon Code</label> -->
+                                <div class="input-group">
+                                    <input type="text" id="couponName" name="categoryname" placeholder="Coupon Code" class="form-control"
+                                        id="product_name" />
+                                    <div class="input-group-append">
+                                        <a class="btn btn-outline-info" onclick="generateCoupon()">Generate Code</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <!-- <label for="product_slug" class="form-label">Validity</label> -->
+                                <!-- <input type="text" name="subcategoryname" placeholder="Validity" class="form-control"
+                                    id="product_slug" /> -->
+                                    <input type="date" name="" class="form-control" placeholder="Validity" class="form-control" id="validity" cols="45" rows="5"></input>
+                            </div>
+                            <div class="mb-4">
+                                <!-- <label for="product_slug" class="form-label">Min Purchase</label> -->
+                                <input type="text" name="subcategoryname" id="minAmount" placeholder="Min Purchase" class="form-control"
+                                    id="product_slug" />
+                            </div>
+                            <div class="mb-4">
+                                <!-- <label for="product_slug" class="form-label">Discount ( % )</label> -->
+                                <input type="text" name="subcategoryname" id="discountPercentage" placeholder="Discount ( % )" class="form-control"
+                                    id="product_slug" />
+                            </div>
+                            <div class="mb-4">
+                                <!-- <label for="product_slug" class="form-label">Max Discount(Rs)</label> -->
+                                <input type="text" name="subcategoryname" id="maxDiscountValue" placeholder="Max Discount(Rs)" class="form-control"
+                                    id="product_slug" />
+                            </div>
+                            <div class="mb-4">
+                                <!-- <label for="product_slug" class="form-label">Description(T&C)</label> -->
+                                <input type="text" name="subcategoryname" id="description" placeholder="Description(T&C)" class="form-control"
+                                    id="product_slug" />
+                            </div>
+
+                            <div class="d-grid">
+                                <button type="button" class="btn btn-primary" onclick="validatorCoupon()">Add Coupon</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div> <!-- .row // -->
+            </div> <!-- card body .// -->
+        </div>
+    </div><!-- card .// -->
+</section>
+
+
+<script>
+    function validatorCoupon() {
+      const couponName = document.getElementById('couponName').value
+      const validity = document.getElementById('validity').value
+      const minAmount = document.getElementById('minAmount').value
+      const description = document.getElementById('description').value
+      const discountPercentage = document.getElementById('discountPercentage').value
+      const maxDiscountValue = document.getElementById('maxDiscountValue').value
+      const error = document.getElementById('errorDisplay')
+     let flag=1
+      if (couponName == "") {
+        error.removeAttribute('hidden')
+        error.innerText = "Generate coupen"
+        error.style.background = "rgb(200,0,0,0.1)"
+        error.style.width = "100%"
+        flag = 2
+      } else if (validity == '') {
+        error.removeAttribute('hidden')
+        error.innerText = 'expiry date is required'
+        error.style.background = 'rgb(200,0,0,0.1)'
+        error.style.width = "100%"
+        flag = 2
+      } else if (new Date(validity) - new Date() <= 0) {
+        error.removeAttribute('hidden')
+        error.innerText = 'this date has already expired'
+        error.style.background = 'rgb(200,0,0,0.1)'
+        error.style.width = "100%"
+        flag = 2
+      } else if (minAmount == '') {
+        error.removeAttribute('hidden')
+        error.innerText = 'min amount is required'
+        error.style.background = 'rgb(200,0,0,0.1)'
+        error.style.width = "100%"
+        flag = 2
+      } else if (minAmount < 1000) {
+        error.removeAttribute('hidden')
+        error.innerText = 'min amount should be greater that 1000'
+        error.style.background = 'rgb(200,0,0,0.1)'
+        error.style.width = "100%"
+        flag = 2
+      } else if (discountPercentage == '') {
+        error.removeAttribute('hidden')
+        error.innerText = ' discount percentage is required'
+        error.style.background = 'rgb(200,0,0,0.1)'
+        error.style.width = "100%"
+        flag = 2
+      } else if (discountPercentage <= 0) {
+        error.removeAttribute('hidden')
+        if (discountPercentage > 100) {
+          error.innerText = ' discount percentage cannot be greated than 100'
+          error.style.background = 'rgb(200,0,0,0.1)'
+          error.style.width = "100%"
+          flag = 2
+        } else if (discountPercentage < 0) {
+          error.innerText = ' discount percentage cannot be less than 0'
+          error.style.background = 'rgb(200,0,0,0.1)'
+          error.style.width = "100%"
+          flag = 2
+        }
+      } else if (maxDiscountValue > (minAmount * discountPercentage / 100)) {
+        error.removeAttribute('hidden')
+        console.log(minAmount * discountPercentage / 100);
+        error.innerText = `maximum offer price should be  ${minAmount*discountPercentage/100 }`
+        error.style.background = 'rgb(200,0,0,0.1)'
+        error.style.width = "100%"
+        flag = 2
+      } else if (maxDiscountValue == '') {
+        error.removeAttribute('hidden')
+        error.innerText = 'Max Discount value is required'
+        error.style.background = 'rgb(200,0,0,0.1)'
+        error.style.width = "100%"
+        flag = 2
+      } else if (description == '') {
+        error.removeAttribute('hidden')
+        error.innerText = 'description is required'
+        error.style.background = 'rgb(200,0,0,0.1)'
+        error.style.width = "100%"
+        flag = 2
+      }
+    if (flag == 1) {
+        submitCoupon(couponName, new Date(validity), parseInt(minAmount), description, parseInt(discountPercentage), maxDiscountValue)
+      }
+    }
+    function submitCoupon(couponName,validity,minAmount,description,discountPercentage,maxDiscountValue){
+        
+        $.ajax({
+            url:'/admin/generateCoupon',
+            method:'post',
+            data:{
+                couponName:couponName,
+                validity:validity,
+                minAmount:minAmount,
+                description:description,
+                discountPercentage:discountPercentage,
+                maxDiscountValue:maxDiscountValue
+            },
+            success:(response)=>{
+                location.href='/admin/coupon'
+            }
+           
+        })
+    }
+
+
+
+
+    function generateCoupon(){
+        $.ajax({
+            url:'/admin/addNewCoupon',
+            method:'get',
+            success:(response)=>{
+                $('#couponName').val(response.couponCode)
+
+            }
+        })
+    }
+</script>

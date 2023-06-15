@@ -10,9 +10,11 @@ module.exports = {
         try {
             if (req.session.loggedIn) {
                 const users = req.session.user;
+            const wishlistCount = await cartAndWishlistHelpers.getWishlistCount(req.session.user.userId);
+
                 const count = await cartAndWishlistHelper.getCartCount(req.session.user.userId);
                 const response = await userHelpers.homePage();
-                res.render('user/home', { layout: "layout", users, userExist: true, response, count });
+                res.render('user/home', { layout: "layout", users, userExist: true, response, count,wishlistCount });
             } else {
                 res.render('user/login', { layout: "emptylayout", userExist: false });
             }
@@ -100,7 +102,7 @@ module.exports = {
             res.json(true)
         })
     },
-
+ 
 
 
 

@@ -32,11 +32,17 @@ router.get('/detailView/:id',auths.userauth,auths.userBlockBug, userProductContr
 
 router.get('/addToCart/:id',auths.userauth,auths.userBlockBug,userProductController.getAddToCart)
 
+router.get('/addToWishlist/:id',auths.userauth,auths.userBlockBug,userProductController.getAddToWishlist)
+
+router.get('/wishlist',auths.userauth,auths.userBlockBug,userProductController.listWishlist)
+
 router.get('/cart',auths.userauth,auths.userBlockBug,userProductController.listCart)
 
 router.post('/changeQuantity',userProductController.postChangeQuantity)
 
 router.delete('/deleteCartProduct',auths.userauth,auths.userBlockBug,userProductController.deleteCartProduct)
+
+router.delete('/deleteWishlistProduct',auths.userauth,auths.userBlockBug,userProductController.deleteWishlistProduct)
 
 router.get('/checkOut',auths.userauth,auths.userBlockBug,userCheckOutController.getCheckOut)
 
@@ -65,6 +71,14 @@ router.post('/editNewAddress/:id',userProfileController.postEditAddress)
 router.delete('/deleteNewAddress',userProfileController.deleteNewAddress)
 
 router.post('/verify_payment',userCheckOutController.postVerifyPayment)
+
+router.post('/validateCode',userCheckOutController.validateCoupon)
+
+
+
+
+
+
 
 
 

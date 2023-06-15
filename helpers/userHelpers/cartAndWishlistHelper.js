@@ -40,6 +40,44 @@ module.exports={
             }
         })
     },
+    addtoWishlist: (proId,userId,wishlistCount) =>{
+        
+        console.log(userId,'uiuiuiu');
+        let proObj={
+            productId:proId,
+            
+        }
+        return new Promise(async(resolve,reject)=>{
+            let wishlist= await user.wishlist.findOne({user:userId})
+            if(wishlist){
+                let productExist=wishlist.wishlistItems.findIndex((wishlistItems)=>wishlistItems.productId==proId)
+                console.log(productExist,'porrrrrrrrrrrrr');
+
+                if(productExist == -1){
+                    user.wishlist
+                    .updateOne(
+                        { user: userId },
+                        {
+                          $addToSet: {
+                            wishlistItems: proObj,
+                          },
+                        }
+                      )
+                      .then(() => {
+                        resolve({status:true});
+                      });
+                }
+            }else{
+                const newWishlistItems=new user.wishlist({
+                    user:userId,
+                    wishlistItems:proObj
+                })
+                await newWishlistItems.save().then(()=>{
+                    resolve({status:true})
+                })
+            }
+        })
+    },
     listCart:(userId)=>{
        
         return new Promise(async(resolve,reject)=>{
@@ -75,6 +113,40 @@ module.exports={
             })
         })
     },
+    listWishlist:(userId)=>{
+       
+        return new Promise(async(resolve,reject)=>{
+            await user.wishlist.aggregate([
+                {$match:{
+                    user: new ObjectId(userId),
+                }},{$unwind:'$wishlistItems'},
+                {
+                    $project:{
+                        item:'$wishlistItems.productId',
+                      
+                    }
+                },{
+                    $lookup:{
+                        from:"products",
+                        localField:'item',
+                        foreignField:'_id',
+                        as:"wishlisted"
+                    }
+                },
+                {
+                    $project:{
+                    item:1,
+                  
+                    wishlisted:{ $arrayElemAt:["$wishlisted",0]}
+                }}
+
+            ]).then((wishlistItemsItems)=>{
+                
+
+                resolve(wishlistItemsItems)
+            })
+        })
+    },
     getCartCount:(userId)=>{
         return new Promise(async(resolve,reject)=>{
            let cart= await user.cart.findOne({user:new ObjectId(userId)})
@@ -87,6 +159,20 @@ module.exports={
            }
        
             resolve(count)
+        })
+    },
+    getWishlistCount:(userId)=>{
+        return new Promise(async(resolve,reject)=>{
+           let wishlist= await user.wishlist.findOne({user:new ObjectId(userId)})
+           let wishlistCount=0
+           if(wishlist){
+
+            wishlistCount=wishlist.wishlistItems.length
+               console.log(wishlistCount,'kooooooooooo');
+
+           }
+       
+            resolve(wishlistCount)
         })
     },
     changeProQuantity:(details)=>{
@@ -126,5 +212,21 @@ module.exports={
 
         })
 
-    }
+    },
+    deleteWishlistProduct:(userData)=>{
+        const wishlistId=userData.wishlistId
+       const proId=userData.proId
+        return new Promise((resolve,reject)=>{
+             user.wishlist.updateOne({_id:wishlistId},{$pull:{wishlistItems:{productId:proId}}}).then(()=>{
+                resolve({removeProduct:true})
+             })
+
+        })
+
+    },
+    // getWishList:()=>{
+    //     return new Promise(async(resolve,reject)=>{
+    //         user.
+    //     })
+    // }
 }
