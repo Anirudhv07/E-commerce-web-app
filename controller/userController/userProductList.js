@@ -134,14 +134,11 @@ module.exports = {
             res.json(response)
         })
     },
-    // getCategory:async(req,res)=>{
-    //     const user= req.session.user
-    //     const viewCategory= await adminCategoryHelper.viewCategory()
-
-    //     userProductHelpers.viewCategory(req.query.cname).then((response)={
-    //         res.re
-    //     })
-
-
-    // }
+    postFilterCategory:async(req,res)=>{
+        const catName=req.query.catName
+                
+        await userProductHelpers.filterCategory(catName).then((response)=>{
+            res.json(response)
+        })
+    }
 }

@@ -71,6 +71,7 @@ router.put('/returnOrder/:id',userProfileController.putReturnOrder)
 
 router.get('/addNewAddress',auths.userauth,auths.userBlockBug,userCheckOutController.getNewAddAddress)
 
+router.post('/filterCategory',userProductController.postFilterCategory)
 
 
 

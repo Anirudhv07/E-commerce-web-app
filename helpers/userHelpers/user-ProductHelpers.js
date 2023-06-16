@@ -26,6 +26,14 @@ module.exports = {
                 resolve(response)
             })
         })
+    },
+    filterCategory:(catName)=>{
+        return new Promise(async(resolve,reject)=>{
+            await dbuser.product.find({Category:catName}).then((response)=>{
+                console.log(response,'filterrrrrrrrrrr');
+                resolve(response)
+            })
+        })
     }
    
 }
