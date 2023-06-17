@@ -78,7 +78,7 @@
                                         <div class="form-group">
                                             <div id="resend-section">
                                                 <div id="timer"></div>
-                                                <button id="resend-btn"  onclick="numVerify2()"  disabled >Resend OTP</button>
+                                                <button id="resend-btn" class="btn btn-success"  onclick="numVerify2()"  disabled  style="display: none;">Resend OTP</button>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -228,6 +228,8 @@
     }
 
     function startTimer() {
+        document.getElementById('resend-btn').style.display = 'block';
+
     let duration = 60; // Duration in seconds
 
     // Update the timer display initially
@@ -269,6 +271,9 @@
                 document.getElementsByClassName('p-conf')[0].style.display = 'block';
                 document.getElementsByClassName('n-conf')[0].style.display = 'none';
                 document.getElementById('loginBtn').style.display = 'block';
+                
+
+                
 
                 // Enable the submit button
                 // document.getElementById('submit-btn').removeAttribute('disabled');
