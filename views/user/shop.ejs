@@ -3,8 +3,13 @@
 
 
 <section class="mt-50 mb-50">
-    <div class="container">
+    
+    <div class="container ">
         <div class="row flex-row-reverse">
+          
+           
+              
+
             <div class="col-lg-9">
                 <div class="shop-product-fillter">
                     <div class="totall-product">
@@ -12,19 +17,24 @@
                     </div>
                    
                 </div>
+                <h1 id="not-found" class="text-center">
+                    
+                </h1>
+                
+
                 <div class="row product-grid-3" id="product-loop">
-                    <%response.forEach(function(response){%>
-                        <%if(response.unlist==false){%>
+                    <%product.forEach(function(product){%>
+                        <%if(product.unlist==false){%>
 
 
                             <div class="col-lg-4 col-md-4 col-12 col-sm-6">
                                 <div class="product-cart-wrap mb-30">
                                     <div class="product-img-action-wrap">
                                         <div class="product-img product-img-zoom">
-                                            <a href="/uploads/ <%=response._id%>">
-                                                <img class="default-img" src="/uploads/<%=response.Image[0] %>" alt=""
+                                            <a href="/uploads/ <%=product._id%>">
+                                                <img class="default-img" src="/uploads/<%=product.Image[0] %>" alt=""
                                                     style="width:20rem;height:19rem">
-                                                <img class="hover-img" src="/uploads/<%=response.Image[1] %>" alt=""
+                                                <img class="hover-img" src="/uploads/<%=product.Image[1] %>" alt=""
                                                     style="width:20rem;height:19rem">
                                             </a>
                                         </div>
@@ -32,7 +42,7 @@
                                             <a aria-label="Quick view" class="action-btn hover-up"
                                                 data-bs-toggle="modal" data-bs-target="#quickViewModal">
                                                 <i class="fi-rs-search"></i></a>
-                                            <a aria-label="Add To Wishlist" class="action-btn hover-up" onclick="addtoWishlist('<%=response._id%>'),Swal.fire({
+                                            <a aria-label="Add To Wishlist" class="action-btn hover-up" onclick="addtoWishlist('<%=product._id%>'),Swal.fire({
                                                 position: 'center',
                                                 icon: 'success',
                                                 title: 'Item Added Successfully To Wishlist',
@@ -48,11 +58,11 @@
                                     <div class="product-content-wrap">
                                         <div class="product-category">
                                             <a href="shop-grid-right.html">
-                                                <%=response.Category%>
+                                                <%=product.Category%>
                                             </a>
                                         </div>
-                                        <h2><a href="/detailView/<%=response._id%>">
-                                                <%=response.Productname%>
+                                        <h2><a href="/detailView/<%=product._id%>">
+                                                <%=product.Productname%>
                                             </a></h2>
                                         <div class="rating-result" title="90%">
                                             <span>
@@ -60,11 +70,11 @@
                                             </span>
                                         </div>
                                         <div class="product-price">
-                                            <span>₹ <%=response.Price%></span>
-                                            <span class="old-price">₹<%=response.Price+200%></span>
+                                            <span>₹ <%=product.Price%></span>
+                                            <span class="old-price">₹<%=product.Price+200%></span>
                                         </div>
                                         <div class="product-action-1 show">
-                                            <button type="button" aria-label="Add To Cart" class="action-btn hover-up" onclick="addtocart('<%=response._id%>'),Swal.fire({
+                                            <button type="button" aria-label="Add To Cart" class="action-btn hover-up" onclick="addtocart('<%=product._id%>'),Swal.fire({
                                                 position: 'center',
                                                 icon: 'success',
                                                 title: 'Item Added Successfully To Cart',
@@ -80,39 +90,69 @@
                                 <%})%>
 
                 </div>
-                <!--pagination-->
-                <div class="pagination-area mt-15 mb-sm-5 mb-lg-0" id="pageInation">
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination justify-content-start">
-                            <% for (let i = 1; i <= pages; i++) { %>
-                                <li class="page-item <%= (pageNum === i) ? 'active' : '' %>">
-                                    <a class="page-link" href="/shop?page=<%= i %>">
-                                        <%= i %>
-                                    </a>
-                                </li>
-                            <% } %>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
-            <div class="col-lg-3 primary-sidebar sticky-sidebar">
-                <div class="widget-category mb-30">
-                    <h5 class="section-title style-1 mb-30 wow fadeIn animated">Category</h5>
-                    <ul class="categories">
-                        <%category.forEach(function(response){%>
-                            <%if(response.unlist==false){%>
-                            <li><a  onclick="filterProduct('<%=response.CategoryName%>')">
-                                    <%=response.CategoryName%>
-                                </a></li>
-                                <%}%>
 
-                            <%})%>
+             
+
+             <!--pagination-->
+             <div class="pagination-area mt-15 mb-sm-5 mb-lg-0" id="pageInation">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-start">
+                        <% for (let i = 1; i <= pages; i++) { %>
+                            <li class="page-item <%= (pageNum === i) ? 'active' : '' %>">
+                                <a class="page-link" href="/shop?page=<%= i %>">
+                                    <%= i %>
+                                </a>
+                            </li>
+                        <% } %>
                     </ul>
-                </div>
-              
+                </nav>
             </div>
-        </div>
+           
+          
+
+
+
+           
     </div>
+    <div class="col-lg-3 primary-sidebar sticky-sidebar">
+      <form id="formId">
+      <div class="input-group pb-4">
+        <span class="d-inline-block text-dark align-middle mt-10 mr-10"></span>
+        <input type="text" class="form-control form-control-lg border-0 bg-light text-dark" name="search" id="search" placeholder="Search here...">
+        <button type="button" class="btn btn-sm btn-dark " onclick="userQuery(1,event)">Search</button>
+      </div>
+      <div class="widget-category mb-30">
+          <h5 class="section-title style-1 mb-30 wow fadeIn animated">Category</h5>
+
+          <select name="filter" id="sort" class="form-select align-middle">
+            <option disabled selected>Click me</option>
+            <%category.forEach(function(response){%>
+              <%if(response.unlist==false){%>
+            
+            <option value="<%=response.CategoryName%>"><%=response.CategoryName%></option>
+            <%}%>
+
+            <%})%>
+       
+          </select>
+        
+      </div>
+      <div class="widget-category mb-30">
+        <h5 class="section-title style-1 mb-30 wow fadeIn animated">Sort</h5>
+       
+            <select name="sort" id="sort" class="form-select align-middle">
+              <option disabled selected>Click me</option>
+              
+              <option value="-createdAt">Newest</option>
+              <option value="createdAt">Oldest</option>
+              <option value="-price">Price high to low</option>
+              <option value="price">Price low to high</option>
+            </select>
+    </div>
+      
+  </form>
+  </div>
+</div>
 </section>
 
 <script>
@@ -246,6 +286,70 @@
         })
     }
     
+    function userQuery(pageNumber = 1) {
+        let pageInation=document.getElementById('pageInation')
+    event.preventDefault();
+    $.ajax({
+      url: '/shop',
+      method: 'GET',
+      data: $('#formId').serialize() + '&page=' + pageNumber,
+      success: function(response) {
+        console.log(response,'kkkkkkk');
+        if (response) {
+        document.getElementById('not-found').innerHTML = ''
+
+          var $response = $(response);
+          var $newProductGrid = $response.find('.product-grid-3');
+
+          $('.product-grid-3').replaceWith($newProductGrid);
+          let element = document.getElementById(`current-page-${pageNumber}`)
+          $('#current-page-1').removeClass('active')
+          $(`#current-page-${pageNumber}`).addClass('active')
+          const status = document.getElementById('search-status').value
+          console.log(status);
+    
+          if (status == 'true') {
+            Swal.fire({
+              icon: 'info',
+              title: 'Info',
+              text: 'Searched Products doesn\'t exist, Sorry!!',
+              timer: 3000
+            }).then(() => {
+              location.reload()
+
+            });
+
+          }
+
+        }
+
+      },
+
+      error: function(error) {
+        console.log(error,'[[[[]]]]');
+        document.getElementById('product-loop').innerHTML = ''
+        document.getElementById('not-found').innerHTML = 'Product not found'
+
+      }
+    });
+    pageInation.innerHTML = ""
+  }
+
+  $(document).on('click', '.pagination .page-link', function(e) {
+    e.preventDefault();
+    let pageNumber = $(this).data('page');
+    userQuery(pageNumber);
+
+  });
+
+
+  $(document).on('click', '#searchBtn', function(e) {
+    let pageInation=document.getElementById('pageInation')
+    e.preventDefault();
+    userQuery();
+    
+    pageInation.innerHTML = ""
+});
 
 
 </script>

@@ -94,7 +94,11 @@ const productSchema = new mongoose.Schema({
     unlist: {
         type: Boolean,
         default: false
-    }
+    },
+    creditedAt: {
+        type: Date,
+        default: new Date(),
+    },
 })
 const cartSchema = new mongoose.Schema({
     user: {

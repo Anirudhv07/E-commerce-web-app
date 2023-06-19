@@ -5,32 +5,66 @@ const cartAndWishlistHelpers=require('../../helpers/userHelpers/cartAndWishlistH
 const userCheckOutHelper=require('../../helpers/userHelpers/checkOutHelper')
 
 module.exports = {
+    // getShop: async (req, res) => {
+    //     if (req.session.loggedIn) {
+    //         const count = await cartAndWishlistHelpers.getCartCount(req.session.user.userId);
+    //         const wishlistCount = await cartAndWishlistHelpers.getWishlistCount(req.session.user.userId);
+
+
+    //         const pageNum = parseInt(req.query.page) || 1
+
+    //         const perPage = 2
+    //         const users = req.session.user
+    //         const docCount = await userProductHelpers.getDocCount()
+    //         const pages = Math.ceil(parseInt(docCount) / perPage)
+
+    //         const category = await adminCategoryHelper.viewCategory()
+
+    //         await userProductHelpers.shopListProducts(pageNum).then((response) => {
+    //             console.log(category)
+
+    //             res.render('user/shop', { layout: 'layout', users, pages, pageNum,count, category,wishlistCount, response })
+
+    //         })
+    //     } else {
+    //         res.redirect('/login')
+    //     }
+
+    // },
     getShop: async (req, res) => {
-        if (req.session.loggedIn) {
-            const count = await cartAndWishlistHelpers.getCartCount(req.session.user.userId);
+        try {
+            let users = req.session.user
+            let count = await cartAndWishlistHelpers.getCartCount(req.session.user.userId);
             const wishlistCount = await cartAndWishlistHelpers.getWishlistCount(req.session.user.userId);
-
-
-            const pageNum = parseInt(req.query.page) || 1
-
-            const perPage = 2
-            const users = req.session.user
-            const docCount = await userProductHelpers.getDocCount()
-            const pages = Math.ceil(parseInt(docCount) / perPage)
-
+            const page = parseInt(req.query?.page) || 1
+            const perPage = 6
             const category = await adminCategoryHelper.viewCategory()
+            const docCount = await userProductHelpers.getDocCount()
+                    const pages = Math.ceil(parseInt(docCount) / perPage)
+                    const pageNum = parseInt(req.query.page) || 1
+             const response=await userProductHelpers.shopListProducts(pageNum)
+          
+            console.log(category,'cate');
+            if (req.query?.search || req.query?.sort || req.query?.filter) {
+                const { product, noProductFound } = await userProductHelpers.getQueriesOnShop(req.query,page)
+                noProductFound ?
+                    req.session.noProductFound = noProductFound
+                    : req.session.selectedProducts = product
+                res.render('user/shop', { layout: 'layout', product, users, count,pageNum, wishlistCount,category,response,pages,docCount, productResult: req.session.noProductFound })
+            } else {
+                let currentPage = 1
+                const { product, totalPages } = await userProductHelpers.getAllProducts(page, perPage);
+                if (product?.length != 0)
+                    req.session.noProductFound = false
+                res.render('user/shop', { layout: 'layout', product, users, count,category,pageNum, wishlistCount,response, pages,docCount,totalPages, currentPage, productResult: req.session.noProduct })
+                req.session.noProductFound = false
+            }
 
-            await userProductHelpers.shopListProducts(pageNum).then((response) => {
-                console.log(category)
-
-                res.render('user/shop', { layout: 'layout', users, pages, pageNum,count, category,wishlistCount, response })
-
-            })
-        } else {
-            res.redirect('/login')
+        } catch (error) {
+            console.log(error)
         }
-
     },
+
 
     getDetailView: async (req, res) => {
         if (req.session.loggedIn) {
@@ -136,7 +170,7 @@ module.exports = {
     },
     postFilterCategory:async(req,res)=>{
         const catName=req.query.catName
-                
+
         await userProductHelpers.filterCategory(catName).then((response)=>{
             res.json(response)
         })
