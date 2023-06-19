@@ -101,6 +101,16 @@ module.exports = {
             });
         });
       },
+      getWallet:(userId)=>{
+        return new Promise(async(resolve,reject)=>{
+          await user.user.find({_id:userId}).then((response)=>{
+           
+            resolve(response[0].wallet)
+
+          })
+        })
+
+      },
     postAddAddress: (userId, data) => {
         return new Promise(async (resolve, reject) => {
           try {

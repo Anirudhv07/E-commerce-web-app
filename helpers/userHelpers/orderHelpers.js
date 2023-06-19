@@ -283,6 +283,23 @@ module.exports = {
             });
         });
     },
+    returnWalletAmount: (orderId, userId) => {
+        
+        return new Promise(async (resolve, reject) => {
+            
+                const response = await user.order.findOne({ user: userId });
+                const totalAmount = response.orders.find(order => order._id.toString() === orderId).totalPrice;
+                
+                const walletAmount = await user.user.updateOne({_id: userId }, { $inc: { wallet: +totalAmount } });
+                
+                resolve(walletAmount);
+          
+                
+           
+        });
+    }
+    
+    ,
     generateRazorpay: async (userId, total) => {
         const orders = await user.order.find({ user: userId });
         console.log(orders, 'ordersssssssssss');
@@ -304,6 +321,16 @@ module.exports = {
                 }
             });
         });
+    },
+    reduceWallet:async(userId,total)=>{
+        console.log(userId,total,'reduceeee');
+        return new Promise(async(resolve,reject)=>{
+            await user.user.updateOne({_id:userId},
+                {$inc:{wallet:-total}})
+        }).then((response)=>{
+           
+            resolve(response)
+        })
     },
     verifyPayment: (details) => {
         console.log(details,'deeeeeeeeeeeeeeeeee');
@@ -340,7 +367,7 @@ module.exports = {
         })
     },
     validateCouponCode:(code,total,userId)=>{
-        
+        console.log(code,'wallettttttttt');
         return new Promise(async(resolve,reject)=>{
             let discountAmount
             let couponTotal

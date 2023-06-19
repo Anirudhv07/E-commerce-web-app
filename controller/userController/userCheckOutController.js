@@ -17,8 +17,11 @@ module.exports = {
             const checkOutAddress=await userCheckOutHelper.checkOutAddress(req.session.user.userId)
             const cartItems=await cartAndWishlistHelpers.listCart(req.session.user.userId)
             const subtotal = await userCheckOutHelper.subtotal(req.session.user.userId);
+            const wallet=await userCheckOutHelper.getWallet(req.session.user.userId)
 
-            res.render('user/checkout', { layout: 'layout', users, cartItems,subtotal, count,total,wishlistCount,checkOutAddress })
+            console.log(wallet,'mainnlwaa');
+
+            res.render('user/checkout', { layout: 'layout', users,wallet, cartItems,subtotal, count,total,wishlistCount,checkOutAddress })
         }else{
             res.redirect('/login')
         }
@@ -98,11 +101,17 @@ module.exports = {
         })
     },
     postCheckOut:async(req,res)=>{
-       console.log(req.body,'boooody');
+      
         const total=req.body.couponTotal
         const discountAmount=req.body.discountAmount
+        
         const couponName= req.body.couponCode
-        await orderHelpers.addCoupontoUser(couponName,req.session.user.userId)
+        if(couponName===""){
+            console.log('null');
+        }else{
+
+            await orderHelpers.addCoupontoUser(couponName,req.session.user.userId)
+        }
         
         
         const proId=await orderHelpers.getProId(req.body)
@@ -113,9 +122,14 @@ module.exports = {
                 await orderHelpers
                   .generateRazorpay(req.session.user.userId, total)
                   .then((order) => {
-                    console.log(order,'l;l;;l;;;');
+                   
                     res.json(order);
                   });
+              }else if (req.body["payment-method"] == "wallet"){
+                res.json({codstatus:true})
+                await orderHelpers.reduceWallet(req.session.user.userId,total).then((response)=>{
+                    res.json(response)
+                })
               }
         })
 

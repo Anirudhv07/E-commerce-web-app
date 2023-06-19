@@ -42,7 +42,9 @@ module.exports = {
         })
     },
     putReturnOrder:async(req,res)=>{
-        await orderHelpers.returnOrder(req.params.id).then((response)=>{
+        console.log(req.params,'paraaaaaaaaaa');
+        await orderHelpers.returnOrder(req.params.id).then(async(response)=>{
+            await orderHelpers.returnWalletAmount(req.params.id,req.session.user.userId)
             console.log(response);
             res.json(response)
         })

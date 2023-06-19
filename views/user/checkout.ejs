@@ -97,6 +97,20 @@
                                                 COD
                                             </label>
                                         </div>
+                                        <div class="form-check" id="walletAmountfinal">
+                                            <%if(wallet>total){%>
+                                            <input class="form-check-input" type="radio" name="payment-method" value="wallet" >
+                                            <label class="form-check-label" for="flexRadioDefault1">
+                                              Wallet
+                                            </label>
+                                            <%}else{%>
+                                                <p class="text-danger">Low Balance</p>
+                                                <input class="form-check-input" type="radio" name="payment-method" value="wallet" disabled>
+                                            <label class="form-check-label" for="flexRadioDefault1" >
+                                              Wallet
+                                            </label>
+                                            <%}%>
+                                          </div>
                                         <div class="form-check">
                                             <input class="form-check-input" type="radio" name="payment-method" value="online" >
                                             <label class="form-check-label" for="flexRadioDefault1">
@@ -106,6 +120,8 @@
                                         <div class="form-group">
                                             <input name="user" value="<%=users.userId%>" type="hidden">
                                             <input name="couponTotal" id="couponTotal" value="<%=total%>" type="hidden">
+                                            <input name="walletTotal" id="walletTotal" value="<%=wallet%>" type="hidden">
+
                                             
                                             
                                             <input name="discountAmount" id="discountAmount"  type="hidden">
@@ -217,13 +233,15 @@
 <script>
     function validateCoupon(total){
     const code=document.getElementById('enteredCoupon').value.trim()
+    const walletAmount = parseInt(document.getElementById('walletTotal').value);
+    console.log(walletAmount,'wallwetttttt');
     console.log(code);
     $.ajax({
         url:'/validateCode?code='+code,
         method:'post',
         success:(response)=>{
-            console.log(response);
-            if (response.discountAmount && response.couponTotal) {
+            console.log(response,walletAmount);
+            if (response.discountAmount && response.couponTotal<walletAmount) {
                     document.getElementById('subtotal').innerHTML='₹'+ response.couponTotal
                     document.getElementById('maintotal').innerHTML='₹'+ response.couponTotal
 
@@ -234,12 +252,24 @@
                 document.getElementById('couponTotal').value=response.couponTotal
                 
                 document.getElementById('couponCode').value=code
+                // Show the wallet
+         document.getElementById('walletAmountfinal').innerHTML = ` <input class="form-check-input" type="radio" name="payment-method" value="wallet" >
+            <label class="form-check-label" for="flexRadioDefault1">
+                Wallet
+            </label>`;
 
 
+            }else if(response.discountAmount && response.couponTotal) {
+                    document.getElementById('subtotal').innerHTML='₹'+ response.couponTotal
+                    document.getElementById('maintotal').innerHTML='₹'+ response.couponTotal
 
-
-
+                    document.getElementById('discountCurrentAmount').innerHTML= '₹'+ response.discountAmount + 'off'
+                    document.getElementById('successCoupon').innerHTML=response.success
+                document.getElementById('errCoupon').innerHTML=''
+                document.getElementById('discountAmount').value=response.discountAmount
+                document.getElementById('couponTotal').value=response.couponTotal
                 
+                document.getElementById('couponCode').value=code
 
                     
             }else{
