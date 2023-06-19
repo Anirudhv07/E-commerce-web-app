@@ -9,8 +9,10 @@ module.exports = {
             const admin = req.session.admin
             adminCategoryHelper.viewCategory().then((response) => {
                 var viewCategory = response
-
-                res.render('admin/addCategory', { layout: 'adminLayout', admin, viewCategory })
+                console.log(viewCategory,'categoryyy');
+                
+                res.render('admin/addCategory', { layout: 'adminLayout', admin, viewCategory ,categoryExist:req.session.categoryExist})
+                req.session.categoryExist=null
 
             })
         } else {
@@ -22,9 +24,12 @@ module.exports = {
     postAdminCategory: (req, res) => {
         const { categoryname, subcategoryname } = req.body;
         const uppercaseCategoryName = categoryname.toUpperCase();
+        const uppercaseSubCategoryName = subcategoryname.toUpperCase();
 
-        adminCategoryHelper.addCategory(uppercaseCategoryName, subcategoryname)
+
+        adminCategoryHelper.addCategory(uppercaseCategoryName, uppercaseSubCategoryName)
             .then((data) => {
+                req.session.categoryExist=data.err
 
                 res.redirect('/admin/addCategory');
             })
