@@ -83,5 +83,34 @@ module.exports = {
                 })
         })
     },
+    deleteEditProductImage: (index, productId) => {
+        return new Promise(async (resolve, reject) => {
+          try {
+            const product = await user.product.findOne({ _id: productId });
+      
+            if (!product) {
+              // Handle the case where the product is not found
+              throw new Error("Product not found");
+            }
+      
+            // Remove the image at the specified index from the Image array
+            product.Image.splice(index, 1);
+      
+            // Save the updated product
+            const updatedProduct = await product.save();
+      
+            console.log(updatedProduct, 'image deleted');
+      
+            resolve(updatedProduct);
+          } catch (error) {
+            reject(error);
+          }
+        }).catch((error) => {
+          // Handle the error here
+          console.error(error);
+          throw error;
+        });
+      }
+      
     
 }

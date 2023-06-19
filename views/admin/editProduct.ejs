@@ -129,34 +129,42 @@
                     </div>
                     <div class="card-body">
                         <div class="input-upload">
-                            <img id="productImage" src="/uploads/<%=editProduct?.Image[0]%>" alt="">
+                            <img id="productImage0" src="/uploads/<%=editProduct?.Image[0]%>" alt="">
                             <input class="form-control" name="image1" value="<%=editProduct?.Image[0]%>" type="file" onchange="previewImage(event)">
-                            <p id="imageerror" class="validation-label"></p>
+                            
                             <input type="hidden" name="image1" value="<%=editProduct?.Image[0]%>">
+                            <!-- <input type="hidden" name="deletedImages" id="deletedImages"> -->
+                            <!-- <button type="button" class="btn btn-danger" onclick="deleteImage(0,'<%=editProduct?._id%>')">Delete</button> -->
                         </div>
                     </div>
                     <div class="card-body">
                         <div class="input-upload">
-                            <img id="productImage" src="/uploads/<%=editProduct?.Image[1]%>" alt="">
+                            <img id="productImage1" src="/uploads/<%=editProduct?.Image[1]%>" alt="">
                             <input class="form-control" name="image2" value="<%=editProduct?.Image[1]%>" type="file" onchange="previewImage(event)">
 
                             <input type="hidden" name="image2" value="<%=editProduct?.Image[1]%>">
+                            <input type="hidden" name="deletedImages" id="deletedImages">
+                            <button type="button" class="btn btn-danger" onclick="deleteImage(1,'<%=editProduct?._id%>')">Delete</button>
 
                         </div>
                     </div>
                     <div class="card-body">
                         <div class="input-upload">
-                            <img id="productImage" src="/uploads/<%=editProduct?.Image[2]%>" alt="">
+                            <img id="productImage2" src="/uploads/<%=editProduct?.Image[2]%>" alt="">
                             <input class="form-control" name="image3" value="<%=editProduct?.Image[2]%>" type="file" onchange="previewImage(event)">
                             <input type="hidden" name="image3" value="<%=editProduct?.Image[2]%>">
+                            <input type="hidden" name="deletedImages" id="deletedImages">
+                            <button type="button" class="btn btn-danger" onclick="deleteImage(2,'<%=editProduct?._id%>')">Delete</button>
 
                         </div>
                     </div>
                     <div class="card-body">
                         <div class="input-upload">
-                            <img id="productImage" src="/uploads/<%=editProduct?.Image[3]%>" alt="">
+                            <img id="productImage3" src="/uploads/<%=editProduct?.Image[3]%>" alt="">
                             <input class="form-control" name="image4" value="<%=editProduct?.Image[3]%>" type="file" onchange="previewImage(event)">
                             <input type="hidden" name="image4" value="<%=editProduct?.Image[3]%>">
+                            <input type="hidden" name="deletedImages" id="deletedImages">
+                            <button type="button" class="btn btn-danger" onclick="deleteImage(3,'<%=editProduct?._id%>')">Delete</button>
 
                         </div>
                     </div>
@@ -315,6 +323,39 @@
         })
 
     }
+    let deletedImages = [];
+
+function deleteImage(index,productId) {
+    console.log(productId,'proooo');
+$.ajax({
+    url:'/admin/deleteImageEditProduct',
+    data:{
+        index:index,
+        productId:productId
+    },
+    method:'delete',
+    success:(response)=>{
+        console.log(response,'deletedd');
+        const image = document.getElementById(`productImage${index}`);
+        image.src = ''; // Clear the image source to remove the image
+        const fileInput = document.querySelector(`input[name="image${index + 1}"]`);
+        fileInput.value = ''; // Clear the file input value
+        deletedImages.push(index + 1); // Store the index of the deleted image in the array
+        updateDeletedImagesInput();
+    }
+})
+}
+
+function updateDeletedImagesInput() {
+    
+  const deletedImagesInput = document.getElementById('deletedImages');
+  
+  deletedImagesInput.value = deletedImages.join(','); // Set the deleted images as a comma-separated string
+  console.log(deletedImagesInput.value,'kkkkkkkkkkkkkkkkkk');
+  
+}
+
+
 
     function previewImage(event) {
   const input = event.target;

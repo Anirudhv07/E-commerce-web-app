@@ -103,6 +103,12 @@ module.exports = {
                 res.json(true)
             })
 
+    },
+    deleteEditProductImage:async(req,res)=>{
+        console.log(req.body,'paraam');
+        await adminProductHelper.deleteEditProductImage(req.body.index,req.body.productId).then((response)=>{
+            res.json(response)
+        })
     }
 
 

@@ -66,6 +66,8 @@ router.get('/addNewCoupon',auths.auth,adminCouponController.getaddNewCoupon)
 
 router.delete('/deleteCoupon',auths.auth,adminCouponController.deleteCoupon)
 
+router.delete('/deleteImageEditProduct', adminProductController.deleteEditProductImage)
+
 
 express.Router
 
