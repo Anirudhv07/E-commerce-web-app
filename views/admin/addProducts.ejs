@@ -91,6 +91,13 @@
                                 <p id="quantityerror" class="validation-label"></p>
 
                         </div>
+                        <div class="mb-4">
+                            <label for="product_name" class="form-label">Offer Percentage</label>
+                            <input type="text" name="productOfferPercentage" id="offerPercentage" 
+                                class="form-control" >
+                            <p id="offerpercentageerror" class="validation-label"></p>
+
+                        </div>
                     </div> <!-- row.// -->
                 </div>
             </div>
@@ -309,7 +316,32 @@
     return true;
   }
 
+  function validateOfferPercentage() {
+        const offerPercentage = document.getElementById('offerPercentage').value
+        const offerPercentageInput = document.getElementById('offerPercentage')
 
+
+
+        if (offerPercentage.length == 0) {
+            offerpercentageError.innerHTML = 'Offer Percentage is required'
+            offerpercentageError.style.color = 'red'
+            offerpercentageInput.style.border = 'solid 2px red'
+
+            return false
+
+        }else if (/^\s+$/.test(offerPercentage)) { // Check if title contains only spaces
+            offerpercentageError.innerHTML = 'Offer Percentage cannot be just spaces';
+            offerpercentageError.style.color = "red";
+            offerpercentageInput.style.border = "solid 2px red";
+
+        return false;
+    }
+    offerpercentageError.innerHTML = ''
+    offerpercentageInput.style.border = "solid 2px green"
+
+        return true
+
+    }
 
 
   function viewImage(event, index) {

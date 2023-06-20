@@ -108,9 +108,10 @@ const productSchema = new mongoose.Schema({
     },
     offerPrice:{
         type:Number,
-        default:function(){
-            return this.Price-(this.Price * this.offerPercentage)/100
-        }
+        default:0
+        // default:function(){
+        //     return this.Price-(this.Price * this.offerPercentage)/100
+        // }
     }
 })
 const cartSchema = new mongoose.Schema({

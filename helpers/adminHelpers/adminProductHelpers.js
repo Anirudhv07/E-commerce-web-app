@@ -21,6 +21,12 @@ module.exports = {
         })
     },
     postAddProduct: (userData, images) => {
+        let offerPrice=userData.productPrice
+        
+        if(userData.productOfferPercentage!=0){
+            offerPrice=Math.floor(userData.productPrice-(userData.productPrice * userData.productOfferPercentage)/100)
+            console.log(offerPrice,'offfff');
+        }
 
         return new Promise((resolve, reject) => {
             const productData = new user.product({
@@ -30,7 +36,9 @@ module.exports = {
                 Image: images,
                 Category: userData.productCategory,
                 SubCategory:userData.productSubCategory,
-                Price: userData.productPrice
+                Price: userData.productPrice,
+                offerPercentage: userData.productOfferPercentage,
+                offerPrice:offerPrice
             })
 
             productData.save().then((data) => {
