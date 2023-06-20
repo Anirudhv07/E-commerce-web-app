@@ -53,7 +53,7 @@ module.exports = {
             resolve(updateCart)
         })
     },
-    placeOrder: (userData, total,couponName,discountAmount) => {
+    placeOrder: (userData, total,couponName,discountAmount,cartQuantity) => {
         return new Promise(async (resolve, reject) => {
             let updateCart = await user.cart.aggregate([
                 {
@@ -151,6 +151,16 @@ module.exports = {
             await user.cart.deleteMany({ user: userData.user }).then(() => {
                 resolve()
             })
+            cartQuantity.map(async (quantity)=>{
+                
+                await user.product.updateOne({_id:quantity.productId},{
+                    $inc:{Quantity:-quantity.cartQuantity}
+                })
+
+               
+            })
+            return
+
 
         })
 

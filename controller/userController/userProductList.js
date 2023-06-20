@@ -43,6 +43,7 @@ module.exports = {
                     const pages = Math.ceil(parseInt(docCount) / perPage)
                     const pageNum = parseInt(req.query.page) || 1
              const response=await userProductHelpers.shopListProducts(pageNum)
+             
           
             console.log(category,'cate');
             if (req.query?.search || req.query?.sort || req.query?.filter) {
@@ -54,6 +55,7 @@ module.exports = {
             } else {
                 let currentPage = 1
                 const { product, totalPages } = await userProductHelpers.getAllProducts(page, perPage);
+                
                 if (product?.length != 0)
                     req.session.noProductFound = false
                 res.render('user/shop', { layout: 'layout', product, users, count,category,pageNum, wishlistCount,response, pages,docCount,totalPages, currentPage, productResult: req.session.noProduct })

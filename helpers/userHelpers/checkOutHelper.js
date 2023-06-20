@@ -186,5 +186,24 @@ module.exports = {
                     resolve(address)
                 })
         })
+    },
+    getEachProduct:(userId)=>{
+      return new Promise(async(resolve,reject)=>{
+        await user.cart.aggregate([
+          {$match:{user:new ObjectId(userId)}},
+          {$unwind:'$cartItems'},
+          {$project:{
+            cartQuantity:'$cartItems.Quantity',
+            productId:'$cartItems.productId'
+          }}
+       
+         
+        ]).then((response)=>{
+          console.log(response,'ttttttttttt');
+          resolve(response)
+          
+        })
+
+      })
     }
 }

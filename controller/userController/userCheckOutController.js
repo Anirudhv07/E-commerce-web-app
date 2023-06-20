@@ -18,8 +18,9 @@ module.exports = {
             const cartItems=await cartAndWishlistHelpers.listCart(req.session.user.userId)
             const subtotal = await userCheckOutHelper.subtotal(req.session.user.userId);
             const wallet=await userCheckOutHelper.getWallet(req.session.user.userId)
+            const cartAndMainProductQuantity=await userCheckOutHelper.getEachProduct(req.session.user.userId)
 
-            console.log(wallet,'mainnlwaa');
+            
 
             res.render('user/checkout', { layout: 'layout', users,wallet, cartItems,subtotal, count,total,wishlistCount,checkOutAddress })
         }else{
@@ -104,6 +105,8 @@ module.exports = {
       
         const total=req.body.couponTotal
         const discountAmount=req.body.discountAmount
+        const cartProductQuantity=await userCheckOutHelper.getEachProduct(req.session.user.userId)
+        console.log(cartProductQuantity);
         
         const couponName= req.body.couponCode
         if(couponName===""){
@@ -115,7 +118,7 @@ module.exports = {
         
         
         const proId=await orderHelpers.getProId(req.body)
-        await orderHelpers.placeOrder(req.body,total,couponName,discountAmount).then(async(result)=>{
+        await orderHelpers.placeOrder(req.body,total,couponName,discountAmount,cartProductQuantity).then(async(result)=>{
             if(req.body['payment-method']=='COD'){
                 res.json({codstatus:true})
             }  else if (req.body["payment-method"] == "online") {
@@ -130,7 +133,9 @@ module.exports = {
                 await orderHelpers.reduceWallet(req.session.user.userId,total).then((response)=>{
                     res.json(response)
                 })
+                
               }
+             
         })
 
         

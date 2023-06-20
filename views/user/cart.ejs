@@ -138,7 +138,7 @@
         success: (response) => {
             console.log(response,'reeeeeeeeee');
             console.log(response.subtotal[index]);
-            let sub=document.getElementById(index).innerHTML=response.subtotal[index].total
+            let sub=document.getElementById(index).innerHTML='₹'+ response.subtotal[index].total
             console.log(sub);
             if (response.status) {
                 const updatedQuantity = quantity + count;
