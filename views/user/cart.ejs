@@ -51,7 +51,7 @@
                                         <td class="price" data-title="Price"><span>₹ <%=cartItems.carted.Price%></span></td>
                                         <td class="text-center" data-title="Stock">
                                             <div class="detail-qty border radius  m-auto">
-                                                <div>  <button class="cart-item-count border border-success" onclick="changeQuantity('<%= cartItems._id%>','<%= cartItems.item %>','<%=users.userId%>' ,1,'<%=index%>')" >+</button></div> 
+                                                <div >  <button class="cart-item-count border border-success" onclick="changeQuantity('<%= cartItems._id%>','<%= cartItems.item %>','<%=users.userId%>' ,1,'<%=index%>')" id="<%=index%>button">+</button></div> 
                                                 
                                                 <span class="qty-val" id="<%= cartItems.item %>"><%=cartItems.quantity%></span>
                                                 <div>  <button class="cart-item-count border border-success" onclick="changeQuantity('<%= cartItems._id%>','<%= cartItems.item %>','<%=users.userId%>',-1,'<%=index%>')"  >-</button></div> 
@@ -136,6 +136,7 @@
         },
         method: 'post',
         success: (response) => {
+            console.log(response,'reeeeeeeeee');
             console.log(response.subtotal[index]);
             let sub=document.getElementById(index).innerHTML=response.subtotal[index].total
             console.log(sub);
@@ -144,9 +145,12 @@
                 document.getElementById(productId).textContent = updatedQuantity;
                 document.getElementById('subTotalValue').textContent ='₹'+response.total;
                 document.getElementById('totalValue').textContent ='₹'+ response.total;
-                
+                document.getElementById(index+'button').disabled=false
 
-
+            
+            }else{
+                console.log(document.getElementById(index+'button'),']]');
+                document.getElementById(index+'button').disabled=true
             }
         }
     });
