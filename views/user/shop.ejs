@@ -59,10 +59,11 @@
                                         <h2><a href="/detailView/<%=product._id%>">
                                                 <%=product.Productname%>
                                             </a></h2>
-                                        <div class="rating-result" title="90%">
+                                        <div class="rating-result" title="<%=product.offerPercentage%>">
                                             <span>
-                                                <span>90%</span>
+                                                <span><%=product.offerPercentage%> % off</span>
                                             </span>
+                                           
                                         </div>
                                         <%if(product.Quantity==0){%>
                                        
@@ -73,8 +74,8 @@
                                         </div>
                                         <%}%>
                                         <div class="product-price">
-                                            <span>₹ <%=product.Price%></span>
-                                            <span class="old-price">₹<%=product.Price+200%></span>
+                                            <span>₹ <%=product.offerPrice%></span>
+                                            <span class="old-price">₹<%=product.Price%></span>
                                         </div>
                                         <div class="product-action-1 show">
                                             <%if(product.Quantity==0){%>

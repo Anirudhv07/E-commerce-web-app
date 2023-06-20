@@ -39,7 +39,7 @@ module.exports = {
 
                     $group: {
                         _id: null,
-                        total: { $sum: { $multiply: ['$quantity', '$carted.Price'] } }
+                        total: { $sum: { $multiply: ['$quantity', '$carted.offerPrice'] } }
                     }
                 }
 
@@ -85,7 +85,7 @@ module.exports = {
                   quantity: 1,
     
                   price: {
-                    $arrayElemAt: ["$carted.Price", 0],
+                    $arrayElemAt: ["$carted.offerPrice", 0],
                   },
                 },
               },

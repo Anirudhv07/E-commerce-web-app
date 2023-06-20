@@ -66,6 +66,9 @@ const categorySchema = new mongoose.Schema({
     SubCategory: {
         type: Array
 
+    },
+    offer:{
+        type:Array
     }
 
 })
@@ -99,6 +102,16 @@ const productSchema = new mongoose.Schema({
         type: Date,
         default: new Date(),
     },
+    offerPercentage:{
+        type:Number,
+        default:0
+    },
+    offerPrice:{
+        type:Number,
+        default:function(){
+            return this.Price-(this.Price * this.offerPercentage)/100
+        }
+    }
 })
 const cartSchema = new mongoose.Schema({
     user: {

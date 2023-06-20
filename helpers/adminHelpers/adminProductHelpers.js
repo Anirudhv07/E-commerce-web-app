@@ -54,6 +54,13 @@ module.exports = {
         })
     },
     postEditProduct: (id, userData, image) => {
+
+        let offerPrice=userData.productPrice
+        
+        if(userData.productOfferPercentage!=0){
+            offerPrice=Math.floor(userData.productPrice-(userData.productPrice * userData.productOfferPercentage)/100)
+            console.log(offerPrice,'offfff');
+        }
         return new Promise(async (resolve, reject) => {
             await user.product.updateOne({ _id: id },
                 {
@@ -64,7 +71,10 @@ module.exports = {
                         Image: image,
                         Category: userData.productCategory,
                         SubCategory:userData.productSubCategory,
-                        Price: userData.productPrice
+                        Price: userData.productPrice,
+                        offerPercentage: userData.productOfferPercentage,
+                        offerPrice:offerPrice
+                        
                     }
                 })
                 .then((response) => {

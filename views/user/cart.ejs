@@ -48,7 +48,7 @@
                                             <h5 class="product-name"><a href="shop-product-right.html"><%=cartItems.carted.Productname%></a></h5>
                                             
                                         </td>
-                                        <td class="price" data-title="Price"><span>₹ <%=cartItems.carted.Price%></span></td>
+                                        <td class="price" data-title="Price"><span>₹ <%=cartItems.carted.offerPrice%></span></td>
                                         <td class="text-center" data-title="Stock">
                                             <div class="detail-qty border radius  m-auto">
                                                 <div >  <button class="cart-item-count border border-success" onclick="changeQuantity('<%= cartItems._id%>','<%= cartItems.item %>','<%=users.userId%>' ,1,'<%=index%>')" id="<%=index%>button">+</button></div> 

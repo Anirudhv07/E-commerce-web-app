@@ -88,7 +88,7 @@ module.exports = {
             image.push(req.files.image4[0].originalname)
         }
 
-        console.log(image);
+        
 
         adminProductHelper.postEditProduct(req.params.id, req.body, image).then((response) => {
             res.redirect('/admin/productList')

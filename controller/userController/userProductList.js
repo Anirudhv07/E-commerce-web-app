@@ -55,6 +55,7 @@ module.exports = {
             } else {
                 let currentPage = 1
                 const { product, totalPages } = await userProductHelpers.getAllProducts(page, perPage);
+                console.log(product,'pooopp');
                 
                 if (product?.length != 0)
                     req.session.noProductFound = false
