@@ -1,0 +1,139 @@
+
+<section class="content-main ">
+
+<div class="card mb-4 col-6 mx-auto">
+    <div class="card-header">
+        <h4>Add Banner</h4>
+    </div>
+    <div class="card-body ">
+        <form method="post" id="form" action="/admin/addBanner"  enctype="multipart/form-data">
+            <div class="row ">
+                
+                    <div class="mb-4">
+                        <label for="product_name" class="form-label">Title</label>
+                        <input type="text"  class="form-control" name="title" onkeyup="validateTitle()"  id="title">
+                        <p id="titleerror" class="validation-label"></p>
+
+                    </div>
+                
+                
+            </div>
+            <div class="mb-4">
+                <label for="product_name" class="form-label">Description</label>
+                <input type="text"  class="form-control" name="description" onkeyup="validateDescription()" id="description">
+                <p id="descriptionerror" class="validation-label"></p>
+
+            </div>
+            <div class="mb-4">
+                <label for="product_name" class="form-label">Image</label>
+                <input type="file"  class="form-control" name="image" onchange="validateImage()" id="files">
+            </div>
+            <div class="pt-5 text-center">
+                <button type="submit" class="btn btn-primary btn-sm rounded">Submit</button>
+            </div>
+        </form>
+    </div>
+</div> 
+</section>
+
+<script>
+const titleError = document.getElementById('titleerror')
+    const descriptionError = document.getElementById('descriptionerror')
+   
+    function validateTitle() {
+    const title = document.getElementById('title').value.trim(); // Remove leading and trailing spaces
+    const titleInput = document.getElementById("title");
+
+    if (title.length === 0) {
+        titleError.innerHTML = 'Title is required';
+        titleError.style.color = "red";
+        titleInput.style.border = "solid 2px red";
+
+        return false;
+    } else if (/^\s+$/.test(title)) { // Check if title contains only spaces
+        titleError.innerHTML = 'Title cannot be just spaces';
+        titleError.style.color = "red";
+        titleInput.style.border = "solid 2px red";
+
+        return false;
+    }
+
+    titleError.innerHTML = '';
+    titleInput.style.border = "solid 2px green";
+
+    return true;
+}
+
+
+
+    function validateDescription() {
+        const description = document.getElementById('description').value.trim()
+        const descriptionInput = document.getElementById('description')
+
+
+
+        if (description.length == 0) {
+            descriptionError.innerHTML = 'Description is required'
+            descriptionError.style.color = 'red'
+            descriptionInput.style.border = 'solid 2px red'
+
+            return false
+
+        }else if (/^\s+$/.test(description)) { // Check if title contains only spaces
+            descriptionError.innerHTML = 'Description cannot be just spaces';
+            descriptionError.style.color = "red";
+            descriptionInput.style.border = "solid 2px red";
+
+        return false;
+    }
+        descriptionError.innerHTML = ''
+        descriptionInput.style.border = "solid 2px green"
+
+        return true
+
+    }
+
+    
+    
+    function validateImage() {
+        const fileInput=document.getElementById('files')
+        const allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif|\.avif|\.webp)$/i;
+        const maxSize = 5242880; // 5MB
+        const fileSize = fileInput.files[0].size;
+        
+        if (!allowedExtensions.exec(fileInput.value)) {
+            Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Please select an image file to upload!',
+      })
+      fileInput.value = "";
+      return false;
+    }
+    
+    if (fileSize > maxSize) {
+        Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'File is too large. Please upload an image that is smaller than 5MB.',
+    })
+      fileInput.value = "";
+      return false;
+    }
+    
+    return true;
+  }
+
+    form.addEventListener('submit', (event) => {
+        event.preventDefault()
+        if (!validateTitle() || !validateDescription()|| !validateImage() ) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Enter details correctly!!'
+            })
+            return false
+        } else {
+            form.submit()
+        }
+    })
+</script>

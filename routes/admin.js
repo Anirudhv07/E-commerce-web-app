@@ -7,6 +7,7 @@ const upload = require('../multer/multer.js')
 const adminOrderController=require('../controller/adminController/adminOrder')
 const auths=require('../middleware/middleware')
 const adminCouponController=require('../controller/adminController/adminCoupon')
+const adminBannerController=require('../controller/adminController/adminBanner')
 
 
 var router = express.Router();
@@ -67,6 +68,28 @@ router.get('/addNewCoupon',auths.auth,adminCouponController.getaddNewCoupon)
 router.delete('/deleteCoupon',auths.auth,adminCouponController.deleteCoupon)
 
 router.delete('/deleteImageEditProduct', adminProductController.deleteEditProductImage)
+
+router.get('/bannerList',auths.auth,adminBannerController.getBanner)
+
+router.get('/addBanner',auths.auth,adminBannerController.getAddBanner)
+
+router.post('/addBanner',auths.auth,upload.addBannerupload,adminBannerController.postAddBanner)
+
+router.put('/unListBanner', adminBannerController.unlistBanner)
+
+router.get('/editBanner/:id',auths.auth,adminBannerController.getEditBanner)
+
+router.post('/editBanner/:id', upload.editBannerupload, adminBannerController.postEditBanner)
+
+router.get('/salesReport',auths.auth,adminOrderController.getSalesReport)
+
+router.post('/salesReport',auths.auth,adminOrderController.postSalesReport)
+
+
+
+
+
+
 
 
 express.Router

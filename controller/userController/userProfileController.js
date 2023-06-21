@@ -14,7 +14,7 @@ module.exports = {
        const userDetails=await userProfileHelpers.getUserDetails(req.session.user.userId)
        const userAddress=await userProfileHelpers.getUserAddress(req.session.user.userId)
        const wishlistCount = await cartAndWishlistHelpers.getWishlistCount(req.session.user.userId);
-
+console.log(response);
     
        
         res.render('user/profile',{layout:'layout',users,response,count,userDetails,userAddress,wishlistCount})

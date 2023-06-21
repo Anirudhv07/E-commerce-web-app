@@ -114,6 +114,35 @@ const productSchema = new mongoose.Schema({
         // }
     }
 })
+const bannerSchema = new mongoose.Schema({
+    title:{
+        type:String,
+        required:true
+
+    },
+    description:{
+        type:String,
+        required:true
+
+    },
+    createdAt:{
+        type:Date,
+        default:Date.now
+    },
+    updatedAt:{
+        type:Date,
+        default:Date.now
+    },
+    image:{
+        type:String,
+        required:true
+    },
+    unlist:{
+        type:Boolean,
+        default:false
+    }
+    
+})
 const cartSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
@@ -225,5 +254,6 @@ module.exports = {
     address: mongoose.model('address', addressSchema),
     order: mongoose.model('order', orderSchema),
     coupon: mongoose.model('coupon', couponSchema),
-    wishlist:mongoose.model('wishlist',wishlistSchema)
+    wishlist:mongoose.model('wishlist',wishlistSchema),
+    banner:mongoose.model('banner',bannerSchema)
 }

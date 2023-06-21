@@ -26,6 +26,22 @@ module.exports={
         adminOrderHelpers.putOrderStatus(req.body).then((response)=>[
             res.json(response)
         ])
+    },
+    getSalesReport:(req,res)=>{
+        const admin = req.session.admin;
+        adminOrderHelpers.salesReport().then((response)=>{
+
+            res.render('admin/salesReport',{layout:'adminLayout',admin,response})
+        })
+
+    },
+    postSalesReport:(req,res)=>{
+        const admin = req.session.admin;
+
+        adminOrderHelpers.dateFilter(req.body).then((response)=>{
+
+            res.render('admin/salesReport',{layout:'adminLayout',response,admin})
+        })
     }
 
 }

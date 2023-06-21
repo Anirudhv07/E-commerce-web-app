@@ -1,0 +1,161 @@
+<section class="content-main">
+    <div class="content-header">
+        <div>
+            <h2 class="content-title card-title">Sales Report</h2>
+           
+        </div>
+        <div>
+            <div class="text-center">
+
+                <button class="btn btn-primary " onclick="downloadAsPDF()">Download as PDF</button>
+              </div>
+              
+
+        </div>
+        <div>
+            <div class="text-center">
+
+                <button class="btn btn-primary " onclick="export_data()">Download as Excel</button>
+              </div>
+        </div>
+
+        <div >
+            <form action="/admin/salesReport" method="post">
+                <div class="form-group">
+                    <label for="startdate">Start Date</label>
+                    <input type="date" class="form-control bg" id="startdate" name="startdate">
+<span id="date-error1" style="display: none; color: red;">Invalid Start Date</span>
+
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="enddate">End Date</label>
+                    <input type="date" class="form-control" id="enddate" name="enddate">
+  <span id="date-error2" style="display: none; color: red;">Invalid End Date</span>
+
+                  </div>
+                  <div class="text-center">
+
+                      <button class="btn btn-primary " id="submit-button" type="submit">Submit</button>
+                    </div>
+                  
+
+            </form>
+        </div>
+      
+    </div>
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="table-responsive" id="salesReportFull">
+                <table class="table table-hover" >
+                    <thead>
+                        <tr>
+                            <th>#ID</th>
+                            <th scope="col">User Name</th>
+                            <th scope="col">Item Name</th>
+                           
+                            <th scope="col">Price</th>
+                            <th scope="col">Payment Method</th>
+                            
+                            <th scope="col">Date & Time</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <%response.forEach((response)=>{%>
+                        <tr>
+
+                            <td><%=response.orderId%></td>
+                            <td><b><%=response.username%></b></td>
+                            <td><%response.productDetails.forEach(function(response){%>
+                                <p><%=response.productsName%> - <span><%=response.quantity%></span></p>
+                            <%})%></td>
+                            
+                            <td><%=response.totalPrice%></td>
+                            <td><%=response.paymentMethod%></td>
+                          
+                            
+
+                           
+                            <td><%=response.dateAndTime.toLocaleString()%></td>
+                           
+                              
+                            
+                        </tr>
+                        <%})%>
+                        
+                    </tbody>
+                </table>
+            </div> <!-- table-responsive //end -->
+        </div> <!-- card-body end// -->
+    </div> <!-- card end// -->
+    <!-- <div class="pagination-area mt-15 mb-50">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-start">
+                <li class="page-item active"><a class="page-link" href="#">01</a></li>
+                <li class="page-item"><a class="page-link" href="#">02</a></li>
+                <li class="page-item"><a class="page-link" href="#">03</a></li>
+                <li class="page-item"><a class="page-link dot" href="#">...</a></li>
+                <li class="page-item"><a class="page-link" href="#">16</a></li>
+                <li class="page-item"><a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a></li>
+            </ul>
+        </nav>
+    </div> -->
+</section>
+
+
+<script>
+ 
+ let startDate = document.getElementById('startdate')
+   let endDate = document.getElementById('enddate')
+   let error1 = document.getElementById('date-error1')
+   let error2 = document.getElementById('date-error2')
+
+   let submitButton = document.getElementById('submit-button');
+
+// Disable submit button on page load
+submitButton.disabled = true;
+
+// Add event listeners to start date and end date inputs
+startDate.addEventListener("input", validateDates);
+endDate.addEventListener("input", validateDates);
+
+function validateDates() {
+  const selectedStartDate = new Date(startDate.value);
+  const selectedEndDate = new Date(endDate.value);
+  const today = new Date();
+
+  if (selectedStartDate < today) {
+    error1.style.display = "none";
+  } else {
+    error1.style.display = "inline";
+  }
+
+  if (selectedEndDate < today) {
+    error2.style.display = "none";
+  } else {
+    error2.style.display = "inline";
+  }
+
+  // Check if either error is displayed or if end date is before start date
+  if (error1.style.display === "inline" || error2.style.display === "inline" || selectedEndDate < selectedStartDate) {
+    submitButton.disabled = true;
+  } else {
+    submitButton.disabled = false;
+  }
+}
+     function export_data() {
+        let data = document.getElementById('salesReportFull');
+        var fp = XLSX.utils.table_to_book(data, { sheet: 'vishal' });
+        XLSX.write(fp, {
+            bookType: 'xlsx',
+            type: 'base64'
+        });
+        XLSX.writeFile(fp, 'test.xlsx');
+    }
+
+    function downloadAsPDF() {
+  const element = document.getElementById('salesReportFull');
+  html2pdf().from(element).save();
+}
+</script>

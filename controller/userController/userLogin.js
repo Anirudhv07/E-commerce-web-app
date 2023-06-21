@@ -1,7 +1,7 @@
 const userHelpers = require('../../helpers/userHelpers/user-helpers')
 const dbuser = require('../../schema/dbSchma')
 const cartAndWishlistHelper=require('../../helpers/userHelpers/cartAndWishlistHelper')
-
+const adminBannerHelpers=require('../../helpers/adminHelpers/adminBannerHelpers')
 
 
 const err = false;
@@ -11,10 +11,12 @@ module.exports = {
             if (req.session.loggedIn) {
                 const users = req.session.user;
             const wishlistCount = await cartAndWishlistHelper.getWishlistCount(req.session.user.userId);
+            const banner=await adminBannerHelpers.getBanner() 
+            console.log(banner,'boooo');
 
                 const count = await cartAndWishlistHelper.getCartCount(req.session.user.userId);
                 const response = await userHelpers.homePage();
-                res.render('user/home', { layout: "layout", users, userExist: true, response, count,wishlistCount });
+                res.render('user/home', { layout: "layout", users, userExist: true, response, count,wishlistCount,banner });
             } else {
                 res.render('user/login', { layout: "emptylayout", userExist: false });
             }
