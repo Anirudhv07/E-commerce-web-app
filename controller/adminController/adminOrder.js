@@ -19,6 +19,7 @@ module.exports={
         const admin = req.session.admin;
         
         const response = await adminOrderHelpers.getOrderDetails(orderId, userId);
+        
         console.log(response,'orderrrrrrrrrr')
         res.render('admin/orderDetails', { layout: 'adminLayout', admin, response });
     },

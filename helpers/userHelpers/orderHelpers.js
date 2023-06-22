@@ -203,6 +203,7 @@ module.exports = {
                 },
                 {
                     $project: {
+                        orderID:'$orders._id',
                         paymentMethod: '$orders.paymentMethod',
                         paymentStatus: '$orders.paymentStatus',
                         ShippingAddress: '$orders.shippingAddress',
@@ -226,6 +227,7 @@ module.exports = {
                 { $unwind: '$products' },
                 {
                     $project: {
+                        orderID:1,
                         paymentMethod: 1,
                         paymentStatus: 1,
                         productName: '$products.productName',
@@ -238,10 +240,27 @@ module.exports = {
                         creditedAt: 1
 
                     }
+                },{
+                    $project: {
+                        orderID:1,
+                        paymentMethod: 1,
+                        paymentStatus: 1,
+                        productName: 1,
+                        productPrice: 1,
+                        totalPrice: 1,
+                        discountAmount:1,
+                        productImage: 1,
+                        productQuantity: 1,
+                        ShippingAddress: 1,
+                        creditedAt: 1,
+                        subTotal: { $multiply: ["$productQuantity", "$productPrice"] },
+                        
+
+                    }
                 }
 
             ]).then((response) => {
-
+console.log(response,'lopopoppopo');
                 resolve(response)
             })
         })
@@ -428,7 +447,67 @@ module.exports = {
                     resolve(response)
                 })
         })
-    }
+    },
+    createData: (details) => {
+        console.log(details,'jjjjjjj');
+        let address = details[0].ShippingAddress;
+       console.log(address,'adsdd');
+    
+        var data = {
+          // Customize enables you to provide your own templates
+          // Please review the documentation for instructions and examples
+          customize: {
+            //  "template": fs.readFileSync('template.html', 'base64') // Must be base64 encoded html
+          },
+          images: {
+            // The logo on top of your invoice
+            logo: "../public/assets/imgs/theme/as-logo.webp" ,
+            // The invoice background
+            // background: "https://public.easyinvoice.cloud/img/watermark-draft.jpg",
+          },
+          // Your own data
+          sender: {
+            company: "Aristocratic Style",
+            address: "Washington DC",
+            zip: "4567 CD",
+            city: "Los santos",
+            country: "America",
+          },
+          // Your recipient
+          client: {
+            company: address.fname,
+            address: address.street,
+            zip: address.pincode,
+            city: address.city,
+            country: "India",
+          },
+    
+          information: {
+            number: address.phone,
+            date: new Date(details.creditedAt),
+            "due-date": "31-12-2021",
+          },
+    
+          products: [
+            {
+              quantity: details.productQuantity,
+              description: details.productName,
+              "tax-rate": 6,
+              price:  details.productPrice,
+            },
+          ],
+          // The message you would like to display on the bottom of your invoice
+          "bottom-notice": "Thank you for your order from Rapid Delux",
+          // Settings to customize your invoice
+          settings: {
+            currency: "INR", // See documentation 'Locales and Currency' for more info. Leave empty for no currency.
+          },
+          // Translate your invoice to your preferred language
+          translate: {},
+        };
+    
+        return data;
+      }
 
 
 

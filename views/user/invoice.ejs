@@ -1,0 +1,196 @@
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+<style>
+    .invoice-title h2, .invoice-title h3 {
+        display: inline-block;
+    }
+
+    .table > tbody > tr > .no-line {
+        border-top: none;
+    }
+
+    .table > thead > tr > .no-line {
+        border-bottom: none;
+    }
+
+    .table > tbody > tr > .thick-line {
+        border-top: 2px solid;
+    }
+
+    @page {
+        margin: 20mm 25mm;
+    }
+
+    @media print {
+        body {
+            margin: 0;
+            background-color: #FFF;
+            color: #000;
+            font-size: 10pt;
+        }
+
+        #invoicePart {
+            padding: 20mm 25mm;
+        }
+    }
+</style>
+
+<div class="container"  >
+    <div class="pb-4 pt-4 text-end">
+        <button class="btn btn-primary" onclick="downloadAsPDF()">Generate PDF</button>
+    </div>
+    <div id="invoicePart" style="background-color: white">
+
+
+            <div class="row ">
+                <div class="col-xs-12">
+
+                    <div class="invoice-title" style="padding:inherit">
+                        <h2>Invoice</h2>
+                        <h4 class="pull-right">Order #ID <%=response[0].orderID%>
+                        </h4>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-xs-6" >
+        <img src="assets/imgs/theme/mainlogo1.png" alt="logo" style="height: 10rem;width: 17rem;">
+                            
+                        </div>
+
+                        <div class="col-xs-6 text-end ">
+                            <address style="padding:inherit">
+                                <strong>Shipped To:</strong><br>
+                                <%=response[0].ShippingAddress.fname%>
+                                    <%=response[0].ShippingAddress.lname%> <br>
+                                        <%=response[0].ShippingAddress.housename%> <br>
+                                            <%=response[0].ShippingAddress.street%> ,
+                                                <%=response[0].ShippingAddress.city%> <br>
+                                                    <%=response[0].ShippingAddress.state%> <br>
+                                                        Pincode: <%=response[0].ShippingAddress.pincode%>
+                            </address>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <address style="padding:inherit">
+                                <strong>Payment Method:</strong><br>
+                                <%=response[0]. paymentMethod%><br>
+                                    <%=response[0].ShippingAddress.email%>
+                            </address>
+                        </div>
+                        <div class="col-xs-6 text-right">
+                            <address style="padding:inherit">
+                                <strong>Order Date:</strong><br>
+                                <%=response[0]. creditedAt.toLocaleString()%><br><br>
+                            </address>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><strong>Order summary</strong></h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table table-condensed">
+                                    <thead>
+                                        <tr>
+                                            <td><strong>No</strong></td>
+
+                                            <td><strong>Item</strong></td>
+                                            <td class="text-center"><strong>Price</strong></td>
+                                            <td class="text-center"><strong>Quantity</strong></td>
+                                            <td class="text-center"><strong>Totals</strong></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- foreach ($order->lineItems as $line) or some such thing here -->
+                                        <%response.forEach(function(response,index){%>
+                                            <tr>
+
+                                                <td>
+                                                    <%=index+1%>
+                                                </td>
+
+                                                <td>
+                                                    <h5>
+                                                        <%=response.productName%>
+                                                    </h5>
+
+                                                </td>
+                                                <td>
+                                                    <h5 class="text-center">₹ <%=response.productPrice%>
+                                                    </h5>
+
+                                                </td>
+                                                <td>
+                                                    <h5 class="text-center">
+                                                        <%=response.productQuantity%>
+                                                    </h5>
+
+                                                </td>
+                                                <td>
+                                                    <h5 class="text-center">
+                                                        ₹ <%=response.subTotal%>
+                                                    </h5>
+
+                                                </td>
+
+
+
+
+                                            </tr>
+
+                                            <%})%>
+                                                <tr>
+                                                    <td class="thick-line"></td>
+                                                    <td class="thick-line"></td>
+
+                                                    <td class="thick-line"></td>
+                                                    <td class="thick-line text-center"><strong>Subtotal</strong></td>
+                                                    <td class="thick-line text-center">₹ <%=response[0].totalPrice%>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="no-line"></td>
+                                                    <td class="no-line"></td>
+
+                                                    <td class="no-line"></td>
+                                                    <td class="no-line text-center"><strong>Shipping</strong></td>
+                                                    <td class="no-line text-center">Free</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="no-line"></td>
+                                                    <td class="no-line"></td>
+
+                                                    <td class="no-line"></td>
+                                                    <td class="no-line text-center"><strong>Total</strong></td>
+                                                    <td class="no-line text-center">₹ <%=response[0].totalPrice%>
+                                                    </td>
+                                                </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center pt-5 pb-4">
+                        <h5> "Thank you for your order from AristocraticStyle"</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function downloadAsPDF() {
+            const element = document.getElementById('invoicePart');
+            html2pdf().from(element).save();
+        }
+    </script>

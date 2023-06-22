@@ -86,6 +86,8 @@ router.post('/verify_payment',userCheckOutController.postVerifyPayment)
 
 router.post('/validateCode',userCheckOutController.validateCoupon)
 
+router.get('/invoice/:id',userProfileController.invoiceGenerator)
+
 
 
 

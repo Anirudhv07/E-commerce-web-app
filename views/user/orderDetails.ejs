@@ -1,9 +1,20 @@
 <section>
     <div class="container py-5 ">
         <h4 class=" text-center">Receipt</h4>
+        <div class="text-end pb-4">
+
+            <button type="button" class="btn btn-outline text-dark hover-up " ><a href="/invoice/<%=response[0].orderID%>"> Download Invoice</a></button>
+        </div>
         <div class="card ">
             <div class="card-header text-center">
                 <h5>Thank You for your order.<%=users.username%>!!!!</h5>
+            </div>
+            <div>
+                <%if(orderStatus[0].orderStatus=='ordered'){%>
+                    
+
+                   
+                            <%}%> 
             </div>
             <div class="card-body">
                 <div class="row">
@@ -217,4 +228,21 @@ function returnOrder(orderId){
         }}
     })
 }
+
+
+
+function invoiceCreator() {
+    //Import the library into your project
+    let data = JSON.parse(document.getElementById('roshan').innerHTML);
+    console.log(data);
+
+     
+
+    //Create your invoice! Easy!
+    easyinvoice.createInvoice(data, function (result) {
+      //The response will contain a base64 encoded PDF file
+      console.log("PDF base64 string: ", result.pdf);
+      easyinvoice.download("invoice.pdf");
+    });
+  }
 </script>

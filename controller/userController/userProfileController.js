@@ -28,8 +28,8 @@ console.log(response);
         const response= await orderHelpers.getOrderDetails(req.params.id,req.session.user.userId)
         const orderStatus=await orderHelpers.getOrderStatus(req.params.id,req.session.user.userId)
         const wishlistCount = await cartAndWishlistHelpers.getWishlistCount(req.session.user.userId);
-
-        console.log(orderStatus,'userrrrrrorderrrrrrrrr');
+     
+        
 
 
         console.log(response,'resssss');
@@ -74,6 +74,16 @@ console.log(response);
             console.log(response,'kikikiki');
             res.json(response)
         })
+    },
+    invoiceGenerator:async(req,res)=>{
+        const users=req.session.user
+
+        
+        await orderHelpers.getOrderDetails(req.params.id,req.session.user.userId).then((response)=>{
+            console.log(response,'ooooooooooo');
+            res.render('user/invoice',{layout:'invoiceLayout',response,users})
+        })
+
     }
    
 }
