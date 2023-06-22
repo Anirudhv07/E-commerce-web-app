@@ -24,7 +24,7 @@
                         <option value="cancelled">Cancel</option>
                       </select>
                     <a class="btn btn-primary" href="/admin/orderList">Save</a>
-                    <a class="btn btn-secondary print ms-2" href="#"><i class="icon material-icons md-print"></i></a>
+                    
                 </div>
             </div>
         </header> <!-- card-header end// -->
@@ -152,7 +152,12 @@
                         <h6 class="mb-15">Payment info</h6>
                         <%if(response[0].paymentMethod=='COD'){%>
                             <p>Cash On Delivery</p>
-                        <%} %>
+                        <%}else if(response[0].paymentMethod=='online'){%>
+                            <p>Online</p>
+                        <%}else if(response[0].paymentMethod=='wallet'){%>
+                            <p>Wallet</p>
+                            
+                            <%} %>
                         <!-- <p>
                             <img src="assets/imgs/card-brands/2.png" class="border" height="20"> Master Card **** **** 4768 <br>
                             Business name: Grand Market LLC <br>

@@ -128,6 +128,13 @@ module.exports = {
           console.error(error);
           throw error;
         });
+      },
+      productCount:()=>{
+        return new Promise(async(resolve,reject)=>{
+            await user.product.find().count().then((response)=>{
+                resolve(response)
+            })
+        })
       }
       
     

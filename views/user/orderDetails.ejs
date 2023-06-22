@@ -1,20 +1,22 @@
 <section>
     <div class="container py-5 ">
         <h4 class=" text-center">Receipt</h4>
+        <%if(orderStatus[0].orderStatus=='delivered'){%>
         <div class="text-end pb-4">
 
             <button type="button" class="btn btn-outline text-dark hover-up " ><a href="/invoice/<%=response[0].orderID%>"> Download Invoice</a></button>
         </div>
+        <%}%> 
         <div class="card ">
             <div class="card-header text-center">
                 <h5>Thank You for your order.<%=users.username%>!!!!</h5>
             </div>
             <div>
-                <%if(orderStatus[0].orderStatus=='ordered'){%>
+                
                     
 
                    
-                            <%}%> 
+                           
             </div>
             <div class="card-body">
                 <div class="row">

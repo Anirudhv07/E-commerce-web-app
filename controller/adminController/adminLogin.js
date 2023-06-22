@@ -1,10 +1,14 @@
 const adminHelpers = require("../../helpers/adminHelpers/adminLoginHelpers")
+const adminProductHelper = require('../../helpers/adminHelpers/adminProductHelpers')
+const adminOrderHelpers = require('../../helpers/adminHelpers/adminOrderListHelper')
+
+
 
 module.exports = {
     getAdminLogin: (req, res, next) => {
         admin = req.session.admin
         if (req.session.adminloggedIn) {
-            res.render("admin/dashboard", { layout: "adminLayout", admin });
+            res.redirect('/admin/dashboard')
         } else {
 
             res.render('admin/login', { layout: 'adminEmptyLayout', admin })
@@ -18,7 +22,7 @@ module.exports = {
             req.session.admin = response
             admin = req.session.admin
 
-            res.render('admin/dashboard', { layout: "adminLayout", response, admin })
+            res.redirect('/admin/dashboard', { layout: "adminLayout", response, admin })
         }).catch((err) => {
             res.redirect('/admin')
         })
@@ -30,15 +34,46 @@ module.exports = {
         res.redirect('/admin')
 
     },
-    getAdminDashboard: (req, res, next) => {
+    getAdminDashboard: async (req, res, next) => {
+        let catName = []
+        let catCount = []
+        let dates=[]
+        let dateCount=[]
         if (req.session.adminloggedIn) {
             let admin = req.session.admin
+            const totalProduct = await adminProductHelper.productCount()
+            const totalOrders = await adminOrderHelpers.orderCount()
+            const orderCount = totalOrders.length
+            const totalRevenue = await adminOrderHelpers.totalRevenue()
+            const cod = await adminOrderHelpers.codCount()
+            const wallet = await adminOrderHelpers.walletCount()
+            const online = await adminOrderHelpers.onlineCount()
+            const codCount = cod.length
+            const walletCount = wallet.length
+            const onlineCount = online.length
+            const categoryResult = await adminOrderHelpers.categoryOrder()
+            const categoryCount = categoryResult
+            categoryCount.forEach(function (category) {
+                catName.push(category._id)
+                catCount.push(category.count)
+            })
+            const orderByDays=await adminOrderHelpers.byDays()
+            orderByDays.forEach(function(response){
+                dates.push(response._id)
+                dateCount.push(response.count)
+            })
+            console.log(orderByDays);
 
-            res.render('admin/dashboard', { layout: "adminLayout", admin })
+
+            
+
+
+            console.log(totalRevenue, 'kooo');
+            res.render('admin/dashboard', { layout: "adminLayout",dates,dateCount, catName,orderByDays, catCount, codCount, categoryCount, walletCount, onlineCount, totalRevenue, orderCount, totalProduct, admin, totalProduct })
 
         } else {
             res.redirect('/admin')
         }
     }
-   
+
 }
