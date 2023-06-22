@@ -112,6 +112,7 @@ module.exports = {
             let total=await userCheckOutHelper.totalCheckOutAmount(req.session.user.userId)
             let subtotal = await userCheckOutHelper.subtotal(req.session.user.userId);
 
+            req.session.sterin='aniruuuuu'
 
 
 
@@ -139,7 +140,8 @@ module.exports = {
             await cartAndWishlistHelpers.listWishlist(req.session.user.userId).then((wishlistItems)=>{
                 console.log(wishlistItems,users,wishlistCount,'wiiiiiiiiiiiiiiiii');
               
-    
+               let aro= req.session.sterin
+               console.log(aro,'arooooooooo');
                 res.render('user/wishlist',{layout:'layout',wishlistItems,users,wishlistCount,count})
             })
 

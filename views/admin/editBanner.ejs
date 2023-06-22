@@ -128,7 +128,7 @@ const titleError = document.getElementById('titleerror')
 
     form.addEventListener('submit', (event) => {
         event.preventDefault()
-        if (!validateTitle() || !validateDescription()|| !validateImage() ) {
+        if (!validateTitle() || !validateDescription()) {
             Swal.fire({
                 icon: 'error',
                 title: 'Enter details correctly!!'

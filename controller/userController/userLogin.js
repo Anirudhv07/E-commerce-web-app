@@ -16,6 +16,7 @@ module.exports = {
 
                 const count = await cartAndWishlistHelper.getCartCount(req.session.user.userId);
                 const response = await userHelpers.homePage();
+                console.log(banner,'baaaaaaaa');
                 res.render('user/home', { layout: "layout", users, userExist: true, response, count,wishlistCount,banner });
             } else {
                 res.render('user/login', { layout: "emptylayout", userExist: false });

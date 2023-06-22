@@ -360,35 +360,42 @@
     }
     let deletedImages = [];
 
-function deleteImage(index,productId) {
-    console.log(productId,'proooo');
-$.ajax({
-    url:'/admin/deleteImageEditProduct',
-    data:{
-        index:index,
-        productId:productId
-    },
-    method:'delete',
-    success:(response)=>{
-        console.log(response,'deletedd');
-        const image = document.getElementById(`productImage${index}`);
-        image.src = ''; // Clear the image source to remove the image
-        const fileInput = document.querySelector(`input[name="image${index + 1}"]`);
-        fileInput.value = ''; // Clear the file input value
-        deletedImages.push(index + 1); // Store the index of the deleted image in the array
-        updateDeletedImagesInput();
-    }
-})
+    function deleteImage(index, productId) {
+    console.log(productId, 'proooo');
+    $.ajax({
+        url: '/admin/deleteImageEditProduct',
+        data: {
+            index: index,
+            productId: productId
+        },
+        method: 'delete',
+        success: (response) => {
+            console.log(response, 'deletedd');
+            const image = document.getElementById(`productImage${index}`);
+            image.src = ''; // Clear the image source to remove the image
+            const fileInput = document.querySelector(`input[name="image${index + 1}"]`);
+            fileInput.value = ''; // Clear the file input value
+            deletedImages.push(index + 1); // Store the index of the deleted image in the array
+            updateDeletedImagesInput();
+        }
+    })
 }
 
 function updateDeletedImagesInput() {
-    
-  const deletedImagesInput = document.getElementById('deletedImages');
-  
-  deletedImagesInput.value = deletedImages.join(','); // Set the deleted images as a comma-separated string
-  console.log(deletedImagesInput.value,'kkkkkkkkkkkkkkkkkk');
-  
+    const deletedImagesInput = document.getElementById('deletedImages');
+    deletedImagesInput.value = deletedImages.join(','); // Set the deleted images as a comma-separated string
+    localStorage.setItem('deletedImages', JSON.stringify(deletedImages)); // Store the deletedImages array in localStorage
+    console.log(deletedImagesInput.value, 'kkkkkkkkkkkkkkkkkk');
 }
+
+// On page load, retrieve the deletedImages array from localStorage (if available)
+window.addEventListener('load', () => {
+    const storedDeletedImages = localStorage.getItem('deletedImages');
+    if (storedDeletedImages) {
+        deletedImages = JSON.parse(storedDeletedImages);
+        updateDeletedImagesInput();
+    }
+});
 
 
 
