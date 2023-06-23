@@ -12,11 +12,9 @@ module.exports = {
                 const users = req.session.user;
             const wishlistCount = await cartAndWishlistHelper.getWishlistCount(req.session.user.userId);
             const banner=await adminBannerHelpers.getBanner() 
-            console.log(banner,'boooo');
 
                 const count = await cartAndWishlistHelper.getCartCount(req.session.user.userId);
                 const response = await userHelpers.homePage();
-                console.log(banner,'baaaaaaaa');
                 res.render('user/home', { layout: "layout", users, userExist: true, response, count,wishlistCount,banner });
             } else {
                 res.render('user/login', { layout: "emptylayout", userExist: false });
@@ -70,7 +68,6 @@ module.exports = {
             res.redirect('/')
 
         }).catch((error) => {
-            console.log(error);
             
 
             res.render('user/login', { layout: "emptylayout", error })

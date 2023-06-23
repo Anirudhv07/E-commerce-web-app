@@ -7,7 +7,6 @@ module.exports = {
 
             adminProductHelper.getProductList().then((response) => {
                 const admin = req.session.admin
-                // console.log(response);
                 res.render('admin/productList', { layout: 'adminLayout', response, admin })
 
             })
@@ -36,7 +35,6 @@ module.exports = {
     postAddProducts: (req, res) => {
         const images = req.files.map((files) => files.filename)
 
-        // console.log(images);
 
 
         adminProductHelper.postAddProduct(req.body, images).then((response) => {
@@ -105,7 +103,6 @@ module.exports = {
 
     },
     deleteEditProductImage:async(req,res)=>{
-        console.log(req.body,'paraam');
         await adminProductHelper.deleteEditProductImage(req.body.index,req.body.productId).then((response)=>{
             res.json(response)
         })

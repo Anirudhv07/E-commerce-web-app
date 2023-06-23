@@ -14,7 +14,6 @@ module.exports = {
        const userDetails=await userProfileHelpers.getUserDetails(req.session.user.userId)
        const userAddress=await userProfileHelpers.getUserAddress(req.session.user.userId)
        const wishlistCount = await cartAndWishlistHelpers.getWishlistCount(req.session.user.userId);
-console.log(response);
     
        
         res.render('user/profile',{layout:'layout',users,response,count,userDetails,userAddress,wishlistCount})
@@ -32,20 +31,16 @@ console.log(response);
         
 
 
-        console.log(response,'resssss');
         res.render('user/orderDetails',{layout:'layout',response,count,users,orderStatus,wishlistCount})
     },
     putCancelOrder:async(req,res)=>{
         await orderHelpers.cancelOrder(req.params.id).then((response)=>{
-            console.log(response);
             res.json(response)
         })
     },
     putReturnOrder:async(req,res)=>{
-        console.log(req.params,'paraaaaaaaaaa');
         await orderHelpers.returnOrder(req.params.id).then(async(response)=>{
             await orderHelpers.returnWalletAmount(req.params.id,req.session.user.userId)
-            console.log(response);
             res.json(response)
         })
     },
@@ -71,7 +66,6 @@ console.log(response);
         
 
         await userProfileHelpers.deleteNewAddress(addressId,req.session.user.userId).then((response)=>{
-            console.log(response,'kikikiki');
             res.json(response)
         })
     },
@@ -80,7 +74,6 @@ console.log(response);
 
         
         await orderHelpers.getOrderDetails(req.params.id,req.session.user.userId).then((response)=>{
-            console.log(response,'ooooooooooo');
             res.render('user/invoice',{layout:'invoiceLayout',response,users})
         })
 

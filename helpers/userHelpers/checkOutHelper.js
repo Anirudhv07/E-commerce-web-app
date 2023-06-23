@@ -45,7 +45,6 @@ module.exports = {
 
             ]).then((total) => {
 
-                console.log(total, 'klkklkl');
                 resolve(total[0]?.total)
             })
         })
@@ -182,7 +181,6 @@ module.exports = {
                 }
             ])
                 .then((address) => {
-                    console.log(address,'addresssss');
                     resolve(address)
                 })
         })
@@ -199,7 +197,6 @@ module.exports = {
        
          
         ]).then((response)=>{
-          console.log(response,'ttttttttttt');
           resolve(response)
           
         })

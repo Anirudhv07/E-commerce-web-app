@@ -45,7 +45,6 @@ module.exports = {
              const response=await userProductHelpers.shopListProducts(pageNum)
              
           
-            console.log(category,'cate');
             if (req.query?.search || req.query?.sort || req.query?.filter) {
                 const { product, noProductFound } = await userProductHelpers.getQueriesOnShop(req.query,page)
                 noProductFound ?
@@ -55,7 +54,6 @@ module.exports = {
             } else {
                 let currentPage = 1
                 const { product, totalPages } = await userProductHelpers.getAllProducts(page, perPage);
-                console.log(product,'pooopp');
                 
                 if (product?.length != 0)
                     req.session.noProductFound = false
@@ -112,13 +110,12 @@ module.exports = {
             let total=await userCheckOutHelper.totalCheckOutAmount(req.session.user.userId)
             let subtotal = await userCheckOutHelper.subtotal(req.session.user.userId);
 
-            req.session.sterin='aniruuuuu'
+           
 
 
 
             
             await cartAndWishlistHelpers.listCart(req.session.user.userId).then((cartItems)=>{
-                console.log(subtotal);
     
                 res.render('user/cart',{layout:'layout',cartItems,users,count,total,wishlistCount,subtotal})
             })
@@ -138,10 +135,8 @@ module.exports = {
             const wishlistCount = await cartAndWishlistHelpers.getWishlistCount(req.session.user.userId);
                    
             await cartAndWishlistHelpers.listWishlist(req.session.user.userId).then((wishlistItems)=>{
-                console.log(wishlistItems,users,wishlistCount,'wiiiiiiiiiiiiiiiii');
               
                let aro= req.session.sterin
-               console.log(aro,'arooooooooo');
                 res.render('user/wishlist',{layout:'layout',wishlistItems,users,wishlistCount,count})
             })
 
@@ -154,12 +149,10 @@ module.exports = {
     postChangeQuantity:async(req,res)=>{
      
         await cartAndWishlistHelpers.changeProQuantity(req.body).then(async(response)=>{
-            console.log(req.session.user);
             response.total=await userCheckOutHelper.totalCheckOutAmount(req.session.user.userId)
             response.subtotal = await userCheckOutHelper.subtotal(req.session.user.userId);
 
 
-           console.log(response);
             res.json(response)
         })
     },

@@ -9,7 +9,6 @@ module.exports={
     getOrderList:async(req,res)=>{
         const admin=req.session.admin
         const response=await adminOrderHelpers.getOrderList()
-        console.log(response,'ressssssssssssssssssssss');
         
         res.render('admin/orderList',{layout:'adminLayout',response,admin})
     },
@@ -20,7 +19,6 @@ module.exports={
         
         const response = await adminOrderHelpers.getOrderDetails(orderId, userId);
         
-        console.log(response,'orderrrrrrrrrr')
         res.render('admin/orderDetails', { layout: 'adminLayout', admin, response });
     },
     putOrderStatus:(req,res)=>{

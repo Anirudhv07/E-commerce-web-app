@@ -40,14 +40,12 @@ module.exports={
         })
     },
     postEditBanner:(req,res)=>{
-        console.log(req.body);
+        
        
         adminBannerHelpers.postEditBanner(req.params.id,req.body,req?.file?.filename).then((response) => {
             res.redirect('/admin/bannerList')
         })
     },
-    allBanner:()=>{
-        a
-    }
+  
    
 }

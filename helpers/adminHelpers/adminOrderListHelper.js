@@ -71,18 +71,15 @@ module.exports = {
 
 
             ]).then((response) => {
-                console.log(response);
                 resolve(response)
 
             })
         })
     },
     putOrderStatus: (orderStatus) => {
-        console.log(orderStatus, 'oooooooooooooooooooooooor');
         return new Promise(async (resolve, reject) => {
             await user.order.updateOne({ 'orders._id': orderStatus.orderId }, { $set: { 'orders.$.orderConfirm': orderStatus.status } })
                 .then((response) => {
-                    console.log(response);
                     resolve({ update: true });
                 })
         })
@@ -147,13 +144,11 @@ module.exports = {
                 }
 
             ]).then((response) => {
-                console.log(response, 'rrrrrrrrrr');
                 resolve(response)
             })
         })
     },
     dateFilter: (date) => {
-        console.log(date, 'datataa');
         const start = new Date(date.startdate)
         const end = new Date(date.enddate)
 
@@ -420,7 +415,6 @@ module.exports = {
                     }
                 ]
             ]).then((response) => {
-                console.log(response, 'lololo');
                 resolve(response)
             })
 

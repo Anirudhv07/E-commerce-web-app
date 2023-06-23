@@ -9,7 +9,6 @@ module.exports = {
             const admin = req.session.admin
             adminCategoryHelper.viewCategory().then((response) => {
                 var viewCategory = response
-                console.log(viewCategory,'categoryyy');
                 
                 res.render('admin/addCategory', { layout: 'adminLayout', admin, viewCategory ,categoryExist:req.session.categoryExist})
                 req.session.categoryExist=null
@@ -35,7 +34,6 @@ module.exports = {
             })
             .catch((error) => {
                 // Handle any errors that occur during the category addition
-                console.error(error);
                 res.redirect('/admin/addCategory');
             });
     },

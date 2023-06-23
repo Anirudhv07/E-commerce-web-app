@@ -14,6 +14,7 @@
                     </span> <br>
                     <small class="text-muted">Order ID:  <%=response[0].orderId%></small>
                 </div>
+                <%if(response[0]. orderConfirm!='returned'){%>
                 <div class="col-lg-6 col-md-6 ms-auto text-md-end">
                     <select class="form-select d-inline-block mb-lg-0 mb-15 mw-200" onchange="changeOrderStatus( '<%=response[0].orderId%>',this.value)">
                         <option value="">Change status</option>
@@ -26,6 +27,7 @@
                     <a class="btn btn-primary" href="/admin/orderList">Save</a>
                     
                 </div>
+                <%}%>
             </div>
         </header> <!-- card-header end// -->
         <div class="card-body">

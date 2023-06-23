@@ -19,7 +19,6 @@ module.exports = {
     putBlockUser: async (req, res) => {
         if (req.session.adminloggedIn) {
 
-            // console.log(req.body);
             const condition = JSON.parse(req.body.condition)
             const proId = req.body.proId
             await adminUserHelper.blockedUser(proId, condition).then(() => {

@@ -62,7 +62,6 @@ module.exports = {
                 dates.push(response._id)
                 dateCount.push(response.count)
             })
-            console.log(orderByDays);
 
 
             

@@ -52,7 +52,6 @@ module.exports = {
         }
     },
     postAddAddress:async(req,res)=>{
-        console.log(req.body);
         if(req.session.loggedIn){
             const users = req.session.user
     
@@ -69,7 +68,6 @@ module.exports = {
         }
     },
     postNewAddAddress:async(req,res)=>{
-        console.log(req.body);
         if(req.session.loggedIn){
             const users = req.session.user
     
@@ -106,7 +104,6 @@ module.exports = {
         const total=req.body.couponTotal
         const discountAmount=req.body.discountAmount
         const cartProductQuantity=await userCheckOutHelper.getEachProduct(req.session.user.userId)
-        console.log(cartProductQuantity);
         
         const couponName= req.body.couponCode
         if(couponName===""){
@@ -150,14 +147,12 @@ module.exports = {
         res.render('user/orderSuccess',{layout:'layout',users,count,wishlistCount})
     },
     postVerifyPayment:async(req,res)=>{
-        console.log(req.body)
         await orderHelpers.verifyPayment(req.body).then(async()=>{
            await orderHelpers.changePaymentStatus(req.body["order[reciept]"]).then(()=>{
                 res.json({status:true})
             })
 
         }).catch((err)=>{
-            console.log(err)
             res.json({status:false,errMsg:''});
         })
     },
@@ -166,7 +161,6 @@ module.exports = {
         let total=await userCheckOutHelper.totalCheckOutAmount(req.session.user.userId)
 
         orderHelpers.validateCouponCode(code,total,req.session.user.userId).then((response)=>{
-            console.log(response,'disssssssssssssssssss');
             res.json(response)
         })
     }

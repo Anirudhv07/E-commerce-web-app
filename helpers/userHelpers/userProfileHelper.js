@@ -32,7 +32,6 @@ module.exports={
                 {$match:{'Address._id':new ObjectId(addressId)}}
 
             ]).then((response)=>{
-                console.log(response);
                 resolve(response)
             })
         })
@@ -51,13 +50,11 @@ module.exports={
             email:userData.email
 
         }
-        console.log(address,addressId,userId,'llllllllllllllllllllllllll');
         return new Promise(async(resolve,reject)=>{
             await dbuser.address.updateOne(
                 {  user: new ObjectId(userId),'Address._id':new ObjectId(addressId) },
                 { $set: { 'Address.$': address } }
               ).then((response)=>{
-                console.log(response);
                 resolve(response)
             })
         })

@@ -21,7 +21,7 @@ module.exports={
 
     },
     postGenerateCoupon:(req,res)=>{
-        console.log(req.body);
+       
         adminCouponHelper.newCoupon(req.body).then((response)=>{
             res.json(response)
         })

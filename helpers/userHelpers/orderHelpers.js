@@ -156,7 +156,19 @@ module.exports = {
                 await user.product.updateOne({_id:quantity.productId},{
                     $inc:{Quantity:-quantity.cartQuantity}
                 })
-
+                try {
+                    const response = await user.product.findOne({ _id: quantity.productId });
+                    console.log(response, 'proQuan');
+                  
+                    if (response.Quantity <= 0) {
+                      await user.product.findOneAndUpdate(
+                        { _id: quantity.productId },
+                        { $set: { Quantity: 0 } }
+                      );
+                    }
+                  } catch (error) {
+                  }
+                  
                
             })
             return
@@ -260,7 +272,6 @@ module.exports = {
                 }
 
             ]).then((response) => {
-console.log(response,'lopopoppopo');
                 resolve(response)
             })
         })
@@ -295,10 +306,8 @@ console.log(response,'lopopoppopo');
         })
     },
     cancelOrder: (orderId) => {
-        console.log(orderId, 'oooooooooooooooooor');
         return new Promise(async (resolve, reject) => {
             await user.order.updateOne({ 'orders._id': orderId }, { $set: { 'orders.$.orderConfirm': 'cancelled' } }).then((response) => {
-                console.log(response);
                 resolve(response);
             });
         });
@@ -307,7 +316,6 @@ console.log(response,'lopopoppopo');
        
         return new Promise(async (resolve, reject) => {
             await user.order.updateOne({ 'orders._id': orderId }, { $set: { 'orders.$.orderConfirm': 'returned' } }).then((response) => {
-                console.log(response);
                 resolve(response);
             });
         });
@@ -358,11 +366,9 @@ console.log(response,'lopopoppopo');
                 {$inc:{wallet:-total}})
         }).then((response)=>{
            
-            resolve(response)
         })
     },
     verifyPayment: (details) => {
-        console.log(details,'deeeeeeeeeeeeeeeeee');
         return new Promise((resolve, reject) => {
             const crypto = require("crypto");
             let hmac = crypto.createHmac("sha256", 'fEyxM29Rrx1eiAHLQeXCOnep');
@@ -381,7 +387,6 @@ console.log(response,'lopopoppopo');
         })
     },
     changePaymentStatus:(orderId)=>{
-        console.log(orderId,'ooooooooooooooooooorrrrr');
         return new Promise(async(resolve,reject)=>{
            await user.order.updateOne({"orders._id":orderId},
                 {
@@ -390,13 +395,11 @@ console.log(response,'lopopoppopo');
                         "orders.$.paymentStatus": "paid",
                       },
                 }).then((result)=>{
-                    console.log(result,'resssssssssssss');
                     resolve()
                 })
         })
     },
     validateCouponCode:(code,total,userId)=>{
-        console.log(code,'wallettttttttt');
         return new Promise(async(resolve,reject)=>{
             let discountAmount
             let couponTotal
@@ -443,15 +446,12 @@ console.log(response,'lopopoppopo');
         return new Promise(async(resolve,reject)=>{
             await user.user.updateOne({_id:userId},
                 {$push:{coupons:couponName}}).then((response)=>{
-                    console.log(response)
                     resolve(response)
                 })
         })
     },
     createData: (details) => {
-        console.log(details,'jjjjjjj');
         let address = details[0].ShippingAddress;
-       console.log(address,'adsdd');
     
         var data = {
           // Customize enables you to provide your own templates

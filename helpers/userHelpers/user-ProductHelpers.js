@@ -44,13 +44,11 @@ module.exports = {
     filterCategory:(catName)=>{
         return new Promise(async(resolve,reject)=>{
             await dbuser.product.find({Category:catName}).then((response)=>{
-                console.log(response,'filterrrrrrrrrrr');
                 resolve(response)
             })
         })
     },
     getQueriesOnShop: (query) => {
-        console.log(query,'queeeeeeeeeeeeeeeee');
         const search = query?.search
         const sort = query?.sort
         const filter = query?.filter
@@ -58,7 +56,6 @@ module.exports = {
         perPage=6
     
 
-        console.log(filter,'filll');
 
 
         return new Promise(async (resolve, reject) => {
@@ -69,7 +66,6 @@ module.exports = {
                 filterObj = { Category : filter }
          
             }
-            console.log(filterObj, 'filterObj');
 
             //Building search query
 
@@ -93,9 +89,9 @@ module.exports = {
             } else if (sort === 'createdAt') {
                 sortObj = { createdAt: 1 };
             } else if (sort === '-price') {
-                sortObj = { Price: -1 };
+                sortObj = { offerPrice: -1 };
             } else if (sort === 'price') {
-                sortObj = { Price: 1 };
+                sortObj = { offerPrice: 1 };
             }
 
             
@@ -110,7 +106,6 @@ module.exports = {
                 
                 
 
-                console.log(product,'proo');
 
             const totalProducts = await dbuser.product.countDocuments({
                 ...searchQuery,
@@ -122,7 +117,6 @@ module.exports = {
             //    console.log(sortObj,'sortObj');
             //    console.log(skip,'skip');
             //    console.log(product,'product');
-            console.log(totalProducts, 'totalProducts');
 
            
             if (product.length == 0) {

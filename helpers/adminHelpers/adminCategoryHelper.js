@@ -2,7 +2,6 @@ const user = require('../../schema/dbSchma')
 
 module.exports = {
     addCategory: async (categoryname, subcategoryname) => {
-        console.log(subcategoryname,'subbbbbb');
         try {
             return await new Promise(async (resolve, reject) => {
                 try {

@@ -7,7 +7,6 @@ const ObjectId = require('mongodb').ObjectId
 module.exports = {
     addtoCart: (proId, userId, count) => {
 
-        console.log(userId, 'uiuiuiu');
         let proObj = {
             productId: proId,
             Quantity: 1
@@ -23,7 +22,6 @@ module.exports = {
                     const cartProduct = await user.cart.findOne({ user: userId, 'cartItems.productId': proId });
                     const cartItem = cartProduct.cartItems.find(item => item.productId.toString() === proId.toString());
 
-                    console.log(cartItem); // Output the matching cart item
 
 
 
@@ -72,7 +70,6 @@ module.exports = {
     },
     addtoWishlist: (proId, userId, wishlistCount) => {
 
-        console.log(userId, 'uiuiuiu');
         let proObj = {
             productId: proId,
 
@@ -81,7 +78,6 @@ module.exports = {
             let wishlist = await user.wishlist.findOne({ user: userId })
             if (wishlist) {
                 let productExist = wishlist.wishlistItems.findIndex((wishlistItems) => wishlistItems.productId == proId)
-                console.log(productExist, 'porrrrrrrrrrrrr');
 
                 if (productExist == -1) {
                     user.wishlist
@@ -190,7 +186,6 @@ module.exports = {
             if (cart) {
 
                 count = cart.cartItems.length
-                console.log(count, 'kooooooooooo');
 
             }
 
@@ -204,7 +199,6 @@ module.exports = {
             if (wishlist) {
 
                 wishlistCount = wishlist.wishlistItems.length
-                console.log(wishlistCount, 'kooooooooooo');
 
             }
 
@@ -214,7 +208,6 @@ module.exports = {
     changeProQuantity: (details) => {
         const userId=details.user
         const proId=details.product
-        console.log(userId,proId,details,'proooooooiiii');
 
         const quantity = parseInt(details.quantity)
         const count = parseInt(details.count)
@@ -224,7 +217,6 @@ module.exports = {
                     {
                         $pull: { cartItems: { productId: details.product } }
                     }).then((response) => {
-                        console.log(response);
                         resolve({ removeProduct: true })
                     })
             } else {
@@ -284,9 +276,5 @@ module.exports = {
         })
 
     },
-    // getWishList:()=>{
-    //     return new Promise(async(resolve,reject)=>{
-    //         user.
-    //     })
-    // }
+  
 }

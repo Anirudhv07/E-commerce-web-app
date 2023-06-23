@@ -25,7 +25,6 @@ module.exports = {
         
         if(userData.productOfferPercentage!=0){
             offerPrice=Math.floor(userData.productPrice-(userData.productPrice * userData.productOfferPercentage)/100)
-            console.log(offerPrice,'offfff');
         }
 
         return new Promise((resolve, reject) => {
@@ -67,7 +66,6 @@ module.exports = {
         
         if(userData.productOfferPercentage!=0){
             offerPrice=Math.floor(userData.productPrice-(userData.productPrice * userData.productOfferPercentage)/100)
-            console.log(offerPrice,'offfff');
         }
         return new Promise(async (resolve, reject) => {
             await user.product.updateOne({ _id: id },
@@ -117,7 +115,6 @@ module.exports = {
             // Save the updated product
             const updatedProduct = await product.save();
       
-            console.log(updatedProduct, 'image deleted');
       
             resolve(updatedProduct);
           } catch (error) {
@@ -125,7 +122,6 @@ module.exports = {
           }
         }).catch((error) => {
           // Handle the error here
-          console.error(error);
           throw error;
         });
       },
