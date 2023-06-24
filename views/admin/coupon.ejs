@@ -14,7 +14,7 @@
         <div class="card-header">
             <div class="row align-items-center">
                 <div class="table-responsive ">
-                    <table class="table table-nowrap ">
+                    <table class="table table-nowrap " id="couponList">
                         <thead>
                             <tr>
                                 <th>No</th>
@@ -87,6 +87,9 @@
 </section> 
 
 <script>
+      $(document).ready( function () {
+      $('#couponList').DataTable();
+  } )
     function deleteCoupon(couponId){
         console.log(couponId,'kkkkkkkk')
         $.ajax({

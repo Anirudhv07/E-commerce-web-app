@@ -10,7 +10,7 @@
         <div class="card-header">
             <div class="row align-items-center">
                 <div class="table-responsive ">
-                    <table class="table table-nowrap ">
+                    <table class="table table-nowrap " id="userList">
                         <thead>
                             <tr>
                                 <th>No</th>
@@ -78,6 +78,9 @@
 
 
     <script>
+         $(document).ready( function () {
+      $('#userList').DataTable();
+  } )
         function blockUser(proId, condition) {
             $.ajax({
                 url: '/admin/blockUser/',

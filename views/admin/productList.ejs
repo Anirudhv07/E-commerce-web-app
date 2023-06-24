@@ -13,7 +13,7 @@
         <div class="card-header">
             <div class="row align-items-center">
                 <div class="table-responsive ">
-                    <table class="table table-nowrap ">
+                    <table class="table table-nowrap " id="productList">
                         <thead>
                             <tr>
                                 <th>No</th>
@@ -76,6 +76,9 @@
 
 
 <script>
+       $(document).ready( function () {
+      $('#productList').DataTable();
+  } )
     function unlistProduct(proId, condition) {
         $.ajax({
             url: '/admin/unListProduct/',

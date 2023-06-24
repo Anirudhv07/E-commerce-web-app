@@ -48,7 +48,7 @@
                 </div>
                 <div class="col-md-9">
                     <div class="table-responsive">
-                        <table class="table table-hover">
+                        <table class="table table-hover" id="categoryList">
                             <thead>
                                 <tr>
                                     <!-- <th class="text-center">
@@ -116,6 +116,9 @@
 
 
 <script>
+      $(document).ready( function () {
+      $('#categoryList').DataTable();
+  } )
     
     function unlistCategory(catId,catName, condition) {
       
