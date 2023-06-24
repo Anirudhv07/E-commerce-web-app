@@ -58,7 +58,6 @@ router.post('/addAddress',userCheckOutController.postAddAddress)
 
 router.post('/addNewAddress',userCheckOutController.postNewAddAddress)
 
-
 router.get('/orderSuccess',auths.userauth,auths.userBlockBug,userCheckOutController.getOrderSuccess)
 
 router.get('/profile',auths.userauth,auths.userBlockBug,userProfileController.getUserProfile)
@@ -72,9 +71,6 @@ router.put('/returnOrder/:id',userProfileController.putReturnOrder)
 router.get('/addNewAddress',auths.userauth,auths.userBlockBug,userCheckOutController.getNewAddAddress)
 
 router.post('/filterCategory',userProductController.postFilterCategory)
-
-
-
 
 router.get('/editNewAddress/:id',auths.userauth,auths.userBlockBug,userProfileController.getEditAddress)
 

@@ -99,35 +99,39 @@
                                         </div>
                                         <div class="form-check" id="walletAmountfinal">
                                             <%if(wallet>total){%>
-                                            <input class="form-check-input" type="radio" name="payment-method" value="wallet" >
-                                            <label class="form-check-label" for="flexRadioDefault1">
-                                              Wallet
-                                            </label>
-                                            <%}else{%>
-                                                <p class="text-danger">Low Balance</p>
-                                                <input class="form-check-input" type="radio" name="payment-method" value="wallet" disabled>
-                                            <label class="form-check-label" for="flexRadioDefault1" >
-                                              Wallet
-                                            </label>
-                                            <%}%>
-                                          </div>
+                                                <input class="form-check-input" type="radio" name="payment-method"
+                                                    value="wallet">
+                                                <label class="form-check-label" for="flexRadioDefault1">
+                                                    Wallet
+                                                </label>
+                                                <%}else{%>
+                                                    <p class="text-danger">Low Balance</p>
+                                                    <input class="form-check-input" type="radio" name="payment-method"
+                                                        value="wallet" disabled>
+                                                    <label class="form-check-label" for="flexRadioDefault1">
+                                                        Wallet
+                                                    </label>
+                                                    <%}%>
+                                        </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="payment-method" value="online" >
+                                            <input class="form-check-input" type="radio" name="payment-method"
+                                                value="online">
                                             <label class="form-check-label" for="flexRadioDefault1">
-                                              Online payment
+                                                Online payment
                                             </label>
-                                          </div>
+                                        </div>
                                         <div class="form-group">
                                             <input name="user" value="<%=users.userId%>" type="hidden">
                                             <input name="couponTotal" id="couponTotal" value="<%=total%>" type="hidden">
-                                            <input name="walletTotal" id="walletTotal" value="<%=wallet%>" type="hidden">
+                                            <input name="walletTotal" id="walletTotal" value="<%=wallet%>"
+                                                type="hidden">
 
-                                            
-                                            
-                                            <input name="discountAmount" id="discountAmount"  type="hidden">
-                                            <input name="couponCode" id="couponCode"  type="hidden">
 
-                 
+
+                                            <input name="discountAmount" id="discountAmount" type="hidden">
+                                            <input name="couponCode" id="couponCode" type="hidden">
+
+
 
 
 
@@ -189,8 +193,9 @@
                                         </tr>
                                         <tr>
                                             <th>Total</th>
-                                            <td colspan="2" class="product-subtotal" ><span
-                                                    class="font-xl text-brand fw-900" id="maintotal" >₹ <%=total%></span></td>
+                                            <td colspan="2" class="product-subtotal"><span
+                                                    class="font-xl text-brand fw-900" id="maintotal">₹ <%=total%></span>
+                                            </td>
                                         </tr>
                             </tbody>
                         </table>
@@ -200,18 +205,19 @@
                     <div class="panel-body ">
                         <p class="mb-30 font-sm">If you have a coupon code, please apply it below.</p>
                         <form method="post">
-                            
+
 
                             <div class="form-group">
                                 <input type="text" id="enteredCoupon" placeholder="Enter Coupon Code...">
-                                <h5 class="pt-4 text-success" id="discountCurrentAmount" ></h5><br>
-                                <span class="text-primary" id="successCoupon" ></span>
-                                <span class="text-danger" id="errCoupon" ></span>
+                                <h5 class="pt-4 text-success" id="discountCurrentAmount"></h5><br>
+                                <span class="text-primary" id="successCoupon"></span>
+                                <span class="text-danger" id="errCoupon"></span>
 
 
                             </div>
                             <div class="form-group">
-                                <button type="button" class="btn btn-md" onclick="validateCoupon('<%=total%>')" name="login">Apply Coupon</button>
+                                <button type="button" class="btn btn-md" onclick="validateCoupon('<%=total%>')"
+                                    name="login">Apply Coupon</button>
                             </div>
                         </form>
                     </div>
@@ -228,67 +234,67 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
- 
+
 
 <script>
-    function validateCoupon(total){
-    const code=document.getElementById('enteredCoupon').value.trim()
-    const walletAmount = parseInt(document.getElementById('walletTotal').value);
-    console.log(walletAmount,'wallwetttttt');
-    console.log(code);
-    $.ajax({
-        url:'/validateCode?code='+code,
-        method:'post',
-        success:(response)=>{
-            console.log(response,walletAmount);
-            if (response.discountAmount && response.couponTotal<walletAmount) {
-                    document.getElementById('subtotal').innerHTML='₹'+ response.couponTotal
-                    document.getElementById('maintotal').innerHTML='₹'+ response.couponTotal
+    function validateCoupon(total) {
+        const code = document.getElementById('enteredCoupon').value.trim()
+        const walletAmount = parseInt(document.getElementById('walletTotal').value);
+        console.log(walletAmount, 'wallwetttttt');
+        console.log(code);
+        $.ajax({
+            url: '/validateCode?code=' + code,
+            method: 'post',
+            success: (response) => {
+                console.log(response, walletAmount);
+                if (response.discountAmount && response.couponTotal < walletAmount) {
+                    document.getElementById('subtotal').innerHTML = '₹' + response.couponTotal
+                    document.getElementById('maintotal').innerHTML = '₹' + response.couponTotal
 
-                    document.getElementById('discountCurrentAmount').innerHTML= '₹'+ response.discountAmount + 'off'
-                    document.getElementById('successCoupon').innerHTML=response.success
-                document.getElementById('errCoupon').innerHTML=''
-                document.getElementById('discountAmount').value=response.discountAmount
-                document.getElementById('couponTotal').value=response.couponTotal
-                
-                document.getElementById('couponCode').value=code
-                // Show the wallet
-         document.getElementById('walletAmountfinal').innerHTML = ` <input class="form-check-input" type="radio" name="payment-method" value="wallet" >
+                    document.getElementById('discountCurrentAmount').innerHTML = '₹' + response.discountAmount + 'off'
+                    document.getElementById('successCoupon').innerHTML = response.success
+                    document.getElementById('errCoupon').innerHTML = ''
+                    document.getElementById('discountAmount').value = response.discountAmount
+                    document.getElementById('couponTotal').value = response.couponTotal
+
+                    document.getElementById('couponCode').value = code
+                    // Show the wallet
+                    document.getElementById('walletAmountfinal').innerHTML = ` <input class="form-check-input" type="radio" name="payment-method" value="wallet" >
             <label class="form-check-label" for="flexRadioDefault1">
                 Wallet
             </label>`;
 
 
-            }else if(response.discountAmount && response.couponTotal) {
-                    document.getElementById('subtotal').innerHTML='₹'+ response.couponTotal
-                    document.getElementById('maintotal').innerHTML='₹'+ response.couponTotal
+                } else if (response.discountAmount && response.couponTotal) {
+                    document.getElementById('subtotal').innerHTML = '₹' + response.couponTotal
+                    document.getElementById('maintotal').innerHTML = '₹' + response.couponTotal
 
-                    document.getElementById('discountCurrentAmount').innerHTML= '₹'+ response.discountAmount + 'off'
-                    document.getElementById('successCoupon').innerHTML=response.success
-                document.getElementById('errCoupon').innerHTML=''
-                document.getElementById('discountAmount').value=response.discountAmount
-                document.getElementById('couponTotal').value=response.couponTotal
-                
-                document.getElementById('couponCode').value=code
+                    document.getElementById('discountCurrentAmount').innerHTML = '₹' + response.discountAmount + 'off'
+                    document.getElementById('successCoupon').innerHTML = response.success
+                    document.getElementById('errCoupon').innerHTML = ''
+                    document.getElementById('discountAmount').value = response.discountAmount
+                    document.getElementById('couponTotal').value = response.couponTotal
 
-                    
-            }else{
-                document.getElementById('errCoupon').innerHTML=response.err
-
-                document.getElementById('subtotal').innerHTML='₹' + response.total
-                    document.getElementById('maintotal').innerHTML='₹' + response.total
-               
+                    document.getElementById('couponCode').value = code
 
 
-                    document.getElementById('discountCurrentAmount').innerHTML=''
-                    document.getElementById('successCoupon').innerHTML=''
-                
+                } else {
+                    document.getElementById('errCoupon').innerHTML = response.err
 
-            } 
-        }
-    })
+                    document.getElementById('subtotal').innerHTML = '₹' + response.total
+                    document.getElementById('maintotal').innerHTML = '₹' + response.total
 
-}
+
+
+                    document.getElementById('discountCurrentAmount').innerHTML = ''
+                    document.getElementById('successCoupon').innerHTML = ''
+
+
+                }
+            }
+        })
+
+    }
     $('#checkOutForm').submit((e) => {
         console.log($('#checkOutForm').serialize());
 
@@ -299,15 +305,30 @@
             method: 'post',
             data: $('#checkOutForm').serialize(),
             success: (response) => {
-                console.log(response,'rererererer');
-                if (response.codstatus == true) {
-                    location.href = '/orderSuccess'
+              
+                if (!response.err) {
+                    if (response.codstatus == true) {
+                        location.href = '/orderSuccess'
+                    } else {
+                        razorpay(response);
+                        console.log(response);
+                        console.log(response.amount);
+
+                    }
                 } else {
-                    razorpay(response);
-                    console.log(response);
-                    console.log(response.amount);
-          
-                  }
+                    Swal.fire({
+                        title: response.err,
+                        text: "Please purchase any other Product",
+                        icon: 'warning',
+                        showCancelButton: false,
+                        showConfirmButton: true,
+                        confirmButtonText: 'OK'
+                    }).then(() => {
+                        location.href = '/cart';
+                    });
+
+
+                }
             }
 
         })
@@ -315,55 +336,55 @@
 
 
     function razorpay(order) {
-              console.log(order); 
-              var options = {
-                "key": "rzp_test_pQj2XugS33hOJo", // Enter the Key ID generated from the Dashboard
-                "amount":Number(order.amount), // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise,
-                "currency": "INR",
-                "name": "AnirudhCart",
-                "description": "Test Transaction",
-                "image": "https://example.com/your_logo",
-                "order_id": order.id, //This is a sample Order ID. Pass the id obtained in the response of Step 1
-                "handler": function (response) {
-           
-                  verifypayment(response, order)
-                },
-                "prefill": {
-                  "name": "Gaurav Kumar",
-                  "email": "gaurav.kumar@example.com",
-                  "contact": "9999999999"
-                },
-                "notes": {
-                  "address": "Razorpay Corporate Office"
-                },
-                "theme": {
-                  "color": "#3399cc"
-                }
-              };
-              var rzp1 = new Razorpay(options )
-                rzp1.open(); 
-          
-          }
-           
-            function verifypayment(payment,order){
+        console.log(order);
+        var options = {
+            "key": "rzp_test_pQj2XugS33hOJo", // Enter the Key ID generated from the Dashboard
+            "amount": Number(order.amount), // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise,
+            "currency": "INR",
+            "name": "AnirudhCart",
+            "description": "Test Transaction",
+            "image": "https://example.com/your_logo",
+            "order_id": order.id, //This is a sample Order ID. Pass the id obtained in the response of Step 1
+            "handler": function (response) {
 
-            $.ajax({
-          url:'verify_payment',
-                  data:{
-                      payment,
-                      order
-                  },
-                  method:'post',
-                  success: (response) => {
-                  if(response.status){
-                      location.href = '/orderSuccess';
-                  }else{
-                      alert('payment failed')
-                  }
-          
-                  }
-              })
+                verifypayment(response, order)
+            },
+            "prefill": {
+                "name": "Gaurav Kumar",
+                "email": "gaurav.kumar@example.com",
+                "contact": "9999999999"
+            },
+            "notes": {
+                "address": "Razorpay Corporate Office"
+            },
+            "theme": {
+                "color": "#3399cc"
             }
+        };
+        var rzp1 = new Razorpay(options)
+        rzp1.open();
+
+    }
+
+    function verifypayment(payment, order) {
+
+        $.ajax({
+            url: 'verify_payment',
+            data: {
+                payment,
+                order
+            },
+            method: 'post',
+            success: (response) => {
+                if (response.status) {
+                    location.href = '/orderSuccess';
+                } else {
+                    alert('payment failed')
+                }
+
+            }
+        })
+    }
 
 
 

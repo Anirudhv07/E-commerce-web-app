@@ -116,6 +116,7 @@ module.exports = {
         
         const proId=await orderHelpers.getProId(req.body)
         await orderHelpers.placeOrder(req.body,total,couponName,discountAmount,cartProductQuantity).then(async(result)=>{
+            if(!result.err){
             if(req.body['payment-method']=='COD'){
                 res.json({codstatus:true})
             }  else if (req.body["payment-method"] == "online") {
@@ -132,6 +133,9 @@ module.exports = {
                 })
                 
               }
+            }else{
+                res.json({err:'Some Product is Out Of Stock'})
+            }
              
         })
 

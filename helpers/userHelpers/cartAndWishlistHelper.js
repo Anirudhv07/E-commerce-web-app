@@ -25,7 +25,7 @@ module.exports = {
 
 
 
-                    if (cartItem.Quantity <= productDetails.Quantity - 1) {
+                    if (cartItem.Quantity <= productDetails.Quantity-1) {
 
                         const response = await user.cart.updateOne({ user: userId, 'cartItems.productId': proId },
 
