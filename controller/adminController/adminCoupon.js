@@ -7,11 +7,11 @@ module.exports={
         admin = req.session.admin
         const response=await adminCouponHelper.listCoupon()
         
-        res.render('admin/coupon',{layout:'adminLayout',admin,response})
+        res.render('admin/coupon',{layout:'adminLayout',admin,response,currentPage: 'coupon'})
     },
     getGenerateCoupon:(req,res)=>{
         admin= req.session.admin
-        res.render('admin/generateCoupon',{layout:'adminLayout',admin})
+        res.render('admin/generateCoupon',{layout:'adminLayout',admin,currentPage: 'coupon'})
     },
     getaddNewCoupon:(req,res)=>{
         adminCouponHelper.generateCoupon().then((response)=>{

@@ -6,7 +6,7 @@ module.exports = {
         if (req.session.adminloggedIn) {
             admin = req.session.admin
             adminUserHelper.getUser().then((response) => {
-                res.render('admin/userList', { layout: 'adminLayout', response, admin })
+                res.render('admin/userList', { layout: 'adminLayout', response, admin ,currentPage: 'userList'})
 
             })
 

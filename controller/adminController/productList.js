@@ -7,7 +7,7 @@ module.exports = {
 
             adminProductHelper.getProductList().then((response) => {
                 const admin = req.session.admin
-                res.render('admin/productList', { layout: 'adminLayout', response, admin })
+                res.render('admin/productList', { layout: 'adminLayout', response, admin,currentPage: 'products' })
 
             })
 
@@ -23,7 +23,7 @@ module.exports = {
                 const admin = req.session.admin
 
 
-                res.render('admin/addProducts', { layout: 'adminLayout', admin, response })
+                res.render('admin/addProducts', { layout: 'adminLayout', admin, response ,currentPage: 'products'})
             })
 
 
@@ -51,7 +51,7 @@ module.exports = {
                     const editProduct = response
                     // req.session.admin.images = response.Image;
 
-                    res.render('admin/editProduct', { layout: 'adminLayout', editProduct, admin, proCategory })
+                    res.render('admin/editProduct', { layout: 'adminLayout', editProduct, admin, proCategory,currentPage: 'products' })
                 })
             })
 

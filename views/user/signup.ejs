@@ -31,6 +31,16 @@
                                         <h3 class="mb-30">Create an Account</h3>
                                     </div>
                                     <!-- message -->
+                                    <div>
+                                        <%if(locals.error){%>
+
+
+
+                                            <p style="color: red" class="message" id="errorMessage">
+                                                <%=error.reason%>
+                                            </p>
+                                            <%}%>
+                                    </div>
 
                                     <div class="p-conf text-center"
                                         style="border-color: red; background-color: rgba(255,0,4,0.5); display: none; ">

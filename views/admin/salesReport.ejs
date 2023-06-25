@@ -7,7 +7,7 @@
         <div>
             <div class="text-center">
 
-                <button class="btn btn-primary " onclick="downloadAsPDF()">Download as PDF</button>
+                <button class="btn btn-primary " onclick="downloadAsPDF()" id="download-pdf">Download as PDF</button>
               </div>
               
 
@@ -15,7 +15,7 @@
         <div>
             <div class="text-center">
 
-                <button class="btn btn-primary " onclick="export_data()">Download as Excel</button>
+                <button class="btn btn-primary " onclick="export_data()" id="download-excel">Download as Excel</button>
               </div>
         </div>
 
@@ -24,6 +24,8 @@
                 <div class="form-group">
                     <label for="startdate">Start Date</label>
                     <input type="date" class="form-control bg" id="startdate" name="startdate">
+
+
 <span id="date-error1" style="display: none; color: red;">Invalid Start Date</span>
 
                   </div>
@@ -31,10 +33,16 @@
                   <div class="form-group">
                     <label for="enddate">End Date</label>
                     <input type="date" class="form-control" id="enddate" name="enddate">
+
   <span id="date-error2" style="display: none; color: red;">Invalid End Date</span>
+  <span id="date-error3" style="display: none; color: red;">Invalid Start Date & End Date</span>
+
 
                   </div>
                   <div class="text-center">
+                    <input type="hidden" id="enddateHidden" name="enddateHidden" value="<%=start.toLocaleString()%>">
+                    <input type="hidden" id="startdateHidden" name="startdateHidden" value="<%=end.toLocaleString()%>">
+
 
                       <button class="btn btn-primary " id="submit-button" type="submit">Submit</button>
                     </div>
@@ -105,60 +113,102 @@
 
 
 <script>
-   $(document).ready( function () {
+  $(document).ready(function () {
       $('#salesReport').DataTable();
-  } )
+  });
+
+  let startDate = document.getElementById('startdate');
+  let endDate = document.getElementById('enddate');
+  let error1 = document.getElementById('date-error1');
+  let error2 = document.getElementById('date-error2');
+  let error3 = document.getElementById('date-error3');
+
+
+  let submitButton = document.getElementById('submit-button');
+  let downloadPDFButton = document.getElementById('download-pdf');
+  let downloadExcelButton = document.getElementById('download-excel');
+
+  // Disable submit button on page load
+  submitButton.disabled = true;
+
+  // Add event listeners to start date and end date inputs
+  startDate.addEventListener("input", validateDates);
+  endDate.addEventListener("input", validateDates);
+
+  function validateDates() {
+      const selectedStartDate = new Date(startDate.value);
+      const selectedEndDate = new Date(endDate.value);
+     
+
+
+      const today = new Date();
+      if(selectedStartDate > selectedEndDate){
+        error1.style.display = "none";
+      } else {
+          error1.style.display = "inline";
+      }
+
+      if (selectedStartDate < today) {
+          error1.style.display = "none";
+      } else {
+          error1.style.display = "inline";
+      }
+
+      if (selectedEndDate < today) {
+          error2.style.display = "none";
+      } else {
+          error2.style.display = "inline";
+      }
+      if(selectedStartDate > selectedEndDate){
+        error3.style.display = "inline";
+      } else {
+        error3.style.display = "none";
+      }
+
+      // Check if either error is displayed or if end date is before start date
+      if (
+          error1.style.display === "inline" ||
+          error2.style.display === "inline" ||
+          selectedEndDate < selectedStartDate
+      ) {
+          submitButton.disabled = true;
+      } else {
+          submitButton.disabled = false;
+      }
+  }
+
+  function export_data() {
  
- let startDate = document.getElementById('startdate')
-   let endDate = document.getElementById('enddate')
-   let error1 = document.getElementById('date-error1')
-   let error2 = document.getElementById('date-error2')
+      let startDate = document.getElementById('startdateHidden').value
+  let endDate = document.getElementById('enddateHidden').value
 
-   let submitButton = document.getElementById('submit-button');
-
-// Disable submit button on page load
-submitButton.disabled = true;
-
-// Add event listeners to start date and end date inputs
-startDate.addEventListener("input", validateDates);
-endDate.addEventListener("input", validateDates);
-
-function validateDates() {
-  const selectedStartDate = new Date(startDate.value);
-  const selectedEndDate = new Date(endDate.value);
-  const today = new Date();
-
-  if (selectedStartDate < today) {
-    error1.style.display = "none";
-  } else {
-    error1.style.display = "inline";
+      let data = document.getElementById('salesReportFull');
+      let fp = XLSX.utils.table_to_book(data, { sheet: 'vishal' });
+      let fileName =  endDate + '_to_' + startDate + '.xlsx'; // Constructing the file name
+      XLSX.writeFile(fp, fileName);
   }
 
-  if (selectedEndDate < today) {
-    error2.style.display = "none";
-  } else {
-    error2.style.display = "inline";
-  }
+  function downloadAsPDF() {
 
-  // Check if either error is displayed or if end date is before start date
-  if (error1.style.display === "inline" || error2.style.display === "inline" || selectedEndDate < selectedStartDate) {
-    submitButton.disabled = true;
-  } else {
-    submitButton.disabled = false;
-  }
+    let startDate = document.getElementById('startdateHidden').value
+  let endDate = document.getElementById('enddateHidden').value
+  let element = document.getElementById('salesReportFull');
+  let opt = {
+    margin: 1,
+    filename:  endDate + '_to_' + startDate + '.pdf',
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2 },
+    jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
+    header: [
+      {
+        text: 'Sales Report - Date Range: ' + endDate + ' to ' +  startDate,
+        fontSize: 12,
+        alignment: 'center',
+        margin: [0, 10, 0, 0]
+      }
+    ]
+  };
+  html2pdf().set(opt).from(element).save();
 }
-     function export_data() {
-        let data = document.getElementById('salesReportFull');
-        var fp = XLSX.utils.table_to_book(data, { sheet: 'vishal' });
-        XLSX.write(fp, {
-            bookType: 'xlsx',
-            type: 'base64'
-        });
-        XLSX.writeFile(fp, 'test.xlsx');
-    }
 
-    function downloadAsPDF() {
-  const element = document.getElementById('salesReportFull');
-  html2pdf().from(element).save();
-}
 </script>

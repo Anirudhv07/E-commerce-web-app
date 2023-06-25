@@ -190,7 +190,11 @@
     
     <script>
         function downloadAsPDF() {
-            const element = document.getElementById('invoicePart');
-            html2pdf().from(element).save();
-        }
+  const element = document.getElementById('invoicePart');
+  const options = {
+    filename: 'invoice.pdf' // Specify the desired file name here
+  };
+  html2pdf().from(element).set(options).save();
+}
+
     </script>

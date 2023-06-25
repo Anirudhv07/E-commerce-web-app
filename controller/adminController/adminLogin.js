@@ -68,7 +68,7 @@ module.exports = {
 
 
             console.log(totalRevenue, 'kooo');
-            res.render('admin/dashboard', { layout: "adminLayout",dates,dateCount, catName,orderByDays, catCount, codCount, categoryCount, walletCount, onlineCount, totalRevenue, orderCount, totalProduct, admin, totalProduct })
+            res.render('admin/dashboard', { layout: "adminLayout",dates,dateCount, catName,orderByDays, catCount, codCount, categoryCount, walletCount, onlineCount, totalRevenue, orderCount, totalProduct, admin, totalProduct, currentPage: 'dashboard' })
 
         } else {
             res.redirect('/admin')

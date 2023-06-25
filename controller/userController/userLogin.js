@@ -29,23 +29,36 @@ module.exports = {
         if (req.session.loggedIn) {
             res.redirect('/')
         } else {
-            res.render('user/signup', { layout: "emptylayout", emailStatus })
+            if(req.session.error){
+
+                res.render('user/signup', { layout: "emptylayout", emailStatus,error:req.session.error })
+                req.session.error = ""
+                
+                
+            }else{
+                req.session.error = ""; // Clear the session error after rendering the view
+                res.render('user/signup', { layout: "emptylayout", emailStatus })
+
+            }
+            
 
         }
     },
     postSignUp: (req, res) => {
         const { username, email, password } = req.body;
-
+      
         userHelpers.doSignUp(req.body).then((response) => {
-
-            const emailStatus = response.tatus
-            if (response) {
-                res.redirect('/login')
-            } else {
-                res.render('user/signup', { emailStatus })
-            }
-        })
-    },
+          res.redirect('/login');
+        }).catch((error) => {
+        
+            req.session.error = error
+           
+            res.redirect('/signup');
+            
+            req.session.error = ""; // Clear the session error after rendering the view
+        });
+      }
+      ,
 
     getLogIn: (req, res, next) => {
         if (req.session.loggedIn) {

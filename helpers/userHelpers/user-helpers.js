@@ -19,9 +19,18 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             try {
                 const email = userData.email
-                const existingUser = await dbuser.user.findOne({ email })
-                if (existingUser) {
-                    resolve({ status: false })
+                const phone =userData.phone
+                const existingEmail = await dbuser.user.findOne({ email:email })
+                const existingPhone = await dbuser.user.findOne({ phonenumber:phone })
+                console.log(existingEmail,'emailexist',existingPhone,'existing phone');
+
+                if (existingEmail) {
+                    reject({reason:'Email Already Exist'})
+                }else if(existingPhone){
+                    reject({reason:'Phone Number Already Exist'})
+                    
+
+                
                 } else {
                     const hashedPassword = await bcrypt.hash(userData.password, 10)
                     const data = new dbuser.user({

@@ -7,14 +7,14 @@ module.exports={
         adminBannerHelpers.getBanner().then((response)=>{
             
 
-            res.render('admin/bannerList',{layout:'adminLayout',admin,response})
+            res.render('admin/bannerList',{layout:'adminLayout',admin,response,currentPage: 'bannerList'})
         })
 
     },
     getAddBanner:(req,res)=>{
         let admin = req.session.admin
 
-        res.render('admin/addBanner',{layout:'adminLayout',admin})
+        res.render('admin/addBanner',{layout:'adminLayout',admin,currentPage: 'bannerList'})
     },
     postAddBanner:async(req,res)=>{
        
@@ -36,7 +36,7 @@ module.exports={
 
         await adminBannerHelpers.editBanner(req.params.id).then((response)=>{
             console.log(response,'rdd');
-            res.render('admin/editBanner',{layout:'adminLayout',response,admin})
+            res.render('admin/editBanner',{layout:'adminLayout',response,admin,currentPage: 'bannerList'})
         })
     },
     postEditBanner:(req,res)=>{

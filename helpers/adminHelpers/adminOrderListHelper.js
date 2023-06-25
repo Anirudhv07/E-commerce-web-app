@@ -222,6 +222,90 @@ module.exports = {
 
         })
     },
+    firstOrderDate:()=>{
+        return new Promise(async (resolve, reject) => {
+            await user.order.aggregate([
+            {
+              $unwind:
+                /**
+                 * path: Path to the array field.
+                 * includeArrayIndex: Optional name for index.
+                 * preserveNullAndEmptyArrays: Optional
+                 *   toggle to unwind null and empty values.
+                 */
+                {
+                  path: "$orders",
+                  includeArrayIndex: "string",
+                },
+            },
+            {
+              $project:
+                /**
+                 * specifications: The fields to
+                 *   include or exclude.
+                 */
+                {
+                  date: "$orders.creditedAt",
+                },
+            },
+            {
+              $sort:
+                /**
+                 * Provide any number of field/order pairs.
+                 */
+                {
+                  date: 1,
+                },
+            },
+          ]).then((response)=>{
+              const result=response[0]
+            console.log(result,'koko');
+            resolve(result)
+          })
+    })
+},
+lastOrderDate:()=>{
+    return new Promise(async (resolve, reject) => {
+        await user.order.aggregate([
+        {
+          $unwind:
+            /**
+             * path: Path to the array field.
+             * includeArrayIndex: Optional name for index.
+             * preserveNullAndEmptyArrays: Optional
+             *   toggle to unwind null and empty values.
+             */
+            {
+              path: "$orders",
+              includeArrayIndex: "string",
+            },
+        },
+        {
+          $project:
+            /**
+             * specifications: The fields to
+             *   include or exclude.
+             */
+            {
+              date: "$orders.creditedAt",
+            },
+        },
+        {
+          $sort:
+            /**
+             * Provide any number of field/order pairs.
+             */
+            {
+              date: -1,
+            },
+        },
+      ]).then((response)=>{
+          const result=response[0]
+        console.log(result,'koko');
+        resolve(result)
+      })
+})
+},
     orderCount: () => {
         return new Promise(async (resolve, reject) => {
             await user.order.aggregate([

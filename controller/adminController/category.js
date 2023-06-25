@@ -10,7 +10,7 @@ module.exports = {
             adminCategoryHelper.viewCategory().then((response) => {
                 var viewCategory = response
                 
-                res.render('admin/addCategory', { layout: 'adminLayout', admin, viewCategory ,categoryExist:req.session.categoryExist})
+                res.render('admin/addCategory', { layout: 'adminLayout', admin, viewCategory ,categoryExist:req.session.categoryExist,currentPage: 'addCategory' })
                 req.session.categoryExist=null
 
             })
@@ -43,7 +43,7 @@ module.exports = {
             const admin = req.session.admin
 
             adminCategoryHelper.editCategory(req.params.id).then((response) => {
-                res.render('admin/editCategory', { layout: "adminLayout", response, admin })
+                res.render('admin/editCategory', { layout: "adminLayout", response, admin,currentPage: 'addCategory' })
             })
 
         } else {
