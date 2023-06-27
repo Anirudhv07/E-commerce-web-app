@@ -1,0 +1,314 @@
+<style>
+    .container {
+        position: relative;
+        margin: auto;
+    }
+
+    #number,
+    #verificationcode {
+        width: calc(100% - 22px);
+        outline: none;
+    }
+
+    #recaptcha-container {
+        margin-bottom: 5px;
+    }
+
+    #send,
+    #verify {
+        width: 100%;
+        height: 40px;
+        outline: none;
+    }
+
+    .p-conf,
+    .n-conf {
+        width: 100%;
+        border-radius: 4px;
+        display: none;
+    }
+
+    .p-conf {
+        background-color: rgba(0, 249, 12, 0.5);
+    }
+
+    .n-conf {
+        background-color: rgba(255, 0, 4, 0.5);
+    }
+</style>
+
+<section>
+    <main class="main">
+        <section class="p-auto my-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-10 m-auto">
+                        <div class="row d-flex justify-content-center">
+                            <div class="col-lg-6">
+                                <div
+                                    class="login_wrap widget-taber-content p-30 background-white border-radius-10 mb-md-5 mb-lg-0 mb-sm-5">
+                                    <div class="padding_eight_all bg-white">
+                                        <div class="heading_s1">
+                                        </div>
+                                        <div class="form-group">
+                                            <div id="sender">
+                                                <h5 class="mb-30">Enter your number.....</h5>
+                                                <input type="text" id="number" required="" onkeyup="validatePhone()"
+                                                    name="number" placeholder="+91..........." />
+                                                <h5 id="numError" class="text-danger"></h5>
+                                                <div id="recaptcha-container"></div>
+                                                <input type="button" class="bg-dark text-white" id="send" value="Send"
+                                                    onclick="numVerify()" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div id="verifier" style="display: none;">
+                                                <div id="recaptcha-container2"></div>
+
+                                                <h5 class="mb-30">Enter OTP</h5>
+                                                <input type="text" id="verificationcode" placeholder="OTP Code">
+                                                <input type="button" id="verify" class="bg-dark text-white"
+                                                    value="Verify" onclick="codeverify()" />
+                                                <div class="p-conf">Number Verified</div>
+                                                <div class="n-conf">OTP Error</div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div id="resend-section">
+                                                <div id="timer"></div>
+                                                <button id="resend-btn" class="btn btn-success" onclick="numVerify2()"
+                                                    disabled style="display: none;">Resend OTP</button>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <button id="loginBtn" class="btn btn-fill-out btn-block hover-up"
+                                                name="login" onclick="otpLogin()" style="display: none;">
+                                                Login
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</section>
+
+<!-- Add Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.12.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.12.1/firebase-auth-compat.js"></script>
+
+<script>
+    // Initialize Firebase
+    const firebaseConfig = {
+        apiKey: "AIzaSyCKpqhKaVpCSHO4MkpODbgnkmDkTFjBgKg",
+        authDomain: "theurbanlane-f9ed8.firebaseapp.com",
+        projectId: "theurbanlane-f9ed8",
+        storageBucket: "theurbanlane-f9ed8.appspot.com",
+        messagingSenderId: "404488282481",
+        appId: "1:404488282481:web:3c3920b9a7f0b9601556d0",
+        measurementId: "G-204GRMSKG9"
+    };
+    firebase.initializeApp(firebaseConfig);
+
+    let timer;
+
+
+    //verify number
+    function numVerify() {
+        const num = document.getElementById('number').value;
+        console.log(num, 'number');
+        $.ajax({
+            url: `/otp2VerifyNumber`,
+            method: 'post',
+            data: { num },
+            success: (Response) => {
+                console.log(Response);
+                if (Response.exist) {
+                    document.getElementById('numError').innerHTML = '';
+                    phoneAuth();
+                } else {
+                    document.getElementById('numError').innerHTML = 'Invalid Number';
+                }
+            }
+        });
+    }
+
+
+
+
+    //verify number
+    function numVerify2() {
+        const num = document.getElementById('number').value;
+        console.log(num, 'number');
+        $.ajax({
+            url: `/otp2VerifyNumber`,
+            method: 'post',
+            data: { num },
+            success: (Response) => {
+                console.log(Response);
+                if (Response.exist) {
+                    document.getElementById('numError').innerHTML = '';
+                    phoneAuth2();
+                } else {
+                    document.getElementById('numError').innerHTML = 'Invalid Number';
+                }
+            }
+        });
+    }
+
+
+
+
+    //otp login
+    function otpLogin() {
+        const userNum = document.getElementById('number').value;
+        console.log(userNum);
+
+        // Clear the existing timer
+        clearTimeout(timer);
+
+        // Disable the resend button
+        document.getElementById('resend-btn').disabled = true;
+
+        $.ajax({
+            url: `/otp2MainLogin`,
+            method: 'post',
+            data: { userNum },
+            success: (Response) => {
+                location.href = "/changePassword2";
+                // Start the timer for resend functionality
+                startTimer();
+            }
+        });
+    }
+
+    // Render reCAPTCHA verifier
+    function render() {
+        window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container');
+        recaptchaVerifier.render();
+    }
+    function render2() {
+        window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container2');
+        recaptchaVerifier.render();
+    }
+
+    // Phone number authentication
+    function phoneAuth() {
+        const number = document.getElementById('number').value;
+        const phoneNumber = "+91" + number;
+        render();
+        firebase.auth().signInWithPhoneNumber(phoneNumber, window.recaptchaVerifier)
+            .then(function (confirmationResult) {
+                window.confirmationResult = confirmationResult;
+                console.log('OTP Sent');
+                document.getElementById('sender').style.display = 'none';
+                document.getElementById('verifier').style.display = 'block';
+                startTimer(); // Start the timer for OTP validation
+            })
+            .catch(function (error) {
+                // Error in sending OTP
+                console.log(error.message);
+                alert(error.message);
+            });
+    }
+
+
+
+    // Phone number authentication
+    function phoneAuth2() {
+        const number = document.getElementById('number').value;
+        const phoneNumber = "+91" + number;
+        render2();
+        firebase.auth().signInWithPhoneNumber(phoneNumber, window.recaptchaVerifier)
+            .then(function (confirmationResult) {
+                window.confirmationResult = confirmationResult;
+                console.log('OTP Sent');
+                document.getElementById('sender').style.display = 'none';
+                document.getElementById('verifier').style.display = 'block';
+                startTimer(); // Start the timer for OTP validation
+            })
+            .catch(function (error) {
+                // Error in sending OTP
+                console.log(error.message);
+                alert(error.message);
+            });
+    }
+
+    function startTimer() {
+        document.getElementById('resend-btn').style.display = 'block';
+
+        let duration = 60; // Duration in seconds
+
+        // Update the timer display initially
+        updateTimer(duration);
+
+        // Decrease the duration every second
+        timer = setInterval(function () {
+            duration--;
+            updateTimer(duration);
+
+            // If the duration reaches 0, enable the resend button and clear the timer
+            if (duration === 0) {
+                clearInterval(timer);
+                document.getElementById('resend-btn').disabled = false;
+            }
+        }, 1000);
+
+        // Enable the resend button after the timer expires
+        setTimeout(function () {
+            document.getElementById('resend-btn').disabled = false;
+        }, duration * 1000 + 1000); // Add an extra second to the duration
+    }
+
+
+    function updateTimer(duration) {
+        const minutes = Math.floor(duration / 60);
+        const seconds = duration % 60;
+
+        // Display the updated timer value
+        document.getElementById('timer').innerText = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+    }
+
+    // Code verification
+    function codeverify() {
+        var code = document.getElementById('verificationcode').value;
+        confirmationResult.confirm(code)
+            .then(function (result) {
+                // Phone number verified successfully
+                document.getElementsByClassName('p-conf')[0].style.display = 'block';
+                document.getElementsByClassName('n-conf')[0].style.display = 'none';
+                document.getElementById('loginBtn').style.display = 'block';
+
+
+
+
+                // Enable the submit button
+                // document.getElementById('submit-btn').removeAttribute('disabled');
+            })
+            .catch(function (error) {
+                // Invalid verification code
+                document.getElementsByClassName('p-conf')[0].style.display = 'none';
+                document.getElementsByClassName('n-conf')[0].style.display = 'block';
+                // Disable the submit button
+                document.getElementById('submit-btn').setAttribute('disabled', 'disabled');
+            });
+    }
+
+    function resendOTP() {
+        // Clear the existing timer
+        numVerify();
+
+        // Disable the resend button
+
+        clearTimeout(timer);
+        // Call phoneAuth() to resend the OTP
+
+
+        document.getElementById('resend-btn').disabled = true;
+    }
+
+</script>

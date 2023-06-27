@@ -5,6 +5,7 @@ const adminOrderHelpers = require('../../helpers/adminHelpers/adminOrderListHelp
 
 
 module.exports = {
+    //Get Admin Login
     getAdminLogin: (req, res, next) => {
         admin = req.session.admin
         if (req.session.adminloggedIn) {
@@ -14,6 +15,7 @@ module.exports = {
             res.render('admin/login', { layout: 'adminEmptyLayout', admin })
         }
     },
+    //Post Admin Login
     postAdminLogin: (req, res, next) => {
 
         adminHelpers.doAdminLogin(req.body).then((response) => {
@@ -27,6 +29,7 @@ module.exports = {
             res.redirect('/admin')
         })
     },
+    //Admin Logout Function
     adminLogout: (req, res) => {
         req.session.adminloggedIn = false
         admin = req.session.adminloggedIn
@@ -34,11 +37,12 @@ module.exports = {
         res.redirect('/admin')
 
     },
+    //Get Admin Dashboard
     getAdminDashboard: async (req, res, next) => {
         let catName = []
         let catCount = []
-        let dates=[]
-        let dateCount=[]
+        let dates = []
+        let dateCount = []
         if (req.session.adminloggedIn) {
             let admin = req.session.admin
             const totalProduct = await adminProductHelper.productCount()
@@ -57,18 +61,13 @@ module.exports = {
                 catName.push(category._id)
                 catCount.push(category.count)
             })
-            const orderByDays=await adminOrderHelpers.byDays()
-            orderByDays.forEach(function(response){
+            const orderByDays = await adminOrderHelpers.byDays()
+            orderByDays.forEach(function (response) {
                 dates.push(response._id)
                 dateCount.push(response.count)
             })
 
-
-            
-
-
-            console.log(totalRevenue, 'kooo');
-            res.render('admin/dashboard', { layout: "adminLayout",dates,dateCount, catName,orderByDays, catCount, codCount, categoryCount, walletCount, onlineCount, totalRevenue, orderCount, totalProduct, admin, totalProduct, currentPage: 'dashboard' })
+            res.render('admin/dashboard', { layout: "adminLayout", dates, dateCount, catName, orderByDays, catCount, codCount, categoryCount, walletCount, onlineCount, totalRevenue, orderCount, totalProduct, admin, totalProduct, currentPage: 'dashboard' })
 
         } else {
             res.redirect('/admin')

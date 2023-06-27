@@ -2,249 +2,249 @@
     <div class="container py-5 ">
         <h4 class=" text-center">Receipt</h4>
         <%if(orderStatus[0].orderStatus=='delivered'){%>
-        <div class="text-end pb-4">
+            <div class="text-end pb-4">
 
-            <button type="button" class="btn btn-outline text-dark hover-up " ><a href="/invoice/<%=response[0].orderID%>"> Download Invoice</a></button>
-        </div>
-        <%}%> 
-        <div class="card ">
-            <div class="card-header text-center">
-                <h5>Thank You for your order.<%=users.username%>!!!!</h5>
+                <button type="button" class="btn btn-outline text-dark hover-up "><a
+                        href="/invoice/<%=response[0].orderID%>"> Download Invoice</a></button>
             </div>
-            <div>
-                
-                    
+            <%}%>
+                <div class="card ">
+                    <div class="card-header text-center">
+                        <h5>Thank You for your order.<%=users.username%>!!!!</h5>
+                    </div>
+                    <div>
 
-                   
-                           
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <h4 class="col-lg-6 text-center"></h4>
-                    <h6 class="text-end col-lg-6 text-muted"><span class="fw-bold"> Reciept voucher:</span>57CHGGU6889H
-                    </h6>
 
-                    <div class="pl-2 ">
-                        <h5 class="fw-bold">Address</h5>
-                        <%=response[0].ShippingAddress.fname%>
-                            <%=response[0].ShippingAddress.lname%> <br>
-                                <%=response[0].ShippingAddress.housename%> <br>
-                                    <%=response[0].ShippingAddress.street%> , <%=response[0].ShippingAddress.city%> <br>
-                                            <%=response[0].ShippingAddress.state%> <br>
-                                                Pincode: <%=response[0].ShippingAddress.pincode%>
+
+
 
                     </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <h4 class="col-lg-6 text-center"></h4>
+                            <h6 class="text-end col-lg-6 text-muted"><span class="fw-bold"> Reciept
+                                    voucher:</span>57CHGGU6889H
+                            </h6>
 
-                </div>
-                <div class="container border border-secondary">
-                    <div class="row">
-                        <div class="card-header">
-                            <div class="row align-items-center">
-                                <div class="table-responsive ">
-                                    <table class="table table-nowrap ">
-                                        <thead>
-                                            <tr>
-                                                <th>No</th>
-                                                <th>Image</th>
-                                                <th>Product Name</th>
-                                                <th>Quantity</th>
-                                                <th>Date and Time</th>
-                                                <th>Price</th>
+                            <div class="pl-2 ">
+                                <h5 class="fw-bold">Address</h5>
+                                <%=response[0].ShippingAddress.fname%>
+                                    <%=response[0].ShippingAddress.lname%> <br>
+                                        <%=response[0].ShippingAddress.housename%> <br>
+                                            <%=response[0].ShippingAddress.street%> ,
+                                                <%=response[0].ShippingAddress.city%> <br>
+                                                    <%=response[0].ShippingAddress.state%> <br>
+                                                        Pincode: <%=response[0].ShippingAddress.pincode%>
 
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <%response.forEach(function(response,index){%>
-                                                <tr>
-
-                                                    <td>
-                                                        <%=index+1%>
-                                                    </td>
-                                                    <td><img src="/uploads/<%=response.productImage%>" alt=""
-                                                            width="100" height="100">
-
-                                                    <td>
-                                                        <h5>
-                                                            <%=response.productName%>
-                                                        </h5>
-
-                                                    </td>
-                                                    <td>
-                                                        <h5>
-                                                            <%=response.productQuantity%>
-                                                        </h5>
-
-                                                    </td>
-                                                    <td>
-                                                        <h5>
-                                                            <%=response.creditedAt.toLocaleString() %>
-                                                        </h5>
-                                                    </td>
-                                                    <td>
-                                                        <h5>₹ <%=response.productPrice%>
-                                                        </h5>
-
-                                                    </td>
-
-
-
-                                                </tr>
-                                                <%})%>
-
-                                        </tbody>
-                                    </table>
-
-                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="row">
-
-                        <%if(orderStatus[0].orderStatus=='ordered'){%>
-                    <div class="pt-2  col-lg-6">
-                        <button class="btn btn-info" onclick="cancelOrder('<%=orderStatus[0].orderId%>')">
-                            Cancel Order
-                        </button>
-                    </div>
-                        <div class="col-lg-6 text-end" >
-
-                            <h3 class="pt-3 text-primary">ORDERED</h3>
-                        </div>
-                            <%}else if(orderStatus[0].orderStatus=='cancelled'){%>
-                                <div class="pt-2  col-lg-6">
-                                
-                                </div>
-                                <div class="col-lg-6 text-end" >
-
-                                    <h3 class="pt-3 text-danger">CANCELLED</h3>
-                                </div>
-
-                            <%}else if(orderStatus[0].orderStatus=='returned'){%>
-                                <div class="pt-2  col-lg-6">
-                                   
-                                </div>
-                                <div class="col-lg-6 text-end">
-
-                                    <h3 class="pt-3 text-danger ">ORDER RETURNED</h3>
-                                </div>
-                            <%}else if(orderStatus[0].orderStatus=='orderPlaced'){%>
-                                <div class="pt-2  col-lg-6">
-                                   
-                                </div>
-                                <div class="col-lg-6 text-end">
-
-                                    <h3 class="pt-3 text-warning">ORDER PLACED</h3>
-                                </div>
-                            <%}else if(orderStatus[0].orderStatus=='orderDispatched'){%>
-                                <div class="pt-2  col-lg-6">
-                                   
-                                </div>
-                                <div class="col-lg-6 text-end">
-
-                                    <h3 class="pt-3 text-info">ORDER DISPATCHED</h3>
-                                </div>
-                            <%}else if(orderStatus[0].orderStatus=='outForDelivery'){%>
-                                <div class="pt-2  col-lg-6">
-                                   
-                                </div>
-                                <div class="col-lg-6 text-end">
-
-                                    <h3 class="pt-3 text-info">OUT FOR DELIVERY</h3>
-                                </div>
-                            
-                            
-                            <%}else{%>
-                            <div class="pt-2  col-lg-6">
-                                <button class="btn btn-info" onclick="returnOrder('<%=orderStatus[0].orderId%>')">
-                                    Return Order
-                                </button>
-                            </div>
-                            <div class="col-lg-6 text-end">
-
-                                <h3 class="pt-3 text-success">DELIVERED</h3>
-                            </div>
-                        <%}%>
 
                         </div>
-                    <div><br></div>
+                        <div class="container border border-secondary">
+                            <div class="row">
+                                <div class="card-header">
+                                    <div class="row align-items-center">
+                                        <div class="table-responsive ">
+                                            <table class="table table-nowrap ">
+                                                <thead>
+                                                    <tr>
+                                                        <th>No</th>
+                                                        <th>Image</th>
+                                                        <th>Product Name</th>
+                                                        <th>Quantity</th>
+                                                        <th>Date and Time</th>
+                                                        <th>Price</th>
 
-                </div>
-                <div class="row">
-                    <div class="col-lg-6">
-                        <h4 class="title pt-2">Order Details</h4>
-                        <h6 class="text-muted">Mobile Number: <%=response[0].ShippingAddress.phone%>
-                        </h6>
-                        <h6 class="text-muted">Email:<%=response[0].ShippingAddress.email%>
-                        </h6>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <%response.forEach(function(response,index){%>
+                                                        <tr>
+
+                                                            <td>
+                                                                <%=index+1%>
+                                                            </td>
+                                                            <td><img src="/uploads/<%=response.productImage%>" alt=""
+                                                                    width="100" height="100">
+
+                                                            <td>
+                                                                <h5>
+                                                                    <%=response.productName%>
+                                                                </h5>
+
+                                                            </td>
+                                                            <td>
+                                                                <h5>
+                                                                    <%=response.productQuantity%>
+                                                                </h5>
+
+                                                            </td>
+                                                            <td>
+                                                                <h5>
+                                                                    <%=response.creditedAt.toLocaleString() %>
+                                                                </h5>
+                                                            </td>
+                                                            <td>
+                                                                <h5>₹ <%=response.productPrice%>
+                                                                </h5>
+
+                                                            </td>
+
+
+
+                                                        </tr>
+                                                        <%})%>
+
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+
+                                <%if(orderStatus[0].orderStatus=='ordered'){%>
+                                    <div class="pt-2  col-lg-6">
+                                        <button class="btn btn-info"
+                                            onclick="cancelOrder('<%=orderStatus[0].orderId%>')">
+                                            Cancel Order
+                                        </button>
+                                    </div>
+                                    <div class="col-lg-6 text-end">
+
+                                        <h3 class="pt-3 text-primary">ORDERED</h3>
+                                    </div>
+                                    <%}else if(orderStatus[0].orderStatus=='cancelled' ){%>
+                                        <div class="pt-2  col-lg-6">
+
+                                        </div>
+                                        <div class="col-lg-6 text-end">
+
+                                            <h3 class="pt-3 text-danger">CANCELLED</h3>
+                                        </div>
+
+                                        <%}else if(orderStatus[0].orderStatus=='returned' ){%>
+                                            <div class="pt-2  col-lg-6">
+
+                                            </div>
+                                            <div class="col-lg-6 text-end">
+
+                                                <h3 class="pt-3 text-danger ">ORDER RETURNED</h3>
+                                            </div>
+                                            <%}else if(orderStatus[0].orderStatus=='orderPlaced' ){%>
+                                                <div class="pt-2  col-lg-6">
+
+                                                </div>
+                                                <div class="col-lg-6 text-end">
+
+                                                    <h3 class="pt-3 text-warning">ORDER PLACED</h3>
+                                                </div>
+                                                <%}else if(orderStatus[0].orderStatus=='orderDispatched' ){%>
+                                                    <div class="pt-2  col-lg-6">
+
+                                                    </div>
+                                                    <div class="col-lg-6 text-end">
+
+                                                        <h3 class="pt-3 text-info">ORDER DISPATCHED</h3>
+                                                    </div>
+                                                    <%}else if(orderStatus[0].orderStatus=='outForDelivery' ){%>
+                                                        <div class="pt-2  col-lg-6">
+
+                                                        </div>
+                                                        <div class="col-lg-6 text-end">
+
+                                                            <h3 class="pt-3 text-info">OUT FOR DELIVERY</h3>
+                                                        </div>
+
+
+                                                        <%}else{%>
+                                                            <div class="pt-2  col-lg-6">
+                                                                <button class="btn btn-info"
+                                                                    onclick="returnOrder('<%=orderStatus[0].orderId%>')">
+                                                                    Return Order
+                                                                </button>
+                                                            </div>
+                                                            <div class="col-lg-6 text-end">
+
+                                                                <h3 class="pt-3 text-success">DELIVERED</h3>
+                                                            </div>
+                                                            <%}%>
+
+                            </div>
+                            <div><br></div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <h4 class="title pt-2">Order Details</h4>
+                                <h6 class="text-muted">Mobile Number: <%=response[0].ShippingAddress.phone%>
+                                </h6>
+                                <h6 class="text-muted">Email:<%=response[0].ShippingAddress.email%>
+                                </h6>
+
+                            </div>
+                            <div class="text-end col-lg-6 pt-2">
+                                <h5 class="text-muted"><span class="fw-bold">Discount Amount:</span>₹
+                                    <%=response[0].discountAmount%>
+                                </h5>
+
+                                <h5 class="text-muted"><span class="fw-bold">Total:</span> ₹ <%=response[0].totalPrice
+                                        %>
+                                </h5>
+                                <h5 class="text-muted"><span class="fw-bold">Delivery Charges:</span>Free</h5>
+
+                            </div>
+                        </div>
 
                     </div>
-                    <div class="text-end col-lg-6 pt-2">
-                        <h5 class="text-muted"><span class="fw-bold">Discount Amount:</span>₹ <%=response[0].discountAmount%></h5>
+                    <div class="card-footer text-muted bg-dark text-end">
+                        <div>
+                            <h1 class="text-white">Total: ₹ <%=response[0].totalPrice%>
+                            </h1>
 
-                        <h5 class="text-muted"><span class="fw-bold">Total:</span> ₹ <%=response[0].totalPrice %>
-                        </h5>
-                        <h5 class="text-muted"><span class="fw-bold">Delivery Charges:</span>Free</h5>
 
+                        </div>
                     </div>
                 </div>
-
-            </div>
-            <div class="card-footer text-muted bg-dark text-end">
-                <div>
-                    <h1 class="text-white">Total: ₹ <%=response[0].totalPrice%>
-                    </h1>
-
-
-                </div>
-            </div>
-        </div>
     </div>
 </section>
 
 
 
 <script>
-function cancelOrder(orderId){
-    $.ajax({
-        url:'/cancelOrder/'+orderId,
-        method:'put',
-        data:{
-            orderId:orderId
-        },
-        success: (response) => {
-        if (response) {
-          location.reload();
-        }}
-    })
-}
-function returnOrder(orderId){
-    $.ajax({
-        url:'/returnOrder/'+orderId,
-        method:'put',
-        data:{
-            orderId:orderId
-        },
-        success: (response) => {
-        if (response) {
-          location.reload();
-        }}
-    })
-}
+
+    //cancel order
+    function cancelOrder(orderId) {
+        $.ajax({
+            url: '/cancelOrder/' + orderId,
+            method: 'put',
+            data: {
+                orderId: orderId
+            },
+            success: (response) => {
+                if (response) {
+                    location.reload();
+                }
+            }
+        })
+    }
 
 
+    //return order
+    function returnOrder(orderId) {
+        $.ajax({
+            url: '/returnOrder/' + orderId,
+            method: 'put',
+            data: {
+                orderId: orderId
+            },
+            success: (response) => {
+                if (response) {
+                    location.reload();
+                }
+            }
+        })
+    }
 
-function invoiceCreator() {
-    //Import the library into your project
-    let data = JSON.parse(document.getElementById('roshan').innerHTML);
-    console.log(data);
 
-     
-
-    //Create your invoice! Easy!
-    easyinvoice.createInvoice(data, function (result) {
-      //The response will contain a base64 encoded PDF file
-      console.log("PDF base64 string: ", result.pdf);
-      easyinvoice.download("invoice.pdf");
-    });
-  }
 </script>

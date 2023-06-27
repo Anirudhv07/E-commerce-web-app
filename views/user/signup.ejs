@@ -31,100 +31,89 @@
                                         <h3 class="mb-30">Create an Account</h3>
                                     </div>
                                     <!-- message -->
-                                    <div>
-                                        <%if(locals.error){%>
+                                    <%if(locals.error){%>
 
 
 
-                                            <p style="color: red" class="message" id="errorMessage">
-                                                <%=error.reason%>
-                                            </p>
-                                            <%}%>
-                                    </div>
+                                        <p style="color: red" class="message" id="errorMessage">
+                                            <%=error.reason%>
+                                        </p>
+                                        <%}%>
 
-                                    <div class="p-conf text-center"
-                                        style="border-color: red; background-color: rgba(255,0,4,0.5); display: none; ">
-                                        OTP ERROR</div>
+                                            <div class="p-conf text-center"
+                                                style="border-color: red; background-color: rgba(255,0,4,0.5); display: none; ">
+                                                OTP ERROR</div>
 
-                                    <div class="n-conf text-center" style=" width: 100%;
+                                            <div class="n-conf text-center" style=" width: 100%;
                                     height: 20px;
                                     border-radius: 4px;
                                     background-color: rgba(0,249,12,0.5);
                                     display: none;">NUMBER VERIFIED </div>
-                                    <!-- message end -->
-                                    <!-- <p class="mb-50 font-sm">
-                                            Your personal data will be used to support your experience throughout this website, to manage access to your account, and for other purposes described in our privacy policy
-                                        </p> -->
-                                    <form method="post" action="/signup" id="form">
-                                        <div class="form-group">
-                                            <input type="text" required="" id="name" name="username"
-                                                onkeyup="validateName()" placeholder="Username">
-                                            <p id="nameerror" class="validation-label"></p>
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="text" required="" id="email" name="email"
-                                                onkeyup="validateEmail()" placeholder="Email">
-                                            <p id="emailerror" class="validation-label"></p>
+                                            <!-- message end -->
 
-                                        </div>
-                                        <div class="form-group">
-                                            <input required="" type="password" id="password" name="password"
-                                                onkeyup="validatePassword()" placeholder="Password">
-                                            <p id="passworderror" class="validation-label"></p>
+                                            <form method="post" action="/signup" id="form">
+                                                <div class="form-group">
+                                                    <input type="text" required="" id="name" name="username"
+                                                        onkeyup="validateName()" placeholder="Username">
+                                                    <p id="nameerror" class="validation-label"></p>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="text" required="" id="email" name="email"
+                                                        onkeyup="validateEmail()" placeholder="Email">
+                                                    <p id="emailerror" class="validation-label"></p>
 
-                                        </div>
-                                        <div class="form-group">
-                                            <input required="" type="password" id="confirmPassword"
-                                                onkeyup="validatePassword()" name="confirmpassword"
-                                                placeholder="Confirm password">
-                                            <p id="confirmpassworderror" class="validation-label"></p>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input required="" type="password" id="password" name="password"
+                                                        onkeyup="validatePassword()" placeholder="Password">
+                                                    <p id="passworderror" class="validation-label"></p>
 
-                                        </div>
-                                        <div class="mb-2">
-                                            <div class="form-group">
-                                                <input class="form-control" name="phone"
-                                                    placeholder="Enter phone number" onkeyup="validatePhone()"
-                                                    type="number" id="phone" />
+                                                </div>
+                                                <div class="form-group">
+                                                    <input required="" type="password" id="confirmPassword"
+                                                        onkeyup="validatePassword()" name="confirmpassword"
+                                                        placeholder="Confirm password">
+                                                    <p id="confirmpassworderror" class="validation-label"></p>
+
+                                                </div>
+                                                <div class="mb-2">
+                                                    <div class="form-group">
+                                                        <input class="form-control" required="" name="phone"
+                                                            placeholder="Enter phone number" onkeyup="validatePhone()"
+                                                            type="number" id="phone" />
 
 
-                                                <button style="width: 140px; background-color:rgb(0, 0, 0)"
-                                                    type="button" class="btn btn-primary " id="send"
-                                                    onclick="phoneAuth()">
-                                                    <b>Get OTP</b>
-                                                </button>
+                                                        <button style="width: 140px; background-color:rgb(0, 0, 0)"
+                                                            type="button" class="btn btn-primary " id="send"
+                                                            onclick="phoneAuth()">
+                                                            <b>Get OTP</b>
+                                                        </button>
 
-                                            </div>
-                                            <p id="phonenumbererror" class="validation-label">
-                                            </p>
-                                        </div>
-                                        <div id="recaptcha-container"></div>
-                                        <div class="mb-2">
-                                            <div class="form-group ">
-                                                <input class="form-control" name="Phone" placeholder="Enter OTP"
-                                                    type="text" id="otp" />
-                                                <button style="width: 140px; background-color: rgb(0, 174, 255)"
-                                                    type="button" class="btn btn-primary text-right" id="send"
-                                                    onclick="codeverify()">
-                                                    <b>Verify OTP</b>
-                                                </button>
-                                            </div>
-                                        </div>
+                                                    </div>
+                                                    <p id="phonenumbererror" class="validation-label">
+                                                    </p>
+                                                </div>
+                                                <div id="recaptcha-container"></div>
+                                                <div class="mb-2">
+                                                    <div class="form-group ">
+                                                        <input class="form-control" name="Phone" required=""
+                                                            placeholder="Enter OTP" type="text" id="otp" />
+                                                        <button style="width: 140px; background-color: rgb(0, 174, 255)"
+                                                            type="button" class="btn btn-primary text-right" id="send"
+                                                            onclick="codeverify()">
+                                                            <b>Verify OTP</b>
+                                                        </button>
+                                                    </div>
+                                                </div>
 
 
-                                        <!-- <a href="page-privacy-policy.html"><i class="fi-rs-book-alt mr-5 text-muted"></i>Lean more</a> -->
                                 </div>
                                 <div class="form-group">
                                     <button type="submit" class="btn btn-fill-out btn-block hover-up"
                                         name="login">Submit &amp; Register</button>
                                 </div>
                                 </form>
-                                <!-- <div class="divider-text-center mt-15 mb-15">
-                                            <span> or</span>
-                                        </div> -->
-                                <!-- <ul class="btn-login list_none text-center mb-15">
-                                            <li><a href="#" class="btn btn-facebook hover-up mb-lg-0 mb-sm-4">Login With Facebook</a></li>
-                                            <li><a href="#" class="btn btn-google hover-up">Login With Google</a></li>
-                                        </ul> -->
+
                                 <div class="text-secondary text-center">Already have an account? <a href="/login"
                                         class="text-success">Sign in now</a></div>
                             </div>
@@ -140,6 +129,18 @@
 
 <!-- add SDK firebase -->
 <script>
+
+    //Error msg will be dissappeard after the given second
+    setTimeout(function () {
+        var errorMessage = document.getElementById('errorMessage');
+        if (errorMessage) {
+            errorMessage.style.display = 'none';
+        }
+    }, 2000);
+
+
+
+
     // For Firebase JS SDK v7.20.0 and later, measurementId is optional
     const firebaseConfig = {
         apiKey: "AIzaSyCKpqhKaVpCSHO4MkpODbgnkmDkTFjBgKg",

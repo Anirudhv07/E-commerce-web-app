@@ -1,6 +1,7 @@
 const user = require('../../schema/dbSchma')
 
 module.exports = {
+    //To Add category function
     addCategory: async (categoryname, subcategoryname) => {
         try {
             return await new Promise(async (resolve, reject) => {
@@ -38,19 +39,23 @@ module.exports = {
             });
         } catch (error_1) {
             // Handle the error here
-            console.error(error_1);
+
             throw error_1;
         }
-      }
-      ,
+    }
+    ,
 
+    //To list Category
     viewCategory: () => {
+
         return new Promise(async (resolve, reject) => {
             await user.category.find().exec().then((response) => {
                 resolve(response)
             })
         })
     },
+
+    //To Get Edit Category Function
     editCategory: (editCategoryId) => {
         return new Promise(async (resolve, reject) => {
             await user.category.find({ _id: editCategoryId })
@@ -61,6 +66,8 @@ module.exports = {
 
         })
     },
+
+    //To post Edit Category
     postEditCategory: (id, body) => {
 
         const { editCategory, editSubCategory } = body;
@@ -71,6 +78,8 @@ module.exports = {
                 })
         })
     },
+
+    //Delete a category Function
     deleteCategory: (categoryId) => {
         return new Promise(async (resolve, reject) => {
             await user.category.deleteOne({ _id: categoryId }).then((data) => {
@@ -80,6 +89,8 @@ module.exports = {
         })
 
     },
+
+    //To view Sub category
     subCategoryView: (proCategory) => {
         return new Promise(async (resolve, reject) => {
             await user.category.findOne({ CategoryName: proCategory }).then((response) => {
@@ -88,6 +99,8 @@ module.exports = {
             })
         })
     },
+
+    //To Unlist Category
     unlistCategory: (catId, condition) => {
         return new Promise(async (resolve, reject) => {
             await user.category.updateOne({ _id: catId }, { $set: { unlist: condition } })
@@ -99,14 +112,16 @@ module.exports = {
                 })
         })
     },
-    unlistAllProduct:(catName,condition)=>{
-        return new Promise(async (resolve,reject)=>{
-            await user.product.updateMany({Category:catName},{$set:{unlist:condition}})
-            .then((response)=>{
-                resolve(response)
-            }).catch((err)=>{
-                reject(err)
-            })
+
+    //To unlist All product
+    unlistAllProduct: (catName, condition) => {
+        return new Promise(async (resolve, reject) => {
+            await user.product.updateMany({ Category: catName }, { $set: { unlist: condition } })
+                .then((response) => {
+                    resolve(response)
+                }).catch((err) => {
+                    reject(err)
+                })
         })
 
     }

@@ -1,6 +1,3 @@
-
-
-
 <style>
     .container {
         position: relative;
@@ -70,7 +67,8 @@
 
                                                 <h5 class="mb-30">Enter OTP</h5>
                                                 <input type="text" id="verificationcode" placeholder="OTP Code">
-                                                <input type="button" id="verify" class="bg-dark text-white" value="Verify" onclick="codeverify()" />
+                                                <input type="button" id="verify" class="bg-dark text-white"
+                                                    value="Verify" onclick="codeverify()" />
                                                 <div class="p-conf">Number Verified</div>
                                                 <div class="n-conf">OTP Error</div>
                                             </div>
@@ -78,11 +76,13 @@
                                         <div class="form-group">
                                             <div id="resend-section">
                                                 <div id="timer"></div>
-                                                <button id="resend-btn" class="btn btn-success"  onclick="numVerify2()"  disabled  style="display: none;">Resend OTP</button>
+                                                <button id="resend-btn" class="btn btn-success" onclick="numVerify2()"
+                                                    disabled style="display: none;">Resend OTP</button>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <button id="loginBtn" class="btn btn-fill-out btn-block hover-up" name="login" onclick="otpLogin()" style="display: none;">
+                                            <button id="loginBtn" class="btn btn-fill-out btn-block hover-up"
+                                                name="login" onclick="otpLogin()" style="display: none;">
                                                 Login
                                             </button>
                                         </div>
@@ -116,6 +116,8 @@
 
     let timer;
 
+
+    //verify number 
     function numVerify() {
         const num = document.getElementById('number').value;
         console.log(num, 'number');
@@ -135,7 +137,7 @@
         });
     }
 
-
+    //verify number 
     function numVerify2() {
         const num = document.getElementById('number').value;
         console.log(num, 'number');
@@ -156,7 +158,7 @@
     }
 
 
-
+    //otp login
     function otpLogin() {
         const userNum = document.getElementById('number').value;
         console.log(userNum);
@@ -208,6 +210,10 @@
                 alert(error.message);
             });
     }
+
+
+
+    // Phone number authentication
     function phoneAuth2() {
         const number = document.getElementById('number').value;
         const phoneNumber = "+91" + number;
@@ -227,31 +233,33 @@
             });
     }
 
+
+    //start timer
     function startTimer() {
         document.getElementById('resend-btn').style.display = 'block';
 
-    let duration = 60; // Duration in seconds
+        let duration = 60; // Duration in seconds
 
-    // Update the timer display initially
-    updateTimer(duration);
-
-    // Decrease the duration every second
-    timer = setInterval(function () {
-        duration--;
+        // Update the timer display initially
         updateTimer(duration);
 
-        // If the duration reaches 0, enable the resend button and clear the timer
-        if (duration === 0) {
-            clearInterval(timer);
-            document.getElementById('resend-btn').disabled = false;
-        }
-    }, 1000);
+        // Decrease the duration every second
+        timer = setInterval(function () {
+            duration--;
+            updateTimer(duration);
 
-    // Enable the resend button after the timer expires
-    setTimeout(function () {
-        document.getElementById('resend-btn').disabled = false;
-    }, duration * 1000 + 1000); // Add an extra second to the duration
-}
+            // If the duration reaches 0, enable the resend button and clear the timer
+            if (duration === 0) {
+                clearInterval(timer);
+                document.getElementById('resend-btn').disabled = false;
+            }
+        }, 1000);
+
+        // Enable the resend button after the timer expires
+        setTimeout(function () {
+            document.getElementById('resend-btn').disabled = false;
+        }, duration * 1000 + 1000); // Add an extra second to the duration
+    }
 
 
     function updateTimer(duration) {
@@ -271,9 +279,9 @@
                 document.getElementsByClassName('p-conf')[0].style.display = 'block';
                 document.getElementsByClassName('n-conf')[0].style.display = 'none';
                 document.getElementById('loginBtn').style.display = 'block';
-                
 
-                
+
+
 
                 // Enable the submit button
                 // document.getElementById('submit-btn').removeAttribute('disabled');
@@ -288,16 +296,16 @@
     }
 
     function resendOTP() {
-    // Clear the existing timer
-    numVerify();
-    
-    // Disable the resend button
-    
-    clearTimeout(timer);
-    // Call phoneAuth() to resend the OTP
-    
-    
-    document.getElementById('resend-btn').disabled = true;
-}
+        // Clear the existing timer
+        numVerify();
+
+        // Disable the resend button
+
+        clearTimeout(timer);
+        // Call phoneAuth() to resend the OTP
+
+
+        document.getElementById('resend-btn').disabled = true;
+    }
 
 </script>

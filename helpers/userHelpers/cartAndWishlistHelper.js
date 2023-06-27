@@ -5,6 +5,8 @@ const ObjectId = require('mongodb').ObjectId
 
 
 module.exports = {
+
+    //add to cart function
     addtoCart: (proId, userId, count) => {
 
         let proObj = {
@@ -25,7 +27,7 @@ module.exports = {
 
 
 
-                    if (cartItem.Quantity <= productDetails.Quantity-1) {
+                    if (cartItem.Quantity <= productDetails.Quantity - 1) {
 
                         const response = await user.cart.updateOne({ user: userId, 'cartItems.productId': proId },
 
@@ -68,6 +70,8 @@ module.exports = {
             }
         })
     },
+
+    //add to wishlist function
     addtoWishlist: (proId, userId, wishlistCount) => {
 
         let proObj = {
@@ -104,6 +108,8 @@ module.exports = {
             }
         })
     },
+
+    //To list Cart Items
     listCart: (userId) => {
 
         return new Promise(async (resolve, reject) => {
@@ -142,6 +148,8 @@ module.exports = {
             })
         })
     },
+
+    //list wishlist function
     listWishlist: (userId) => {
 
         return new Promise(async (resolve, reject) => {
@@ -179,6 +187,8 @@ module.exports = {
             })
         })
     },
+
+    //To get Total cart count
     getCartCount: (userId) => {
         return new Promise(async (resolve, reject) => {
             let cart = await user.cart.findOne({ user: new ObjectId(userId) })
@@ -192,6 +202,8 @@ module.exports = {
             resolve(count)
         })
     },
+
+    //To get Total wishlist count
     getWishlistCount: (userId) => {
         return new Promise(async (resolve, reject) => {
             let wishlist = await user.wishlist.findOne({ user: new ObjectId(userId) })
@@ -205,18 +217,20 @@ module.exports = {
             resolve(wishlistCount)
         })
     },
+
+    //change product Quantity
     changeProQuantity: (details) => {
-        const userId=details.user
-        const proId=details.product
+        const userId = details.user
+        const proId = details.product
 
         const quantity = parseInt(details.quantity)
         const count = parseInt(details.count)
-        return new Promise(async(resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
             if (count == -1 && quantity == 1) {
                 user.cart.updateOne({ _id: details.cart },
                     {
                         $pull: { cartItems: { productId: details.product } }
-                    }).then((response) => {
+                    }).then(() => {
                         resolve({ removeProduct: true })
                     })
             } else {
@@ -224,36 +238,37 @@ module.exports = {
                 const cartProduct = await user.cart.findOne({ user: userId, 'cartItems.productId': proId });
                 const cartItem = cartProduct.cartItems.find(item => item.productId.toString() === proId.toString());
 
-                console.log(cartItem); 
-                if(count==1){
+                console.log(cartItem);
+                if (count == 1) {
 
-                if (cartItem.Quantity <= productDetails.Quantity - 1) {
-                await user.cart
-                    .updateOne({ _id: details.cart, 'cartItems.productId': details.product },
-                        { $inc: { 'cartItems.$.Quantity': count } }).then(() => {
+                    if (cartItem.Quantity <= productDetails.Quantity - 1) {
+                        await user.cart
+                            .updateOne({ _id: details.cart, 'cartItems.productId': details.product },
+                                { $inc: { 'cartItems.$.Quantity': count } }).then(() => {
 
 
-                        }).then(() => {
-                            resolve({ status: true })
-                        })
-                    }else{
-                        resolve({status:false})
+                                }).then(() => {
+                                    resolve({ status: true })
+                                })
+                    } else {
+                        resolve({ status: false })
                     }
-            }else{
-                await user.cart
-                    .updateOne({ _id: details.cart, 'cartItems.productId': details.product },
-                        { $inc: { 'cartItems.$.Quantity': count } }).then(() => {
+                } else {
+                    await user.cart
+                        .updateOne({ _id: details.cart, 'cartItems.productId': details.product },
+                            { $inc: { 'cartItems.$.Quantity': count } }).then(() => {
 
 
-                        }).then(() => {
-                            resolve({ status: true })
-                        })
+                            }).then(() => {
+                                resolve({ status: true })
+                            })
 
+                }
             }
-        }
 
         })
     },
+    //delete Cart product
     deleteCartProduct: (userData) => {
         const cartId = userData.cartId
         const proId = userData.proId
@@ -265,6 +280,7 @@ module.exports = {
         })
 
     },
+    //delete wishlist product
     deleteWishlistProduct: (userData) => {
         const wishlistId = userData.wishlistId
         const proId = userData.proId
@@ -276,5 +292,5 @@ module.exports = {
         })
 
     },
-  
+
 }

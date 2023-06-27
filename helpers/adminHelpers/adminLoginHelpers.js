@@ -1,6 +1,7 @@
 const dbadmin = require('../../schema/dbSchma');
 
 module.exports = {
+  //Post Admin Login function
   doAdminLogin: (adminData) => {
 
     return new Promise(async (resolve, reject) => {

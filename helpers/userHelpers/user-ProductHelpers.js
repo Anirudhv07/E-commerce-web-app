@@ -1,12 +1,12 @@
 const dbuser = require('../../schema/dbSchma')
 const bcrypt = require('bcrypt')
-const ObjectId= require('mongodb').ObjectId
+const ObjectId = require('mongodb').ObjectId
 
 module.exports = {
     getDocCount: () => {
         return new Promise(async (resolve, reject) => {
-            await dbuser.product.find({unlist:false}).countDocuments().then((documents) => {
-                console.log(documents,'doccccccccccc');
+            await dbuser.product.find({ unlist: false }).countDocuments().then((documents) => {
+               
                 resolve(documents)
             })
         })
@@ -14,15 +14,17 @@ module.exports = {
     shopListProducts: (pageNum) => {
         const perPage = 2
         return new Promise(async (resolve, reject) => {
-            await dbuser.product.find({unlist:false}).skip((pageNum - 1) * perPage)
+            await dbuser.product.find({ unlist: false }).skip((pageNum - 1) * perPage)
                 .limit(perPage).then((response) => {
                     resolve(response)
                 })
         })
     },
+
+    //to get all Product
     getAllProducts: async (page, perPage) => {
         const skip = (page - 1) * perPage;
-        const product = await dbuser.product.find({unlist:false})
+        const product = await dbuser.product.find({ unlist: false })
             .skip(skip)
             .limit(perPage);
 
@@ -34,6 +36,8 @@ module.exports = {
             totalPages,
         };
     },
+
+    //detail view function
     detailView: (id) => {
         return new Promise(async (resolve, reject) => {
             await dbuser.product.findOne({ _id: id }).then((response) => {
@@ -41,20 +45,26 @@ module.exports = {
             })
         })
     },
-    filterCategory:(catName)=>{
-        return new Promise(async(resolve,reject)=>{
-            await dbuser.product.find({Category:catName}).then((response)=>{
-                resolve(response)
-            })
-        })
-    },
+
+    // //filter Category function(NOT USED THIS TIME)
+    // filterCategory:(catName)=>{
+    //     return new Promise(async(resolve,reject)=>{
+    //         await dbuser.product.find({Category:catName}).then((response)=>{
+    //             resolve(response)
+    //         })
+    //     })
+    // },
+
+
+
+    //after query is passed (sort /search /filter)
     getQueriesOnShop: (query) => {
         const search = query?.search
         const sort = query?.sort
         const filter = query?.filter
         const page = parseInt(query?.page) || 1
-        perPage=6
-    
+        perPage = 6
+
 
 
 
@@ -63,8 +73,8 @@ module.exports = {
             let filterObj = {}
 
             if (filter) {
-                filterObj = { Category : filter }
-         
+                filterObj = { Category: filter }
+
             }
 
             //Building search query
@@ -75,7 +85,7 @@ module.exports = {
                 searchQuery = {
                     $or: [
                         { Productname: { $regex: search, $options: 'i' } },
-                        {ProductDescription: { $regex: search, $options: 'i' } }
+                        { ProductDescription: { $regex: search, $options: 'i' } }
                     ]
                 }
             }
@@ -94,31 +104,27 @@ module.exports = {
                 sortObj = { offerPrice: 1 };
             }
 
-            
+
             const product = await dbuser.product.find({
                 ...searchQuery,
                 ...filterObj,
-                unlist:false
-                
-            
+                unlist: false
+
+
             })
                 .sort(sortObj)
-                
-                
+
+
 
 
             const totalProducts = await dbuser.product.countDocuments({
                 ...searchQuery,
                 ...filterObj,
-                unlist:false
+                unlist: false
             });
 
-            //    console.log(searchQuery,'searchQuery');
-            //    console.log(sortObj,'sortObj');
-            //    console.log(skip,'skip');
-            //    console.log(product,'product');
+          
 
-           
             if (product.length == 0) {
                 resolve({
                     noProductFound: true,
@@ -128,11 +134,11 @@ module.exports = {
             resolve({
                 product,
                 noProductFound: false,
-                
+
             });
 
         })
 
     },
-   
+
 }

@@ -2,216 +2,233 @@
 
 
 <section class="content-main">
-    <div class="content-header">
-        <div>
-            <h2 class="content-title card-title">Dashboard </h2>
-            <p>Whole data about your business here</p>
-        </div>
-       
+  <div class="content-header">
+    <div>
+      <h2 class="content-title card-title">Dashboard </h2>
+      <p>Whole data about your business here</p>
     </div>
-    <div class="row">
-        <div class="col-lg-4">
-            <div class="card card-body mb-4">
-                <article class="icontext">
-                    <span class="icon icon-sm rounded-circle bg-primary-light"><i
-                            class="text-primary material-icons md-monetization_on"></i></span>
-                    <div class="text">
-                        <h6 class="mb-1 card-title">Revenue</h6>
-                        <span>₹ <%=totalRevenue[0].totalRevenue%></span>
-                        <span class="text-sm">
-                            Shipping fees are not included
-                        </span>
-                    </div>
-                </article>
-            </div>
-        </div>
-        <div class="col-lg-4">
-            <div class="card card-body mb-4">
-                <article class="icontext">
-                    <span class="icon icon-sm rounded-circle bg-success-light"><i
-                            class="text-success material-icons md-local_shipping"></i></span>
-                    <div class="text">
-                        <h6 class="mb-1 card-title">Orders</h6> <span><%=orderCount%></span>
-                        <span class="text-sm">
-                            Excluding orders in transit
-                        </span>
-                    </div>
-                </article>
-            </div>
-        </div>
-        <div class="col-lg-4">
-            <div class="card card-body mb-4">
-                <article class="icontext">
-                    <span class="icon icon-sm rounded-circle bg-warning-light"><i
-                            class="text-warning material-icons md-qr_code"></i></span>
-                    <div class="text">
-                        <h6 class="mb-1 card-title">Products</h6> <span><%=totalProduct%></span>
-                        <span class="text-sm">
-                            In 19 Categories
-                        </span>
-                    </div>
-                </article>
-            </div>
-        </div>
-        
+
+  </div>
+  <div class="row">
+    <div class="col-lg-4">
+      <div class="card card-body mb-4">
+        <article class="icontext">
+          <span class="icon icon-sm rounded-circle bg-primary-light"><i
+              class="text-primary material-icons md-monetization_on"></i></span>
+          <div class="text">
+            <h6 class="mb-1 card-title">Revenue</h6>
+            <span>₹ <%=totalRevenue[0].totalRevenue%></span>
+            <span class="text-sm">
+              Shipping fees are not included
+            </span>
+          </div>
+        </article>
+      </div>
     </div>
-    <div class="row">
-        <div class="col-xl-6 col-lg-12">
-            <div class="card mb-4">
-                <article class="card-body">
-                    <h5 class="card-title">Sale statistics</h5>
-                    <canvas id="myChart1" style="width:100%;max-width:600px;height: 21.2rem;"></canvas>
-                    <p style="visibility: hidden;" id="dateCount"><%=dateCount%></p>
-                    <p style="visibility: hidden;" id="dates"><%=dates%></p>
-
-
-
-
-                </article>
-            </div>
-            
-        </div>
-        <div class="col-xl-6 col-lg-12">
-            <div class="card ">
-                <article class="card-body">
-                    <h5 class="card-title">Payment Mode</h5>
-                    <canvas id="myDoughnutChart" style="width:100%;max-width:600px"></canvas>
-                    <p style="visibility: hidden;" id="paymentOnline"><%=onlineCount%></p>
-                    <p style="visibility: hidden;" id="paymentWallet"><%=walletCount%></p>
-                    
-                    <p style="visibility: hidden;" id="paymentCod"><%=codCount%></p>
-
-
-                </article>
-            </div>
-            
-        </div>
-        <div class="col-xl-6 col-lg-12">
-            <div class="card mb-4">
-                <article class="card-body">
-                    <h5 class="card-title">Category Sale</h5>
-                    <canvas id="myChartt" style="width:100%;max-width:600px"></canvas>
-                   
-                    <p style="visibility: hidden;" id="catCount1"><%=catCount%></p>
-
-                    <p style="visibility: hidden;" id="catCount2"><%=catName%></p>
-
-
-                   
-
-                </article>
-            </div>
-            
-        </div>
+    <div class="col-lg-4">
+      <div class="card card-body mb-4">
+        <article class="icontext">
+          <span class="icon icon-sm rounded-circle bg-success-light"><i
+              class="text-success material-icons md-local_shipping"></i></span>
+          <div class="text">
+            <h6 class="mb-1 card-title">Orders</h6> <span>
+              <%=orderCount%>
+            </span>
+            <span class="text-sm">
+              Excluding orders in transit
+            </span>
+          </div>
+        </article>
+      </div>
     </div>
-   
+    <div class="col-lg-4">
+      <div class="card card-body mb-4">
+        <article class="icontext">
+          <span class="icon icon-sm rounded-circle bg-warning-light"><i
+              class="text-warning material-icons md-qr_code"></i></span>
+          <div class="text">
+            <h6 class="mb-1 card-title">Products</h6> <span>
+              <%=totalProduct%>
+            </span>
+            <span class="text-sm">
+              In 19 Categories
+            </span>
+          </div>
+        </article>
+      </div>
+    </div>
+
+  </div>
+  <div class="row">
+    <div class="col-xl-6 col-lg-12">
+      <div class="card mb-4">
+        <article class="card-body">
+          <h5 class="card-title">Sale statistics</h5>
+          <canvas id="myChart1" style="width:100%;max-width:600px;height: 21.2rem;"></canvas>
+          <p style="visibility: hidden;" id="dateCount">
+            <%=dateCount%>
+          </p>
+          <p style="visibility: hidden;" id="dates">
+            <%=dates%>
+          </p>
+
+
+
+
+        </article>
+      </div>
+
+    </div>
+    <div class="col-xl-6 col-lg-12">
+      <div class="card ">
+        <article class="card-body">
+          <h5 class="card-title">Payment Mode</h5>
+          <canvas id="myDoughnutChart" style="width:100%;max-width:600px"></canvas>
+          <p style="visibility: hidden;" id="paymentOnline">
+            <%=onlineCount%>
+          </p>
+          <p style="visibility: hidden;" id="paymentWallet">
+            <%=walletCount%>
+          </p>
+
+          <p style="visibility: hidden;" id="paymentCod">
+            <%=codCount%>
+          </p>
+
+
+        </article>
+      </div>
+
+    </div>
+    <div class="col-xl-6 col-lg-12">
+      <div class="card mb-4">
+        <article class="card-body">
+          <h5 class="card-title">Category Sale</h5>
+          <canvas id="myChartt" style="width:100%;max-width:600px"></canvas>
+
+          <p style="visibility: hidden;" id="catCount1">
+            <%=catCount%>
+          </p>
+
+          <p style="visibility: hidden;" id="catCount2">
+            <%=catName%>
+          </p>
+
+
+
+
+        </article>
+      </div>
+
+    </div>
+  </div>
+
 </section> <!-- content-main end// -->
 
 <script>
-    //graph
-   
-const dates=document.getElementById('dates').innerHTML 
-const dateCount=document.getElementById('dateCount').innerHTML 
- var xValues = dates.split(",");
- var yValues = dateCount.split(",");
+  //graph
+
+  const dates = document.getElementById('dates').innerHTML
+  const dateCount = document.getElementById('dateCount').innerHTML
+  var xValues = dates.split(",");
+  var yValues = dateCount.split(",");
 
 
- 
-    new Chart("myChart1", {
-      type: "line",
-      data: {
-        labels: xValues,
-        datasets: [{
-          fill: false,
-          lineTension: 0,
-          backgroundColor: "rgba(0,0,255,1.0)",
-          borderColor: "rgba(0,0,255,0.1)",
-          data: yValues
-        }]
-      },
-      options: {
-    legend: {display: false},
-    scales: {
-      yAxes: [{
-        ticks: {
-          beginAtZero: true
-        }
-      }],
+
+  new Chart("myChart1", {
+    type: "line",
+    data: {
+      labels: xValues,
+      datasets: [{
+        fill: false,
+        lineTension: 0,
+        backgroundColor: "rgba(0,0,255,1.0)",
+        borderColor: "rgba(0,0,255,0.1)",
+        data: yValues
+      }]
+    },
+    options: {
+      legend: { display: false },
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }],
+      }
     }
-  }
-    })
+  })
 
-//doughnut chart
-    var xxValues = ["COD", "Wallet", "Online"];
-var yyValues = [];
-var barColors = [
-  "#b91d47",
-  "#00aba9",
-  "#2b5797",
-];
-const cod=document.getElementById('paymentCod').innerHTML
-const wallet=document.getElementById('paymentWallet').innerHTML
+  //doughnut chart
+  var xxValues = ["COD", "Wallet", "Online"];
+  var yyValues = [];
+  var barColors = [
+    "#b91d47",
+    "#00aba9",
+    "#2b5797",
+  ];
+  const cod = document.getElementById('paymentCod').innerHTML
+  const wallet = document.getElementById('paymentWallet').innerHTML
 
-const online=document.getElementById('paymentOnline').innerHTML 
+  const online = document.getElementById('paymentOnline').innerHTML
 
-console.log(cod,wallet,online,'kookoko');
-yyValues.push(cod)
-yyValues.push(wallet)
+  console.log(cod, wallet, online, 'kookoko');
+  yyValues.push(cod)
+  yyValues.push(wallet)
 
-yyValues.push(online)
+  yyValues.push(online)
 
 
-new Chart("myDoughnutChart", {
-  type: "doughnut",
-  data: {
-    labels: xxValues,
-    datasets: [{
-      backgroundColor: barColors,
-      data: yyValues
-    }]
-  },
-  options: {
-    title: {
-      display: true,
-     
+  new Chart("myDoughnutChart", {
+    type: "doughnut",
+    data: {
+      labels: xxValues,
+      datasets: [{
+        backgroundColor: barColors,
+        data: yyValues
+      }]
+    },
+    options: {
+      title: {
+        display: true,
+
+      }
     }
-  }
-});
+  });
 
 
+  //chart
+  const categoryCount = document.getElementById('catCount1').innerHTML;
+  const categoryName = document.getElementById('catCount2').innerHTML;
 
-const categoryCount = document.getElementById('catCount1').innerHTML;
-const categoryName = document.getElementById('catCount2').innerHTML;
+  console.log(categoryCount, categoryName);
 
-console.log(categoryCount, categoryName);
+  var xxxValues = categoryName.split(",");
+  var yyyValues = categoryCount.split(",");
+  var barColors = "red";
 
-var xxxValues = categoryName.split(",");
-var yyyValues = categoryCount.split(",");
-var barColors = "red";
+  console.log(xxxValues, yyyValues);
 
-console.log(xxxValues, yyyValues);
-
-new Chart("myChartt", {
-  type: "bar",
-  data: {
-    labels: xxxValues,
-    datasets: [{
-      backgroundColor: barColors,
-      data: yyyValues
-    }]
-  },
-  options: {
-    legend: {display: false},
-    scales: {
-      yAxes: [{
-        ticks: {
-          beginAtZero: true
-        }
-      }],
+  new Chart("myChartt", {
+    type: "bar",
+    data: {
+      labels: xxxValues,
+      datasets: [{
+        backgroundColor: barColors,
+        data: yyyValues
+      }]
+    },
+    options: {
+      legend: { display: false },
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }],
+      }
     }
-  }
-});
+  });
 
 
-    </script>
-    
+</script>

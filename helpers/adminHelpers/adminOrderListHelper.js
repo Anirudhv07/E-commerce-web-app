@@ -3,6 +3,7 @@ const ObjectId = require('mongodb').ObjectId
 
 
 module.exports = {
+    //To get List of Orders
     getOrderList: () => {
         return new Promise(async (resolve, reject) => {
             await user.order.aggregate([
@@ -33,6 +34,8 @@ module.exports = {
             })
         })
     },
+
+    //To get Details of Particular Order
     getOrderDetails: (orderId, userId) => {
 
         return new Promise(async (resolve, reject) => {
@@ -76,10 +79,13 @@ module.exports = {
             })
         })
     },
+
+
+    //To change the order Status of Particular Order
     putOrderStatus: (orderStatus) => {
         return new Promise(async (resolve, reject) => {
             await user.order.updateOne({ 'orders._id': orderStatus.orderId }, { $set: { 'orders.$.orderConfirm': orderStatus.status } })
-                .then((response) => {
+                .then(() => {
                     resolve({ update: true });
                 })
         })
@@ -148,6 +154,9 @@ module.exports = {
             })
         })
     },
+
+
+    //To get the datas b/w two dates
     dateFilter: (date) => {
         const start = new Date(date.startdate)
         const end = new Date(date.enddate)
@@ -222,90 +231,95 @@ module.exports = {
 
         })
     },
-    firstOrderDate:()=>{
+
+    //To get Date of First Order Date
+    firstOrderDate: () => {
         return new Promise(async (resolve, reject) => {
             await user.order.aggregate([
-            {
-              $unwind:
-                /**
-                 * path: Path to the array field.
-                 * includeArrayIndex: Optional name for index.
-                 * preserveNullAndEmptyArrays: Optional
-                 *   toggle to unwind null and empty values.
-                 */
                 {
-                  path: "$orders",
-                  includeArrayIndex: "string",
+                    $unwind:
+                    /**
+                     * path: Path to the array field.
+                     * includeArrayIndex: Optional name for index.
+                     * preserveNullAndEmptyArrays: Optional
+                     *   toggle to unwind null and empty values.
+                     */
+                    {
+                        path: "$orders",
+                        includeArrayIndex: "string",
+                    },
                 },
-            },
-            {
-              $project:
-                /**
-                 * specifications: The fields to
-                 *   include or exclude.
-                 */
                 {
-                  date: "$orders.creditedAt",
+                    $project:
+                    /**
+                     * specifications: The fields to
+                     *   include or exclude.
+                     */
+                    {
+                        date: "$orders.creditedAt",
+                    },
                 },
-            },
-            {
-              $sort:
-                /**
-                 * Provide any number of field/order pairs.
-                 */
                 {
-                  date: 1,
+                    $sort:
+                    /**
+                     * Provide any number of field/order pairs.
+                     */
+                    {
+                        date: 1,
+                    },
                 },
-            },
-          ]).then((response)=>{
-              const result=response[0]
-            console.log(result,'koko');
-            resolve(result)
-          })
-    })
-},
-lastOrderDate:()=>{
-    return new Promise(async (resolve, reject) => {
-        await user.order.aggregate([
-        {
-          $unwind:
-            /**
-             * path: Path to the array field.
-             * includeArrayIndex: Optional name for index.
-             * preserveNullAndEmptyArrays: Optional
-             *   toggle to unwind null and empty values.
-             */
-            {
-              path: "$orders",
-              includeArrayIndex: "string",
-            },
-        },
-        {
-          $project:
-            /**
-             * specifications: The fields to
-             *   include or exclude.
-             */
-            {
-              date: "$orders.creditedAt",
-            },
-        },
-        {
-          $sort:
-            /**
-             * Provide any number of field/order pairs.
-             */
-            {
-              date: -1,
-            },
-        },
-      ]).then((response)=>{
-          const result=response[0]
-        console.log(result,'koko');
-        resolve(result)
-      })
-})
-},
+            ]).then((response) => {
+                const result = response[0]
+         
+                resolve(result)
+            })
+        })
+    },
+
+    //To get Date of Last Order Date
+    lastOrderDate: () => {
+        return new Promise(async (resolve, reject) => {
+            await user.order.aggregate([
+                {
+                    $unwind:
+                    /**
+                     * path: Path to the array field.
+                     * includeArrayIndex: Optional name for index.
+                     * preserveNullAndEmptyArrays: Optional
+                     *   toggle to unwind null and empty values.
+                     */
+                    {
+                        path: "$orders",
+                        includeArrayIndex: "string",
+                    },
+                },
+                {
+                    $project:
+                    /**
+                     * specifications: The fields to
+                     *   include or exclude.
+                     */
+                    {
+                        date: "$orders.creditedAt",
+                    },
+                },
+                {
+                    $sort:
+                    /**
+                     * Provide any number of field/order pairs.
+                     */
+                    {
+                        date: -1,
+                    },
+                },
+            ]).then((response) => {
+                const result = response[0]
+          
+                resolve(result)
+            })
+        })
+    },
+    //To get the count of ORDERS
     orderCount: () => {
         return new Promise(async (resolve, reject) => {
             await user.order.aggregate([
@@ -318,6 +332,7 @@ lastOrderDate:()=>{
 
         })
     },
+    //To get the TOTAL REVENUE OF DELIVERED PRODUCT
     totalRevenue: () => {
         return new Promise(async (resolve, reject) => {
             await user.order.aggregate([
@@ -341,6 +356,7 @@ lastOrderDate:()=>{
 
         })
     },
+    //To get the count of Cash on Delivery Orders
     codCount: () => {
         return new Promise(async (resolve, reject) => {
             await user.order.aggregate([
@@ -360,6 +376,7 @@ lastOrderDate:()=>{
         })
 
     },
+    //To get the count of Wallet Orders
 
     walletCount: () => {
         return new Promise(async (resolve, reject) => {
@@ -380,6 +397,8 @@ lastOrderDate:()=>{
         })
 
     },
+    //To get the count of Online Orders
+
     onlineCount: () => {
         return new Promise(async (resolve, reject) => {
             await user.order.aggregate([
@@ -399,6 +418,8 @@ lastOrderDate:()=>{
         })
 
     },
+    //To get the count of Orders done in particular category
+
     categoryOrder: () => {
         return new Promise(async (resolve, reject) => {
             await user.order.aggregate([
@@ -504,28 +525,30 @@ lastOrderDate:()=>{
 
         })
     },
-    byDays:()=>{
-        return new Promise(async(resolve,reject)=>{
+    //To get the count of Orders done on particular days
+
+    byDays: () => {
+        return new Promise(async (resolve, reject) => {
             await user.order.aggregate([
                 {
                     $unwind: "$orders" // Unwind the orders array
-                  },
-                  { $match: { 'orders.orderConfirm': 'delivered' } },
-                  {
+                },
+                { $match: { 'orders.orderConfirm': 'delivered' } },
+                {
                     $group: {
-                      _id: {
-                        $dateToString: { // Group by the day of the order
-                          format: "%Y-%m-%d", // Customize the format as needed
-                          date: "$orders.creditedAt"
-                        }
-                      },
-                      count: { $sum: 1 } // Calculate the count of orders per day
+                        _id: {
+                            $dateToString: { // Group by the day of the order
+                                format: "%Y-%m-%d", // Customize the format as needed
+                                date: "$orders.creditedAt"
+                            }
+                        },
+                        count: { $sum: 1 } // Calculate the count of orders per day
                     }
-                  },{
+                }, {
                     $sort: { "_id": 1 } // Sort by ascending order of the day
-                  }
-            ]).then((response)=>{
-               resolve(response)
+                }
+            ]).then((response) => {
+                resolve(response)
             })
         })
     }

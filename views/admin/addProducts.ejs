@@ -1,3 +1,4 @@
+<!-- image cropper -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.9/cropper.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.9/cropper.min.css" />
 
@@ -8,8 +9,7 @@
                 <div class="content-header">
                     <h2 class="content-title">Add New Product</h2>
                     <div>
-                        <!-- <button class="btn btn-light rounded font-sm mr-5 text-body hover-up">Save to draft</button> -->
-                        <button type="submit" class="btn btn-md rounded font-sm hover-up" >Publish</button>
+                        <button type="submit" class="btn btn-md rounded font-sm hover-up">Publish</button>
                     </div>
                 </div>
         </div>
@@ -23,16 +23,16 @@
                     <div class="mb-4">
                         <label for="product_name" class="form-label">Product title</label>
                         <input type="text" name="productName" id="title" onkeyup="validateTitle()"
-                            placeholder="Type here" class="form-control" >
-                            <p id="titleerror" class="validation-label"></p>
-                            
+                            placeholder="Type here" class="form-control">
+                        <p id="titleerror" class="validation-label"></p>
+
 
                     </div>
                     <div class="mb-4">
                         <label class="form-label">Full description</label>
                         <input placeholder="Type here" id="description" onkeyup="validateDescription()"
                             name="productDescription" class="form-control">
-                            <p id="descriptionerror" class="validation-label"></p>
+                        <p id="descriptionerror" class="validation-label"></p>
 
                     </div>
                     <div class="row">
@@ -40,9 +40,9 @@
                             <div class="mb-4">
                                 <label class="form-label">Price</label>
                                 <div class="row gx-2">
-                                    <input placeholder="Type here" id="price" onkeyup="validatePrice()" name="productPrice"
-                                        type="number" class="form-control">
-                                        <p id="priceerror" class="validation-label"></p>
+                                    <input placeholder="Type here" id="price" onkeyup="validatePrice()"
+                                        name="productPrice" type="number" class="form-control">
+                                    <p id="priceerror" class="validation-label"></p>
 
                                 </div>
                             </div>
@@ -81,20 +81,19 @@
                                     </option>
 
                                     <% })%>
-                                
+
                             </select>
                         </div>
                         <div class="mb-4">
                             <label for="product_name" class="form-label">Quantity</label>
-                            <input type="text" id="quantity" onkeyup="validateQuantity()" name="productQuantity"
+                            <input type="number" id="quantity" onkeyup="validateQuantity()" name="productQuantity"
                                 class="form-control">
-                                <p id="quantityerror" class="validation-label"></p>
+                            <p id="quantityerror" class="validation-label"></p>
 
                         </div>
                         <div class="mb-4">
                             <label for="product_name" class="form-label">Offer Percentage</label>
-                            <input type="text" name="productOfferPercentage" id="offerPercentage" 
-                                class="form-control" >
+                            <input type="number" name="productOfferPercentage" onkeyup="validateOfferPercentage()" id="offerPercentage" class="form-control">
                             <p id="offerpercentageerror" class="validation-label"></p>
 
                         </div>
@@ -112,41 +111,45 @@
                 <div class="card-body">
                     <div class="input-upload">
                         <img src="assets/imgs/theme/upload.svg" alt="" id="imgView1">
-                        <input class="form-control" name="files" id="input1" onchange="if (validateImage(this)) viewImage1(event),viewImage(event, 1)" type="file">
+                        <input class="form-control" name="files" id="input1"
+                            onchange="if (validateImage(this)) viewImage1(event),viewImage(event, 1)" type="file">
                         <div class="image-cropper" style="display:none;">
                             <img src="" id="croppedImg1" alt="">
                             <button type="button" id="saveButton1" class="btn-sm btn-primary">Save</button>
-                          </div>
+                        </div>
                     </div>
                 </div>
                 <div class="card-body">
                     <div class="input-upload">
                         <img src="assets/imgs/theme/upload.svg" alt="" id="imgView2">
-                        <input class="form-control" name="files" id="input2" onchange="if (validateImage(this)) viewImage2(event),viewImage(event, 2)" type="file">
+                        <input class="form-control" name="files" id="input2"
+                            onchange="if (validateImage(this)) viewImage2(event),viewImage(event, 2)" type="file">
                         <div class="image-cropper" style="display:none;">
                             <img src="" id="croppedImg2" alt="">
                             <button type="button" id="saveButton2" class="btn-sm btn-primary">Save</button>
-                          </div>
+                        </div>
                     </div>
                 </div>
                 <div class="card-body">
                     <div class="input-upload">
                         <img src="assets/imgs/theme/upload.svg" alt="" id="imgView3">
-                        <input class="form-control" name="files" id="input3" onchange="if (validateImage(this)) viewImage3(event),viewImage(event, 3)" type="file">
+                        <input class="form-control" name="files" id="input3"
+                            onchange="if (validateImage(this)) viewImage3(event),viewImage(event, 3)" type="file">
                         <div class="image-cropper" style="display:none;">
                             <img src="" id="croppedImg3" alt="">
                             <button type="button" id="saveButton3" class="btn-sm btn-primary">Save</button>
-                          </div>
+                        </div>
                     </div>
                 </div>
                 <div class="card-body">
                     <div class="input-upload">
                         <img src="assets/imgs/theme/upload.svg" alt="" id="imgView4">
-                        <input class="form-control" name="files" id="input4" onchange="if (validateImage(this)) viewImage4(event),viewImage(event, 4)" type="file">
+                        <input class="form-control" name="files" id="input4"
+                            onchange="if (validateImage(this)) viewImage4(event),viewImage(event, 4)" type="file">
                         <div class="image-cropper" style="display:none;">
                             <img src="" id="croppedImg4" alt="">
                             <button type="button" id="saveButton4" class="btn-sm btn-primary">Save</button>
-                          </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -157,6 +160,8 @@
 </section> <!-- content-main end// -->
 
 <script>
+
+    //validation
     const titleError = document.getElementById('titleerror')
     const descriptionError = document.getElementById('descriptionerror')
     const imageError = document.getElementById('imageerror')
@@ -166,28 +171,34 @@
 
 
     function validateTitle() {
-    const title = document.getElementById('title').value.trim(); // Remove leading and trailing spaces
-    const titleInput = document.getElementById("title");
+        const title = document.getElementById('title').value.trim(); // Remove leading and trailing spaces
+        const titleInput = document.getElementById("title");
 
-    if (title.length === 0) {
-        titleError.innerHTML = 'Title is required';
-        titleError.style.color = "red";
-        titleInput.style.border = "solid 2px red";
+        if (title.length === 0) {
+            titleError.innerHTML = 'Title is required';
+            titleError.style.color = "red";
+            titleInput.style.border = "solid 2px red";
 
-        return false;
-    } else if (/^\s+$/.test(title)) { // Check if title contains only spaces
-        titleError.innerHTML = 'Title cannot be just spaces';
-        titleError.style.color = "red";
-        titleInput.style.border = "solid 2px red";
+            return false;
+        } else if (/^\s+$/.test(title)) { // Check if title contains only spaces
+            titleError.innerHTML = 'Title cannot be just spaces';
+            titleError.style.color = "red";
+            titleInput.style.border = "solid 2px red";
 
-        return false;
+            return false;
+        } else if (!title.match(/^[A-Za-z0-9\s]{3,15}$/)) { // Allow letters, numbers, and spaces with a length of 3 to 15 characters
+            titleError.innerHTML = 'Enter a valid title (3 to 15 characters)';
+            titleError.style.color = 'red';
+            titleInput.style.border = 'solid 2px red';
+
+            return false;
+        }
+
+        titleError.innerHTML = '';
+        titleInput.style.border = "solid 2px green";
+
+        return true;
     }
-
-    titleError.innerHTML = '';
-    titleInput.style.border = "solid 2px green";
-
-    return true;
-}
 
 
 
@@ -204,13 +215,13 @@
 
             return false
 
-        }else if (/^\s+$/.test(description)) { // Check if title contains only spaces
+        } else if (/^\s+$/.test(description)) { // Check if title contains only spaces
             descriptionError.innerHTML = 'Description cannot be just spaces';
             descriptionError.style.color = "red";
             descriptionInput.style.border = "solid 2px red";
 
-        return false;
-    }
+            return false;
+        }
         descriptionError.innerHTML = ''
         descriptionInput.style.border = "solid 2px green"
 
@@ -232,13 +243,13 @@
 
             return false
 
-        }else if (/^\s+$/.test(price)) { // Check if title contains only spaces
+        } else if (/^\s+$/.test(price)) { // Check if title contains only spaces
             priceError.innerHTML = 'Price cannot be just spaces';
             priceError.style.color = "red";
             priceInput.style.border = "solid 2px red";
 
-        return false;
-    }
+            return false;
+        }
         priceError.innerHTML = ''
         priceInput.style.border = "solid 2px green"
 
@@ -258,13 +269,13 @@
 
             return false
 
-        }else if (/^\s+$/.test(quantity)) { // Check if title contains only spaces
+        } else if (/^\s+$/.test(quantity)) { // Check if title contains only spaces
             quantityError.innerHTML = 'Quantity cannot be just spaces';
             quantityError.style.color = "red";
             quantityInput.style.border = "solid 2px red";
 
-        return false;
-    }
+            return false;
+        }
         quantityError.innerHTML = ''
         quantityInput.style.border = "solid 2px green"
 
@@ -274,169 +285,174 @@
 
 
     function viewImage1(event) {
-    document.getElementById('imgView1').src = URL.createObjectURL(event.target.files[0])
-  }
-
-  function viewImage2(event) {
-    document.getElementById('imgView2').src = URL.createObjectURL(event.target.files[0])
-  }
-
-  function viewImage3(event) {
-    document.getElementById('imgView3').src = URL.createObjectURL(event.target.files[0])
-  }
-
-  function viewImage4(event) {
-    document.getElementById('imgView4').src = URL.createObjectURL(event.target.files[0])
-  }
-  function validateImage(fileInput) {
-    const allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif|\.avif|\.webp)$/i;
-    const maxSize = 5242880; // 5MB
-    const fileSize = fileInput.files[0].size;
-
-    if (!allowedExtensions.exec(fileInput.value)) {
-      swal({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'Please select an image file to upload!',
-      })
-      fileInput.value = "";
-      return false;
+        document.getElementById('imgView1').src = URL.createObjectURL(event.target.files[0])
     }
 
-    if (fileSize > maxSize) {
-      swal({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'File is too large. Please upload an image that is smaller than 5MB.',
-      })
-      fileInput.value = "";
-      return false;
+    function viewImage2(event) {
+        document.getElementById('imgView2').src = URL.createObjectURL(event.target.files[0])
     }
 
-    return true;
-  }
+    function viewImage3(event) {
+        document.getElementById('imgView3').src = URL.createObjectURL(event.target.files[0])
+    }
 
-  function validateOfferPercentage() {
-        const offerPercentage = document.getElementById('offerPercentage').value
-        const offerPercentageInput = document.getElementById('offerPercentage')
+    function viewImage4(event) {
+        document.getElementById('imgView4').src = URL.createObjectURL(event.target.files[0])
+    }
+    function validateImage(fileInput) {
+        const allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif|\.avif|\.webp)$/i;
+        const maxSize = 5242880; // 5MB
+        const fileSize = fileInput.files[0].size;
 
+        if (!allowedExtensions.exec(fileInput.value)) {
+            swal({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Please select an image file to upload!',
+            })
+            fileInput.value = "";
+            return false;
+        }
 
+        if (fileSize > maxSize) {
+            swal({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'File is too large. Please upload an image that is smaller than 5MB.',
+            })
+            fileInput.value = "";
+            return false;
+        }
 
-        if (offerPercentage.length == 0) {
-            offerpercentageError.innerHTML = 'Offer Percentage is required'
-            offerpercentageError.style.color = 'red'
-            offerpercentageInput.style.border = 'solid 2px red'
+        return true;
+    }
 
-            return false
+    function validateOfferPercentage() {
+    const offerPercentage = document.getElementById('offerPercentage').value;
+    const offerPercentageInput = document.getElementById('offerPercentage');
+    const offerpercentageError = document.getElementById('offerpercentageError');
 
-        }else if (/^\s+$/.test(offerPercentage)) { // Check if title contains only spaces
-            offerpercentageError.innerHTML = 'Offer Percentage cannot be just spaces';
-            offerpercentageError.style.color = "red";
-            offerpercentageInput.style.border = "solid 2px red";
+    if (offerPercentage.length === 0) {
+        offerpercentageError.innerHTML = 'Offer Percentage is required';
+        offerpercentageError.style.color = 'red';
+        offerPercentageInput.style.border = 'solid 2px red';
+
+        return false;
+    } else if (/^\s+$/.test(offerPercentage)) { // Check if title contains only spaces
+        offerpercentageError.innerHTML = 'Offer Percentage cannot be just spaces';
+        offerpercentageError.style.color = 'red';
+        offerPercentageInput.style.border = 'solid 2px red';
+
+        return false;
+    } else if (isNaN(offerPercentage) || offerPercentage < 0 || offerPercentage > 100) {
+        offerpercentageError.innerHTML = 'Offer Percentage must be a number between 0 and 100';
+        offerpercentageError.style.color = 'red';
+        offerPercentageInput.style.border = 'solid 2px red';
 
         return false;
     }
-    offerpercentageError.innerHTML = ''
-    offerpercentageInput.style.border = "solid 2px green"
 
-        return true
+    offerpercentageError.innerHTML = '';
+    offerPercentageInput.style.border = 'solid 2px green';
 
+    return true;
+}
+
+
+
+    function viewImage(event, index) {
+        let input = event.target;
+        let reader = new FileReader();
+
+        reader.onload = function () {
+            let dataURL = reader.result;
+            let image = document.getElementById('imgView' + index);
+            image.src = dataURL;
+
+            // Initialize Cropper.js on the image
+            let cropper = new Cropper(image, {
+                aspectRatio: 1 / 1, // Set the aspect ratio to 1:1 for square images
+                viewMode: 1, // Set the view mode to crop box
+                guides: true, // Show the crop guides
+                background: false, // Do not show the background behind the image
+                autoCropArea: 1, // Set the initial crop area to cover the whole image
+                zoomable: false // Disable zooming to keep the image size fixed
+            });
+
+            // Show the image cropper container
+            let cropperContainer = document.querySelector('#croppedImg' + index).parentNode;
+            cropperContainer.style.display = 'block';
+
+            // Update the cropped image when the "Save" button is clicked
+            let saveButton = document.querySelector('#saveButton' + index);
+            saveButton.addEventListener('click', async function () {
+                let croppedCanvas = cropper.getCroppedCanvas({
+                    width: 1100, // Set the width of the cropped image to 400 pixels
+                    height: 1100 // Set the height of the cropped image to 400 pixels
+                });
+                let croppedImage = document.getElementById("croppedImg" + index);
+                croppedImage.src = croppedCanvas.toDataURL('image/jpeg', 1.0);
+
+                // Generate a unique name for the cropped image file based on the current timestamp
+                let timestamp = new Date().getTime();
+                let fileName = `cropped-img-${timestamp}-${index}.png`;
+
+                await croppedCanvas.toBlob(blob => {
+                    let input = document.getElementById('input' + index)
+                    let imgFile = new File([blob], fileName, blob)
+                    const fileList = new DataTransfer();
+                    fileList.items.add(imgFile);
+                    input.files = fileList.files
+                });
+                // cropperContainer.style.display = 'none';
+            });
+
+        };
+
+        reader.readAsDataURL(input.files[0]);
     }
 
+    //to find the subcategories
 
-  function viewImage(event, index) {
-    let input = event.target;
-    let reader = new FileReader();
+    $(document).ready(function () {
+        // When the user selects a category, update the subcategory options
+        $('#category').on('change', function () {
+            var category = $(this).val();
+            $.ajax({
+                url: '/admin/getSubcategories',
+                type: 'POST',
+                data: {
+                    category: category
+                },
+                success: function (data) {
+                    // Clear existing options
+                    $('#sub_category').empty();
+                    // Extract subcategory names from data array
+                    var subcategories = data.map(function (subcategory) {
+                        return subcategory.name;
+                    });
+                    // Add the new options
+                    if (subcategories.length > 0) {
+                        for (var i = 0; i < subcategories.length; i++) {
+                            var subcategory = subcategories[i];
+                            $('#sub_category').append('<option value="' + subcategory + '">' + subcategory + '</option>');
+                        }
+                    } else {
+                        $('#sub_category').append('<option value="">-- No subcategories found --</option>');
+                    }
+                },
 
-    reader.onload = function() {
-      let dataURL = reader.result;
-      let image = document.getElementById('imgView' + index);
-      image.src = dataURL;
-
-      // Initialize Cropper.js on the image
-      let cropper = new Cropper(image, {
-        aspectRatio: 1 / 1, // Set the aspect ratio to 1:1 for square images
-        viewMode: 1, // Set the view mode to crop box
-        guides: true, // Show the crop guides
-        background: false, // Do not show the background behind the image
-        autoCropArea: 1, // Set the initial crop area to cover the whole image
-        zoomable: false // Disable zooming to keep the image size fixed
-      });
-
-      // Show the image cropper container
-      let cropperContainer = document.querySelector('#croppedImg' + index).parentNode;
-      cropperContainer.style.display = 'block';
-
-      // Update the cropped image when the "Save" button is clicked
-      let saveButton = document.querySelector('#saveButton' + index);
-      saveButton.addEventListener('click', async function() {
-        let croppedCanvas = cropper.getCroppedCanvas({
-          width: 1100, // Set the width of the cropped image to 400 pixels
-          height: 1100 // Set the height of the cropped image to 400 pixels
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log('AJAX error: ' + textStatus + ' - ' + errorThrown);
+                }
+            });
         });
-        let croppedImage = document.getElementById("croppedImg" + index);
-        croppedImage.src = croppedCanvas.toDataURL('image/jpeg', 1.0);
-
-        // Generate a unique name for the cropped image file based on the current timestamp
-        let timestamp = new Date().getTime();
-        let fileName = `cropped-img-${timestamp}-${index}.png`;
-
-        await croppedCanvas.toBlob(blob => {
-          let input = document.getElementById('input' + index)
-          let imgFile = new File([blob], fileName, blob)
-          const fileList = new DataTransfer();
-          fileList.items.add(imgFile);
-          input.files = fileList.files
-        });
-        // cropperContainer.style.display = 'none';
-      });
-
-    };
-
-    reader.readAsDataURL(input.files[0]);
-  }
-
-  //to find the subcategories
-
-  $(document).ready(function() {
-    // When the user selects a category, update the subcategory options
-    $('#category').on('change', function() {
-      var category = $(this).val();
-      $.ajax({
-        url: '/admin/getSubcategories',
-        type: 'POST',
-        data: {
-          category: category
-        },
-        success: function(data) {
-          // Clear existing options
-          $('#sub_category').empty();
-          // Extract subcategory names from data array
-          var subcategories = data.map(function(subcategory) {
-            return subcategory.name;
-          });
-          // Add the new options
-          if (subcategories.length > 0) {
-            for (var i = 0; i < subcategories.length; i++) {
-              var subcategory = subcategories[i];
-              $('#sub_category').append('<option value="' + subcategory + '">' + subcategory + '</option>');
-            }
-          } else {
-            $('#sub_category').append('<option value="">-- No subcategories found --</option>');
-          }
-        },
-
-        error: function(jqXHR, textStatus, errorThrown) {
-          console.log('AJAX error: ' + textStatus + ' - ' + errorThrown);
-        }
-      });
     });
-  });
-    
- 
+
+
     form.addEventListener('submit', (event) => {
         event.preventDefault()
-        if (!validateTitle() || !validateDescription() || !validatePrice() || !validateQuantity()) {
+        if (!validateTitle() || !validateDescription() || !validatePrice() || !validateQuantity() || !validateOfferPercentage()) {
             Swal.fire({
                 icon: 'error',
                 title: 'Enter details correctly!!'
@@ -447,23 +463,23 @@
         }
     })
 
-    
-    function categoryChange(){
+    //to change Category
+    function categoryChange() {
         let proCategory = document.getElementById('proCategory').value
 
         $.ajax({
-            url:'/admin/getSubCategory',
-            method:'get',
-            data:{
+            url: '/admin/getSubCategory',
+            method: 'get',
+            data: {
                 proCategory
             },
-            success:(response)=>{
-                let subCategory=''
-                response.forEach((value)=>{
-                    subCategory+=`<option>${value}</option>` 
+            success: (response) => {
+                let subCategory = ''
+                response.forEach((value) => {
+                    subCategory += `<option>${value}</option>`
                 })
-                document.getElementById('subCategories').innerHTML=subCategory
-                
+                document.getElementById('subCategories').innerHTML = subCategory
+
             }
         })
 
@@ -471,4 +487,3 @@
 
 
 </script>
-

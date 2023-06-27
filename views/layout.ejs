@@ -4,7 +4,7 @@
 
 <head>
   <meta charset="utf-8" />
-  <title>AristocraticStyle</title>
+  <title>Magestic Garments</title>
   <meta http-equiv="x-ua-compatible" content="ie=edge" />
   <meta name="description" content="" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -13,17 +13,21 @@
   <meta property="og:url" content="" />
   <meta property="og:image" content="" />
   <!-- Favicon -->
-  <link rel="shortcut icon" type="image/x-icon" href="../public/assets/imgs/theme/as-logo.webp" />
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/imgs/theme/M-400.png" />
   <!-- Template CSS -->
   <link rel="stylesheet" href="/assets/css/main.css" />
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
-  
-   <!-- PDF AND EXCEL -->
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
 
- 
+  <!-- PDF AND EXCEL -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+
+  <!-- DataTable -->
+
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
+
+
   <title>Document</title>
 </head>
 
@@ -45,36 +49,35 @@
     </main>
 
 
-<style>
-   .tooltipPos {
-  position: relative;
-}
+    <style>
+      .tooltipPos {
+        position: relative;
+      }
 
-.tooltip {
-  position: absolute;
-  background-color: #000;
-  color: #fff;
-  padding: 5px;
-  border-radius: 5px;
-  font-size: 12px;
-  bottom: calc(100% + 5px);
-  left: 50%;
-  transform: translateX(-50%);
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
-  white-space: nowrap;
-  z-index: 1;
-}
+      .tooltip {
+        position: absolute;
+        background-color: #000;
+        color: #fff;
+        padding: 5px;
+        border-radius: 5px;
+        font-size: 12px;
+        bottom: calc(100% + 5px);
+        left: 50%;
+        transform: translateX(-50%);
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+        white-space: nowrap;
+        z-index: 1;
+      }
 
-.tooltipPos:hover .tooltip {
-  opacity: 1;
-  visibility: visible;
-}
+      .tooltipPos:hover .tooltip {
+        opacity: 1;
+        visibility: visible;
+      }
+    </style>
 
-</style>
 
-  
 
 
     <script src="/assets/js/vendor/modernizr-3.6.0.min.js"></script>
@@ -106,26 +109,16 @@
 
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
     <script nomodule src="https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js"></script>
-    <!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-      crossorigin="anonymous"></script> -->
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
       crossorigin="anonymous"></script>
 
-      <!-- Swal -->
-
-
-
-    
-
-
-
-    
-
-
-
-
+    <!-- datatable -->
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+    <script src="/admin-assets/js/vendors/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.2/js/dataTables.bootstrap4.min.js"></script>
 
 
 </body>

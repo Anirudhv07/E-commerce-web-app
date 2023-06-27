@@ -98,18 +98,19 @@
                                             </label>
                                         </div>
                                         <div class="form-check" id="walletAmountfinal">
+
                                             <%if(wallet>total){%>
                                                 <input class="form-check-input" type="radio" name="payment-method"
                                                     value="wallet">
                                                 <label class="form-check-label" for="flexRadioDefault1">
-                                                    Wallet
+                                                    Wallet ( Balance :₹ <%=wallet%>)
                                                 </label>
                                                 <%}else{%>
                                                     <p class="text-danger">Low Balance</p>
                                                     <input class="form-check-input" type="radio" name="payment-method"
                                                         value="wallet" disabled>
                                                     <label class="form-check-label" for="flexRadioDefault1">
-                                                        Wallet
+                                                        Wallet ( Balance :₹ <%=wallet%>)
                                                     </label>
                                                     <%}%>
                                         </div>
@@ -237,9 +238,11 @@
 
 
 <script>
+
+    //validation
     function validateCoupon(total) {
-        const code = document.getElementById('enteredCoupon').value.trim()
-        const walletAmount = parseInt(document.getElementById('walletTotal').value);
+        const code = document.getElementById('enteredCoupon').value?.trim()
+        const walletAmount = parseInt(document.getElementById('walletTotal').value)
         console.log(walletAmount, 'wallwetttttt');
         console.log(code);
         $.ajax({
@@ -295,6 +298,9 @@
         })
 
     }
+
+
+    //checkout
     $('#checkOutForm').submit((e) => {
         console.log($('#checkOutForm').serialize());
 
@@ -305,7 +311,7 @@
             method: 'post',
             data: $('#checkOutForm').serialize(),
             success: (response) => {
-              
+
                 if (!response.err) {
                     if (response.codstatus == true) {
                         location.href = '/orderSuccess'
@@ -334,7 +340,7 @@
         })
     })
 
-
+    //razorpay
     function razorpay(order) {
         console.log(order);
         var options = {
@@ -388,7 +394,7 @@
 
 
 
-
+    //deleteAddress
     function deleteAddress(addressId) {
         event.preventDefault()
         Swal.fire({

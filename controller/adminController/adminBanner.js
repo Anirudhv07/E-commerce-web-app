@@ -1,27 +1,31 @@
-const adminBannerHelpers=require('../../helpers/adminHelpers/adminBannerHelpers')
+const adminBannerHelpers = require('../../helpers/adminHelpers/adminBannerHelpers')
 
 
-module.exports={
-    getBanner:(req,res)=>{
+module.exports = {
+    //get banner List
+    getBanner: (req, res) => {
         let admin = req.session.admin
-        adminBannerHelpers.getBanner().then((response)=>{
-            
+        adminBannerHelpers.getBanner().then((response) => {
 
-            res.render('admin/bannerList',{layout:'adminLayout',admin,response,currentPage: 'bannerList'})
+
+            res.render('admin/bannerList', { layout: 'adminLayout', admin, response, currentPage: 'bannerList' })
         })
 
     },
-    getAddBanner:(req,res)=>{
+    //add banner
+    getAddBanner: (req, res) => {
         let admin = req.session.admin
 
-        res.render('admin/addBanner',{layout:'adminLayout',admin,currentPage: 'bannerList'})
+        res.render('admin/addBanner', { layout: 'adminLayout', admin, currentPage: 'bannerList' })
     },
-    postAddBanner:async(req,res)=>{
-       
-        await adminBannerHelpers.addBanner(req.body,req?.file?.filename).then(()=>{
+    //post add banner
+    postAddBanner: async (req, res) => {
+
+        await adminBannerHelpers.addBanner(req.body, req?.file?.filename).then(() => {
             res.redirect('/admin/bannerList')
         })
     },
+    //unlist the banner
     unlistBanner: async (req, res) => {
         const condition = JSON.parse(req.body.condition)
         const bannerId = req.body.bannerId
@@ -31,21 +35,23 @@ module.exports={
             })
 
     },
-    getEditBanner:async(req,res)=>{
+    //get edit banner
+    getEditBanner: async (req, res) => {
         const admin = req.session.admin
 
-        await adminBannerHelpers.editBanner(req.params.id).then((response)=>{
-            console.log(response,'rdd');
-            res.render('admin/editBanner',{layout:'adminLayout',response,admin,currentPage: 'bannerList'})
+        await adminBannerHelpers.editBanner(req.params.id).then((response) => {
+            console.log(response, 'rdd');
+            res.render('admin/editBanner', { layout: 'adminLayout', response, admin, currentPage: 'bannerList' })
         })
     },
-    postEditBanner:(req,res)=>{
-        
-       
-        adminBannerHelpers.postEditBanner(req.params.id,req.body,req?.file?.filename).then((response) => {
+    //post edit banner
+    postEditBanner: (req, res) => {
+
+
+        adminBannerHelpers.postEditBanner(req.params.id, req.body, req?.file?.filename).then((response) => {
             res.redirect('/admin/bannerList')
         })
     },
-  
-   
+
+
 }

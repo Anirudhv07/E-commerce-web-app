@@ -7,48 +7,57 @@
                 </div>
                 <form method="post" id="form" action="/addAddress">
                     <div class="form-group">
-                        <input type="text" required="" name="fname"  onkeyup="validatefname()"  id="fname" placeholder="First name">
+                        <input type="text" required="" name="fname" onkeyup="validatefname()" id="fname"
+                            placeholder="First name">
                         <p id="fnameerror" class="validation-label"></p>
 
                     </div>
                     <div class="form-group">
-                        <input type="text" required="" name="lname"  id="lname" onkeyup="validatelname()" placeholder="Last name">
+                        <input type="text" required="" name="lname" id="lname" onkeyup="validatelname()"
+                            placeholder="Last name">
                         <p id="lnameerror" class="validation-label"></p>
 
                     </div>
-          
+
                     <div class="form-group">
-                        <input type="text" name="housename" id="housename" required="" onkeyup="validatehousename()" placeholder="House name/No.">
+                        <input type="text" name="housename" id="housename" required="" onkeyup="validatehousename()"
+                            placeholder="House name/No.">
                         <p id="housenameerror" class="validation-label"></p>
 
                     </div>
                     <div class="form-group">
-                        <input type="text" name="streetname" id="streetname" required="" onkeyup="validatestreetname()" placeholder="Street Name">
+                        <input type="text" name="streetname" id="streetname" required="" onkeyup="validatestreetname()"
+                            placeholder="Street Name">
                         <p id="streetnameerror" class="validation-label"></p>
 
                     </div>
                     <div class="form-group">
-                        <input required="" type="text" name="city" id="city" onkeyup="validatecity()" placeholder="City">
+                        <input required="" type="text" name="city" id="city" onkeyup="validatecity()"
+                            placeholder="City">
                         <p id="cityerror" class="validation-label"></p>
 
                     </div>
                     <div class="form-group">
-                        <input required="" type="text" name="state" id="state" onkeyup="validatestate()" placeholder="State">
+                        <input required="" type="text" name="state" id="state" onkeyup="validatestate()"
+                            placeholder="State">
                         <p id="stateerror" class="validation-label"></p>
 
                     </div>
                     <div class="form-group">
-                        <input required="" type="number" name="pincode" id="pincode" onkeyup="validatepincode()" placeholder="Pin Code">
+                        <input required="" type="number" name="pincode" id="pincode" onkeyup="validatepincode()"
+                            placeholder="Pin Code">
                         <p id="pincodeerror" class="validation-label"></p>
 
                     </div>
                     <div class="form-group">
-                        <input required="" type="number" name="phone" id="phone" onkeyup="validatephone()" placeholder="Phone ">
+                        <input required="" type="number" name="phone" id="phone" onkeyup="validatephone()"
+                            placeholder="Phone ">
                         <p id="phoneerror" class="validation-label"></p>
 
                     </div>
                     <div class="form-group">
-                        <input required="" type="text" name="email" id="email" onkeyup="validateemail()" placeholder="Email address ">
+                        <input required="" type="text" name="email" id="email" onkeyup="validateemail()"
+                            placeholder="Email address ">
                         <p id="emailerror" class="validation-label"></p>
 
                     </div>
@@ -58,7 +67,7 @@
 
                     </div>
 
-                    
+
 
 
                 </form>
@@ -68,6 +77,8 @@
 </section>
 
 <script>
+
+    //validation
     const fnameError = document.getElementById('fnameerror')
     const lnameError = document.getElementById('lnameerror')
     const housenameError = document.getElementById('housenameerror')
@@ -82,230 +93,230 @@
 
 
     function validatefname() {
-    const fname = document.getElementById('fname').value.trim(); // Remove leading and trailing spaces
-    const fnameInput = document.getElementById("fname");
+        const fname = document.getElementById('fname').value.trim(); // Remove leading and trailing spaces
+        const fnameInput = document.getElementById("fname");
 
-    if (fname.length === 0) {
-        fnameError.innerHTML = 'First Name is required';
-        fnameError.style.color = "red";
-        fnameInput.style.border = "solid 2px red";
+        if (fname.length === 0) {
+            fnameError.innerHTML = 'First Name is required';
+            fnameError.style.color = "red";
+            fnameInput.style.border = "solid 2px red";
 
-        return false;
-    } else if (/^\s+$/.test(fname)) { 
-        fnameError.innerHTML = 'First Name cannot be just spaces';
-        fnameError.style.color = "red";
-        fnameInput.style.border = "solid 2px red";
+            return false;
+        } else if (/^\s+$/.test(fname)) {
+            fnameError.innerHTML = 'First Name cannot be just spaces';
+            fnameError.style.color = "red";
+            fnameInput.style.border = "solid 2px red";
 
-        return false;
-    }else if (!fname.match(/^[A-Za-z]{3,}$/)) { 
-        fnameError.innerHTML = 'Write Valid Name';
-        fnameError.style.color = "red";
-        fnameInput.style.border = "solid 2px red";
+            return false;
+        } else if (!fname.match(/^[A-Za-z]{3,}$/)) {
+            fnameError.innerHTML = 'Write Valid Name';
+            fnameError.style.color = "red";
+            fnameInput.style.border = "solid 2px red";
 
-        return false;
+            return false;
+        }
+
+        fnameError.innerHTML = '';
+        fnameInput.style.border = "solid 2px green";
+
+        return true;
     }
 
-    fnameError.innerHTML = '';
-    fnameInput.style.border = "solid 2px green";
 
-    return true;
-}
+    function validatelname() {
+        const lname = document.getElementById('lname').value.trim(); // Remove leading and trailing spaces
+        const lnameInput = document.getElementById("lname");
 
+        if (lname.length === 0) {
+            lnameError.innerHTML = 'Last Name is required';
+            lnameError.style.color = "red";
+            lnameInput.style.border = "solid 2px red";
 
-function validatelname() {
-    const lname = document.getElementById('lname').value.trim(); // Remove leading and trailing spaces
-    const lnameInput = document.getElementById("lname");
+            return false;
+        } else if (/^\s+$/.test(lname)) {
+            lnameError.innerHTML = 'Last Name cannot be just spaces';
+            lnameError.style.color = "red";
+            lnameInput.style.border = "solid 2px red";
 
-    if (lname.length === 0) {
-        lnameError.innerHTML = 'Last Name is required';
-        lnameError.style.color = "red";
-        lnameInput.style.border = "solid 2px red";
+            return false;
+        }
 
-        return false;
-    } else if (/^\s+$/.test(lname)) { 
-        lnameError.innerHTML = 'Last Name cannot be just spaces';
-        lnameError.style.color = "red";
-        lnameInput.style.border = "solid 2px red";
+        lnameError.innerHTML = '';
+        lnameInput.style.border = "solid 2px green";
 
-        return false;
+        return true;
     }
 
-    lnameError.innerHTML = '';
-    lnameInput.style.border = "solid 2px green";
+    function validatehousename() {
+        const housename = document.getElementById('housename').value.trim(); // Remove leading and trailing spaces
+        const housenameInput = document.getElementById("housename");
 
-    return true;
-}
+        if (housename.length === 0) {
+            housenameError.innerHTML = 'House Name/No is required';
+            housenameError.style.color = "red";
+            housenameInput.style.border = "solid 2px red";
 
-function validatehousename() {
-    const housename = document.getElementById('housename').value.trim(); // Remove leading and trailing spaces
-    const housenameInput = document.getElementById("housename");
+            return false;
+        } else if (/^\s+$/.test(housename)) {
+            housenameError.innerHTML = 'House Name/No cannot be just spaces';
+            housenameError.style.color = "red";
+            housenameInput.style.border = "solid 2px red";
 
-    if (housename.length === 0) {
-        housenameError.innerHTML = 'House Name/No is required';
-        housenameError.style.color = "red";
-        housenameInput.style.border = "solid 2px red";
+            return false;
+        }
 
-        return false;
-    } else if (/^\s+$/.test(housename)) { 
-        housenameError.innerHTML = 'House Name/No cannot be just spaces';
-        housenameError.style.color = "red";
-        housenameInput.style.border = "solid 2px red";
+        housenameError.innerHTML = '';
+        housenameInput.style.border = "solid 2px green";
 
-        return false;
+        return true;
     }
 
-    housenameError.innerHTML = '';
-    housenameInput.style.border = "solid 2px green";
 
-    return true;
-}
+    function validatestreetname() {
+        const streetname = document.getElementById('streetname').value.trim(); // Remove leading and trailing spaces
+        const streetnameInput = document.getElementById("streetname");
 
+        if (streetname.length === 0) {
+            streetnameError.innerHTML = 'Street name is required';
+            streetnameError.style.color = "red";
+            streetnameInput.style.border = "solid 2px red";
 
-function validatestreetname() {
-    const streetname = document.getElementById('streetname').value.trim(); // Remove leading and trailing spaces
-    const streetnameInput = document.getElementById("streetname");
+            return false;
+        } else if (/^\s+$/.test(streetname)) {
+            streetnameError.innerHTML = 'Street name cannot be just spaces';
+            streetnameError.style.color = "red";
+            streetnameInput.style.border = "solid 2px red";
 
-    if (streetname.length === 0) {
-        streetnameError.innerHTML = 'Street name is required';
-        streetnameError.style.color = "red";
-        streetnameInput.style.border = "solid 2px red";
+            return false;
+        }
 
-        return false;
-    } else if (/^\s+$/.test(streetname)) { 
-        streetnameError.innerHTML = 'Street name cannot be just spaces';
-        streetnameError.style.color = "red";
-        streetnameInput.style.border = "solid 2px red";
+        streetnameError.innerHTML = '';
+        streetnameInput.style.border = "solid 2px green";
 
-        return false;
+        return true;
     }
 
-    streetnameError.innerHTML = '';
-    streetnameInput.style.border = "solid 2px green";
-
-    return true;
-}
 
 
 
 
 
+    function validatecity() {
+        const city = document.getElementById('city').value.trim(); // Remove leading and trailing spaces
+        const cityInput = document.getElementById("city");
 
-function validatecity() {
-    const city = document.getElementById('city').value.trim(); // Remove leading and trailing spaces
-    const cityInput = document.getElementById("city");
+        if (city.length === 0) {
+            cityError.innerHTML = 'City is required';
+            cityError.style.color = "red";
+            cityInput.style.border = "solid 2px red";
 
-    if (city.length === 0) {
-        cityError.innerHTML = 'City is required';
-        cityError.style.color = "red";
-        cityInput.style.border = "solid 2px red";
+            return false;
+        } else if (/^\s+$/.test(city)) {
+            cityError.innerHTML = 'City cannot be just spaces';
+            cityError.style.color = "red";
+            cityInput.style.border = "solid 2px red";
 
-        return false;
-    } else if (/^\s+$/.test(city)) { 
-        cityError.innerHTML = 'City cannot be just spaces';
-        cityError.style.color = "red";
-        cityInput.style.border = "solid 2px red";
+            return false;
+        }
 
-        return false;
+        cityError.innerHTML = '';
+        cityInput.style.border = "solid 2px green";
+
+        return true;
     }
 
-    cityError.innerHTML = '';
-    cityInput.style.border = "solid 2px green";
-
-    return true;
-}
 
 
 
+    function validatestate() {
+        const state = document.getElementById('state').value.trim(); // Remove leading and trailing spaces
+        const stateInput = document.getElementById("state");
 
-function validatestate() {
-    const state = document.getElementById('state').value.trim(); // Remove leading and trailing spaces
-    const stateInput = document.getElementById("state");
+        if (state.length === 0) {
+            stateError.innerHTML = 'State is required';
+            stateError.style.color = "red";
+            stateInput.style.border = "solid 2px red";
 
-    if (state.length === 0) {
-        stateError.innerHTML = 'State is required';
-        stateError.style.color = "red";
-        stateInput.style.border = "solid 2px red";
+            return false;
+        } else if (/^\s+$/.test(state)) {
+            stateError.innerHTML = 'State cannot be just spaces';
+            stateError.style.color = "red";
+            stateInput.style.border = "solid 2px red";
 
-        return false;
-    } else if (/^\s+$/.test(state)) { 
-        stateError.innerHTML = 'State cannot be just spaces';
-        stateError.style.color = "red";
-        stateInput.style.border = "solid 2px red";
+            return false;
+        }
 
-        return false;
+        stateError.innerHTML = '';
+        stateInput.style.border = "solid 2px green";
+
+        return true;
     }
 
-    stateError.innerHTML = '';
-    stateInput.style.border = "solid 2px green";
-
-    return true;
-}
 
 
 
+    function validatepincode() {
+        const pincode = document.getElementById('pincode').value.trim(); // Remove leading and trailing spaces
+        const pincodeInput = document.getElementById("pincode");
 
-function validatepincode() {
-    const pincode = document.getElementById('pincode').value.trim(); // Remove leading and trailing spaces
-    const pincodeInput = document.getElementById("pincode");
+        if (pincode.length === 0) {
+            pincodeError.innerHTML = 'Pincode is required';
+            pincodeError.style.color = "red";
+            pincodeInput.style.border = "solid 2px red";
 
-    if (pincode.length === 0) {
-        pincodeError.innerHTML = 'Pincode is required';
-        pincodeError.style.color = "red";
-        pincodeInput.style.border = "solid 2px red";
+            return false;
+        } else if (/^\s+$/.test(pincode)) {
+            pincodeError.innerHTML = 'Pincode cannot be just spaces';
+            pincodeError.style.color = "red";
+            pincodeInput.style.border = "solid 2px red";
 
-        return false;
-    } else if (/^\s+$/.test(pincode)) { 
-        pincodeError.innerHTML = 'Pincode cannot be just spaces';
-        pincodeError.style.color = "red";
-        pincodeInput.style.border = "solid 2px red";
+            return false;
+        } else if (!pincode.match(/^\d{6}$/)) {
+            pincodeError.innerHTML = 'Write Valid Pincode';
+            pincodeError.style.color = "red";
+            pincodeInput.style.border = "solid 2px red";
 
-        return false;
-    }else if (!pincode.match(/^\d{6}$/)) { 
-        pincodeError.innerHTML = 'Write Valid Pincode';
-        pincodeError.style.color = "red";
-        pincodeInput.style.border = "solid 2px red";
+            return false;
+        }
+        pincodeError.innerHTML = '';
+        pincodeInput.style.border = "solid 2px green";
 
-        return false;
-    }
-    pincodeError.innerHTML = '';
-    pincodeInput.style.border = "solid 2px green";
-
-    return true;
-}
-
-
-function validatephone() {
-    const phone = document.getElementById('phone').value.trim(); // Remove leading and trailing spaces
-    const phoneInput = document.getElementById("phone");
-
-    if (phone.length === 0) {
-        phoneError.innerHTML = 'Phone number is required';
-        phoneError.style.color = "red";
-        phoneInput.style.border = "solid 2px red";
-
-        return false;
-    } else if (/^\s+$/.test(phone)) { 
-        phoneError.innerHTML = 'Phone number cannot be just spaces';
-        phoneError.style.color = "red";
-        phoneInput.style.border = "solid 2px red";
-
-        return false;
-    }else if (!phone.match(/^\d{10}$/)) { 
-        phoneError.innerHTML = 'Write Valid Number';
-        phoneError.style.color = "red";
-        phoneInput.style.border = "solid 2px red";
-
-        return false;
+        return true;
     }
 
-    phoneError.innerHTML = '';
-    phoneInput.style.border = "solid 2px green";
 
-    return true;
-}
+    function validatephone() {
+        const phone = document.getElementById('phone').value.trim(); // Remove leading and trailing spaces
+        const phoneInput = document.getElementById("phone");
+
+        if (phone.length === 0) {
+            phoneError.innerHTML = 'Phone number is required';
+            phoneError.style.color = "red";
+            phoneInput.style.border = "solid 2px red";
+
+            return false;
+        } else if (/^\s+$/.test(phone)) {
+            phoneError.innerHTML = 'Phone number cannot be just spaces';
+            phoneError.style.color = "red";
+            phoneInput.style.border = "solid 2px red";
+
+            return false;
+        } else if (!phone.match(/^\d{10}$/)) {
+            phoneError.innerHTML = 'Write Valid Number';
+            phoneError.style.color = "red";
+            phoneInput.style.border = "solid 2px red";
+
+            return false;
+        }
+
+        phoneError.innerHTML = '';
+        phoneInput.style.border = "solid 2px green";
+
+        return true;
+    }
 
 
-function validateemail() {
+    function validateemail() {
         const email = document.getElementById('email').value
         const emailInput = document.getElementById("email")
 
@@ -334,7 +345,7 @@ function validateemail() {
 
     form.addEventListener('submit', (event) => {
         event.preventDefault()
-        if (!validatefname() || !validatelname() || !validatehousename() || !validatestreetname()|| !validatecity()|| !validatestate()|| !validatephone()|| !validateemail()) {
+        if (!validatefname() || !validatelname() || !validatehousename() || !validatestreetname() || !validatecity() || !validatestate() || !validatephone() || !validateemail()) {
             Swal.fire({
                 icon: 'error',
                 title: 'Enter details correctly!!'
@@ -350,4 +361,3 @@ function validateemail() {
 
 
 </script>
-

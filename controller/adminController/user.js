@@ -2,6 +2,7 @@ const adminUserHelper = require('../../helpers/adminHelpers/adminUserHelpers')
 
 
 module.exports = {
+    //get Admin User List
     getAdminUserList: (req, res) => {
         if (req.session.adminloggedIn) {
             admin = req.session.admin
@@ -16,6 +17,8 @@ module.exports = {
             res.redirect('/admin')
         }
     },
+
+    //block user
     putBlockUser: async (req, res) => {
         if (req.session.adminloggedIn) {
 

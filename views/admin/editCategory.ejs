@@ -5,14 +5,19 @@
             <form method="POST" action="/admin/editCategory/<%=response._id %>">
                 <div class="mb-3">
                     <label for="">Category Name</label>
-                    <input class="form-control" name="editCategory" placeholder=" Type here"
-                        value="<%=response.CategoryName %>" type="text">
+                    <input class="form-control" name="editCategory" placeholder=" Type here" id="categoryName"
+                        onkeyup="validateCategory()" value="<%=response.CategoryName %>" type="text">
+                    <p id="categoryError" class="validation-label"></p>
+
                 </div> <!-- form-group// -->
                 <div class="mb-3">
                     <label for="">Sub Category Name</label>
 
-                    <input class="form-control" name="editSubCategory" placeholder="Type here"
-                        value="<%=response.SubCategory %>" type="text">
+                    <input class="form-control" name="editSubCategory" id="subCategoryName"
+                        onkeyup="validateSubCategory()" placeholder="Type here" value="<%=response.SubCategory %>"
+                        type="text">
+                    <p id="subCategoryError" class="validation-label"></p>
+
                 </div> <!-- form-group// -->
                 <div class="mb-3">
 
@@ -26,3 +31,94 @@
         </div>
     </div>
 </section>
+
+<script>
+
+    //validation
+    const categoryError = document.getElementById('categoryError')
+    const subCategoryError = document.getElementById('subCategoryError')
+
+
+    const validateCategory = () => {
+        const name = document.getElementById('categoryName').value
+        const nameInput = document.getElementById('categoryName')
+
+        if (name.length == 0) {
+            categoryError.innerHTML = 'Name is Required'
+            categoryError.style.color = 'red'
+            nameInput.style.border = 'solid 2px red'
+
+            return false
+        }
+
+        if (!name.match(/^[A-Za-z0-9\s]{3,15}$/)) { // Allow letters, numbers, and spaces with a length of 3 to 15 characters
+            categoryError.innerHTML = 'Enter a valid title (3 to 15 characters)';
+            categoryError.style.color = 'red';
+            nameInput.style.border = 'solid 2px red';
+
+            return false;
+        }
+        if (/^\s+$/.test(name)) { // Check if name contains only spaces
+            categoryError.innerHTML = 'Name cannot be just spaces';
+            categoryError.style.color = 'red';
+            nameInput.style.border = 'solid 2px red';
+
+            return false;
+        }
+        categoryError.innerHTML = ''
+        categoryError.style.color = "green"
+        nameInput.style.border = 'solid 2px green'
+
+        return true
+    }
+
+
+    const validateSubCategory = () => {
+        const name = document.getElementById('subCategoryName').value
+        const nameInput = document.getElementById('subCategoryName')
+
+        if (name.length == 0) {
+            subCategoryError.innerHTML = 'Name is Required'
+            subCategoryError.style.color = 'red'
+            nameInput.style.border = 'solid 2px red'
+
+            return false
+        }
+
+
+        if (!name.match(/^[A-Za-z0-9\s]{3,15}$/)) { // Allow letters, numbers, and spaces with a length of 3 to 15 characters
+            subCategoryError.innerHTML = 'Enter a valid title (3 to 15 characters)';
+            subCategoryError.style.color = 'red';
+            nameInput.style.border = 'solid 2px red';
+
+            return false;
+        }
+        if (/^\s+$/.test(name)) { // Check if name contains only spaces
+            categoryError.innerHTML = 'Name cannot be just spaces';
+            categoryError.style.color = 'red';
+            nameInput.style.border = 'solid 2px red';
+
+            return false;
+        }
+        subCategoryError.innerHTML = ''
+        subCategoryError.style.color = "green"
+        nameInput.style.border = 'solid 2px green'
+
+        return true
+    }
+
+
+
+    form.addEventListener('submit', (event) => {
+        event.preventDefault()
+        if (!validateCategory() || !validateSubCategory()) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Enter details correctly!!'
+            })
+            return false
+        } else {
+            form.submit()
+        }
+    })
+</script>

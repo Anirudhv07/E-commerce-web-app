@@ -36,16 +36,9 @@
                                                     <p id="passworderror" class="validation-label"></p>
 
                                                 </div>
-                                                <div class="login_footer form-group">
-                                                    <div class="chek-form">
-                                                        <div class="custome-checkbox">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                name="checkbox" id="exampleCheckbox1" value="">
-                                                            <label class="form-check-label"
-                                                                for="exampleCheckbox1"><span>Remember me</span></label>
-                                                        </div>
-                                                    </div>
-                                                    <a class="text-muted" href="/otpLogin">Forgot password?</a>
+                                                <div class=" form-group text-end">
+
+                                                    <a class="text-muted " href="/otpLogin2">Forgot password?</a>
                                                 </div>
                                                 <div class="form-group">
                                                     <button type="submit" class="btn btn-success btn-block hover-up"
@@ -76,7 +69,7 @@
 
 <script>
 
-
+    //hide error msg after the given time
     setTimeout(function () {
         var errorMessage = document.getElementById('errorMessage');
         if (errorMessage) {
@@ -85,6 +78,8 @@
     }, 2000); // Hide after 2 seconds (2000 milliseconds)
 
 
+
+    //validation
     const emailError = document.getElementById('emailerror')
 
     const passwordError = document.getElementById('passworderror')

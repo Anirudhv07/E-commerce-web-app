@@ -39,6 +39,10 @@ const userSchema = new mongoose.Schema({
         type: Number,
         default: 0,
     },
+    walletTransaction:{
+        type:[Object],
+        default:[]
+    }
 })
 const adminSchema = new mongoose.Schema({
     name: {
@@ -248,6 +252,25 @@ const wishlistSchema = new mongoose.Schema({
       default: new Date(),
     },
   });
+//   const walletSchema=new mongoose.Schema({
+//     user:{
+//         type:mongoose.Schema.Types.ObjectId,
+//         ref:'user'
+//     },
+//     debited:{
+//         type:Number
+//     },
+//     credited:{
+//         type:Number
+//     },
+//     finalAmount:{
+//         type:Number
+//     },
+//     createdAt: {
+//         type: Date,
+//         default: new Date(),
+//       }
+//   })
 
 module.exports = {
     user: mongoose.model('user', userSchema),
@@ -259,5 +282,7 @@ module.exports = {
     order: mongoose.model('order', orderSchema),
     coupon: mongoose.model('coupon', couponSchema),
     wishlist:mongoose.model('wishlist',wishlistSchema),
-    banner:mongoose.model('banner',bannerSchema)
+    banner:mongoose.model('banner',bannerSchema),
+  
+
 }

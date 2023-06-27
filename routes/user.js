@@ -22,9 +22,15 @@ router.post('/signup', userController.postSignUp)
 
 router.get('/otpLogin', userController.getOtp)
 
+router.get('/otpLogin2', userController.getOtp2)
+
 router.post('/otpVerifyNumber', userController.postOtpNum)
 
+router.post('/otp2VerifyNumber', userController.postOtp2Num)
+
 router.post('/otpMainLogin', userController.postOtpLogin)
+
+router.post('/otp2MainLogin', userController.postOtp2Login)
 
 router.get('/shop',auths.userauth,auths.userBlockBug, userProductController.getShop)
 
@@ -70,7 +76,7 @@ router.put('/returnOrder/:id',userProfileController.putReturnOrder)
 
 router.get('/addNewAddress',auths.userauth,auths.userBlockBug,userCheckOutController.getNewAddAddress)
 
-router.post('/filterCategory',userProductController.postFilterCategory)
+// router.post('/filterCategory',userProductController.postFilterCategory)(NOT USED THIS TIME)
 
 router.get('/editNewAddress/:id',auths.userauth,auths.userBlockBug,userProfileController.getEditAddress)
 
@@ -84,19 +90,16 @@ router.post('/validateCode',userCheckOutController.validateCoupon)
 
 router.get('/invoice/:id',userProfileController.invoiceGenerator)
 
+router.get('/changePassword',userProfileController.getChangePassword)
+
+router.post('/changePassword',userProfileController.postChangePassword)
+
+router.get('/changePassword2',userProfileController.getChangePassword2)
+
+router.post('/changePassword2',userProfileController.postChangePassword2)
 
 
 
 
-
-
-
-
-
-
-
-
-
-// router.get('/category',userProductController.getCategory)
 
 module.exports = router;

@@ -1,45 +1,33 @@
-
-
-
-
 <section class="content-main">
     <div class="content-header">
         <div>
             <h2 class="content-title card-title">Categories </h2>
             <p>Add, edit or delete a category</p>
         </div>
-        <!-- <div>
-            <input type="text" placeholder="Search Categories" class="form-control bg-white">
-        </div> -->
+
     </div>
     <div class="card">
         <div class="card-body">
             <div class="row">
                 <div class="col-md-3">
-                    <form method="post" action="/admin/addCategory">
+                    <form method="post" id="form" action="/admin/addCategory">
                         <div class="mb-4">
                             <label for="product_name" class="form-label">Category Name</label>
-                            <input type="text" name="categoryname" placeholder="Type here" class="form-control"
-                                id="product_name" />
+                            <input type="text" name="categoryname" onkeyup="validateCategory()" placeholder="Type here"
+                                class="form-control" id="categoryName" />
+                            <p id="categoryError" class="validation-label"></p>
+
                         </div>
                         <div class="mb-4">
                             <label for="product_slug" class="form-label">Sub Category Name</label>
-                            <input type="text" name="subcategoryname" placeholder="Type here" class="form-control"
-                                id="product_slug" />
+                            <input type="text" name="subcategoryname" onkeyup="validateSubCategory()"
+                                placeholder="Type here" class="form-control" id="subCategoryName" />
+                            <p id="subCategoryError" class="validation-label"></p>
+
                         </div>
-                        <!-- <div class="mb-4">
-                            <label class="form-label">Parent</label>
-                            <select class="form-select">
-                                <option>Clothes</option>
-                                <option>T-Shirts</option>
-                            </select>
-                        </div> -->
-                        <!-- <div class="mb-4">
-                            <label class="form-label">Description</label>
-                            <textarea placeholder="Type here" class="form-control"></textarea>
-                        </div> -->
+
                         <div class="d-grid">
-                            <button class="btn btn-primary">Create category</button>
+                            <button type="submit" class="btn btn-primary">Create category</button>
                         </div>
                         <span class="text-danger">
                             <%=categoryExist%>
@@ -51,16 +39,10 @@
                         <table class="table table-hover" id="categoryList">
                             <thead>
                                 <tr>
-                                    <!-- <th class="text-center">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" />
-                                        </div>
-                                    </th> -->
+
                                     <th>No</th>
                                     <th>Category Name</th>
-                                    <!-- <th>Description</th> -->
                                     <th>Sub Category Name</th>
-                                    <!-- <th>Order</th> -->
                                     <th class="text-end">Action</th>
                                 </tr>
                             </thead>
@@ -78,19 +60,19 @@
                                         </td>
 
                                         <td class="text-end">
-                        
+
                                             <a href="/admin/editCategory/<%= viewCategory._id %>"><button
                                                     class="btn btn-success text-white">Edit</button></a>
-                                                    <% if(viewCategory.unlist){%>
-                                                        <a href=""><button class="btn btn-success text-white"
-                                                                onclick="unlistCategory('<%=viewCategory._id%>','<%=viewCategory.CategoryName%>',false)">List</button></a>
-                                                        <%}else{%>
-                                                            <a href=""><button class="btn btn-danger "
-                                                                    onclick="unlistCategory('<%=viewCategory._id%>','<%=viewCategory.CategoryName%>',true)">Unlist</button></a>
-            
-                                                            <%}%>
-                                            <button class="btn btn-danger"
-                                                onclick="deleteCategory('<%= viewCategory._id %>')">Delete</button>
+                                            <% if(viewCategory.unlist){%>
+                                                <a href=""><button class="btn btn-success text-white"
+                                                        onclick="unlistCategory('<%=viewCategory._id%>','<%=viewCategory.CategoryName%>',false)">List</button></a>
+                                                <%}else{%>
+                                                    <a href=""><button class="btn btn-danger "
+                                                            onclick="unlistCategory('<%=viewCategory._id%>','<%=viewCategory.CategoryName%>',true)">Unlist</button></a>
+
+                                                    <%}%>
+                                                        <button class="btn btn-danger"
+                                                            onclick="deleteCategory('<%= viewCategory._id %>')">Delete</button>
                                         </td>
 
 
@@ -112,22 +94,28 @@
         </div> <!-- card body .// -->
     </div> <!-- card .// -->
 </section>
+
+<!-- swal -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
 
 <script>
-      $(document).ready( function () {
-      $('#categoryList').DataTable();
-  } )
-    
-    function unlistCategory(catId,catName, condition) {
-      
+
+    //data table
+    $(document).ready(function () {
+        $('#categoryList').DataTable();
+    })
+
+
+    //unlist category
+    function unlistCategory(catId, catName, condition) {
+
         $.ajax({
             url: '/admin/unListCategory/',
             method: 'PUT',
             data: {
                 catId: catId,
-                catName:catName,
+                catName: catName,
                 condition: condition
 
             },
@@ -137,32 +125,32 @@
         })
     }
 
-
+    //delete Category
     function deleteCategory(id) {
         Swal.fire({
-  title: 'Are you sure?',
-  text: "You won't be able to revert this!",
-  icon: 'warning',
-  showCancelButton: true,
-  confirmButtonColor: '#3085d6',
-  cancelButtonColor: '#d33',
-  confirmButtonText: 'Yes, delete it!',
-  timer: 5000 
-}).then((result) => {
-  if (result.isConfirmed) {
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!',
+            timer: 5000
+        }).then((result) => {
+            if (result.isConfirmed) {
 
-        $.ajax({
-            url: `/admin/deleteCategory/${id}`,
-            method: 'delete',
-            success: (deleteResponse) => {
-                if (deleteResponse) {
-                    showSwalAlert('success', 'Category deleted successfully');
-                }
+                $.ajax({
+                    url: `/admin/deleteCategory/${id}`,
+                    method: 'delete',
+                    success: (deleteResponse) => {
+                        if (deleteResponse) {
+                            showSwalAlert('success', 'Category deleted successfully');
+                        }
+                    }
+                })
             }
         })
-    }
-})
-return false;
+        return false;
     }
 
     function showSwalAlert(icon, message) {
@@ -184,4 +172,86 @@ return false;
         })
     }
 
+
+    //validation
+    const categoryError = document.getElementById('categoryError')
+    const subCategoryError = document.getElementById('subCategoryError')
+
+
+    const validateCategory = () => {
+        const name = document.getElementById('categoryName').value.trim(); // Remove leading and trailing spaces
+        const nameInput = document.getElementById('categoryName');
+
+        if (name.length === 0) {
+            categoryError.innerHTML = 'Name is required';
+            categoryError.style.color = 'red';
+            nameInput.style.border = 'solid 2px red';
+
+            return false;
+        } else if (!name.match(/^[A-Za-z0-9\s]{3,15}$/)) { // Allow letters, numbers, and spaces with a length of 3 to 15 characters
+            categoryError.innerHTML = 'Enter a valid name (3 to 15 characters)';
+            categoryError.style.color = 'red';
+            nameInput.style.border = 'solid 2px red';
+
+            return false;
+        } else if (/^\s+$/.test(name)) { // Check if name contains only spaces
+            categoryError.innerHTML = 'Name cannot be just spaces';
+            categoryError.style.color = 'red';
+            nameInput.style.border = 'solid 2px red';
+
+            return false;
+        }
+
+        categoryError.innerHTML = '';
+        categoryError.style.color = 'green';
+        nameInput.style.border = 'solid 2px green';
+
+        return true;
+    };
+
+    const validateSubCategory = () => {
+        const name = document.getElementById('subCategoryName').value.trim(); // Remove leading and trailing spaces
+        const nameInput = document.getElementById('subCategoryName');
+
+        if (name.length === 0) {
+            subCategoryError.innerHTML = 'Name is required';
+            subCategoryError.style.color = 'red';
+            nameInput.style.border = 'solid 2px red';
+
+            return false;
+        } else if (!name.match(/^[A-Za-z0-9\s]{3,15}$/)) { // Allow letters, numbers, and spaces with a length of 3 to 15 characters
+            subCategoryError.innerHTML = 'Enter a valid name (3 to 15 characters)';
+            subCategoryError.style.color = 'red';
+            nameInput.style.border = 'solid 2px red';
+
+            return false;
+        } else if (/^\s+$/.test(name)) { // Check if name contains only spaces
+            subCategoryError.innerHTML = 'Name cannot be just spaces';
+            subCategoryError.style.color = 'red';
+            nameInput.style.border = 'solid 2px red';
+
+            return false;
+        }
+
+        subCategoryError.innerHTML = '';
+        subCategoryError.style.color = 'green';
+        nameInput.style.border = 'solid 2px green';
+
+        return true;
+    };
+
+
+
+    form.addEventListener('submit', (event) => {
+        event.preventDefault()
+        if (!validateCategory() || !validateSubCategory()) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Enter details correctly!!'
+            })
+            return false
+        } else {
+            form.submit()
+        }
+    })
 </script>

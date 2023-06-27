@@ -97,26 +97,20 @@
             </div> <!-- table-responsive //end -->
         </div> <!-- card-body end// -->
     </div> <!-- card end// -->
-    <!-- <div class="pagination-area mt-15 mb-50">
-        <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-start">
-                <li class="page-item active"><a class="page-link" href="#">01</a></li>
-                <li class="page-item"><a class="page-link" href="#">02</a></li>
-                <li class="page-item"><a class="page-link" href="#">03</a></li>
-                <li class="page-item"><a class="page-link dot" href="#">...</a></li>
-                <li class="page-item"><a class="page-link" href="#">16</a></li>
-                <li class="page-item"><a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a></li>
-            </ul>
-        </nav>
-    </div> -->
+    
 </section>
 
 
 <script>
+
+    //datatable
   $(document).ready(function () {
       $('#salesReport').DataTable();
   });
 
+
+
+  //validation
   let startDate = document.getElementById('startdate');
   let endDate = document.getElementById('enddate');
   let error1 = document.getElementById('date-error1');
@@ -177,6 +171,8 @@
       }
   }
 
+
+  //download as EXCEL
   function export_data() {
  
       let startDate = document.getElementById('startdateHidden').value
@@ -188,6 +184,8 @@
       XLSX.writeFile(fp, fileName);
   }
 
+
+  //download as PDF
   function downloadAsPDF() {
 
     let startDate = document.getElementById('startdateHidden').value

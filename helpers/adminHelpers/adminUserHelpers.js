@@ -1,6 +1,7 @@
 const user = require('../../schema/dbSchma')
 
 module.exports = {
+    //get User List function
     getUser: () => {
         return new Promise(async (resolve, reject) => {
             await user.user.find().then((response) => {
@@ -8,6 +9,8 @@ module.exports = {
             })
         })
     },
+
+    //block user Function
     blockedUser: (id, condition) => {
         return new Promise(async (resolve, reject) => {
             await user.user.updateOne({ _id: id }, { $set: { blocked: condition } })

@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>AristocraticStyle</title>
+    <title>Magestic Garments</title>
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -13,7 +13,7 @@
     <meta property="og:url" content="" />
     <meta property="og:image" content="" />
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="../public/assets/imgs/theme/as-logo.webp" />
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/imgs/theme/M-400.png" />
     <!-- Template CSS -->
     <link rel="stylesheet" href="/assets/css/main.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
@@ -34,34 +34,33 @@
                 <div class="header-right">
 
                     <div class="header-action-right">
-                       
-
-                            <div class="btn-group" style="padding-left:2rem ">
-                                <%if(locals.users){%>
-                                    <a href="/login" class="btn btn-dark dropdown-toggle" type="button"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <%=users.username%>
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                        <a class="dropdown-item" href="#">Profile</a>
-                                        <a class="dropdown-item text-danger" href="/logout">Log Out</a>
-
-                                    </div>
 
 
-                                    <%}else{%>
-                                        <a href="/login"><button class="btn btn-success"> Log In</button> </a>
+                        <div class="btn-group" style="padding-left:2rem ">
+                            <%if(locals.users){%>
+                                <a href="/login" class="btn btn-dark dropdown-toggle" type="button"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <%=users.username%>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <a class="dropdown-item" href="#">Profile</a>
+                                    <a class="dropdown-item text-danger" href="/logout">Log Out</a>
 
-                                        <%}%>
-                                            <!-- <img alt="Evara" src="assets/imgs/theme/icons/person.svg"> -->
-                                            <!-- <i class="btn btn-success  "><a class="text-white" href="/login">Log In / Sign Up</a></i>  -->
-                            </div>
+                                </div>
+
+
+                                <%}else{%>
+                                    <a href="/login"><button class="btn btn-success"> Log In</button> </a>
+
+                                    <%}%>
 
                         </div>
+
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     </div>
     <div class="header-bottom header-bottom-bg-color sticky-bar">
         <div class="container">

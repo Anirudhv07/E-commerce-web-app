@@ -3,6 +3,7 @@ const adminCategoryHelper = require('../../helpers/adminHelpers/adminCategoryHel
 
 
 module.exports = {
+    //To get Admin Category Page
     getAdminCategory: ((req, res) => {
         if (req.session.adminloggedIn) {
 
@@ -20,6 +21,8 @@ module.exports = {
         }
 
     }),
+
+    //To Post Admin Category
     postAdminCategory: (req, res) => {
         const { categoryname, subcategoryname } = req.body;
         const uppercaseCategoryName = categoryname.toUpperCase();
@@ -37,7 +40,7 @@ module.exports = {
                 res.redirect('/admin/addCategory');
             });
     },
-
+    //To get Admin Category
     getAdminEditCategory: (req, res) => {
         if (req.session.adminloggedIn) {
             const admin = req.session.admin
@@ -53,11 +56,14 @@ module.exports = {
 
 
     },
+    //To post Edit Category
     postAdminEditCategory: (req, res) => {
         adminCategoryHelper.postEditCategory(req.params.id, req.body).then((response) => {
             res.redirect('/admin/addCategory')
         })
     },
+
+    //To Delete Category
     deleteCategory: (req, res) => {
 
         adminCategoryHelper.deleteCategory(req.params.id).then((response) => {
@@ -65,6 +71,7 @@ module.exports = {
         })
 
     },
+    //To get Sub Category
     getSubCategory: (req, res) => {
 
         adminCategoryHelper.subCategoryView(req.query.proCategory).then((response) => {
@@ -72,6 +79,8 @@ module.exports = {
 
         })
     },
+
+    //Unlist Category
     unlistCategory: async (req, res) => {
         const condition = JSON.parse(req.body.condition)
         const catId = req.body.catId

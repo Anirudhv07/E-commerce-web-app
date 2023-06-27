@@ -27,7 +27,7 @@
                                 <div class="product-cart-wrap mb-30">
                                     <div class="product-img-action-wrap">
                                         <div class="product-img product-img-zoom">
-                                            <a href="/uploads/ <%=product._id%>">
+                                            <a href="/detailView/<%=product._id%>">
                                                 <img class="default-img" src="/uploads/<%=product.Image[0] %>" alt=""
                                                     style="width:20rem;height:19rem">
                                                 <img class="hover-img" src="/uploads/<%=product.Image[1] %>" alt=""
@@ -35,9 +35,7 @@
                                             </a>
                                         </div>
                                         <div class="product-action-1">
-                                            <a aria-label="Quick view" class="action-btn hover-up"
-                                                data-bs-toggle="modal" data-bs-target="#quickViewModal">
-                                                <i class="fi-rs-search"></i></a>
+                                            
                                             <a aria-label="Add To Wishlist" class="action-btn hover-up" onclick="addtoWishlist('<%=product._id%>'),Swal.fire({
                                                 position: 'center',
                                                 icon: 'success',
@@ -45,8 +43,7 @@
                                                 showConfirmButton: false,
                                                 timer: 2000
                                               })" href="#"><i class="fi-rs-heart"></i></a>
-                                            <a aria-label="Compare" class="action-btn hover-up" href="#"><i
-                                                    class="fi-rs-shuffle"></i></a>
+                                            
                                         </div>
 
                                     </div>
@@ -59,36 +56,42 @@
                                         <h2><a href="/detailView/<%=product._id%>">
                                                 <%=product.Productname%>
                                             </a></h2>
-                                        <div class="rating-result" title="<%=product.offerPercentage%>">
-                                            <span>
-                                                <span><%=product.offerPercentage%> % off</span>
-                                            </span>
-                                           
+                                            
+                                        <div class="product-rate d-inline-block" title="<%=product.offerPercentage%>">
+                                            <div class="product-rating" style="width:90%">
+                                            </div>
+                                                <span>
+                                                    <%=product.offerPercentage%> % off
+                                                </span>
+                                            
+
                                         </div>
                                         <%if(product.Quantity==0){%>
-                                       
-                                        <div >
-                                            <span class="text-danger">
-                                                Out of Stock
-                                            </span>
-                                        </div>
-                                        <%}%>
-                                        <div class="product-price">
-                                            <span>₹ <%=product.offerPrice%></span>
-                                            <span class="old-price">₹<%=product.Price%></span>
-                                        </div>
-                                        <div class="product-action-1 show">
-                                            <%if(product.Quantity==0){%>
-                                                <button type="button" aria-label="Add To Cart" class="action-btn hover-up"
-                                                        onclick="addtocart('<%=product._id%>')" >
-                                                        <i class="fi-rs-shopping-bag-add"></i></button>
-                                                <%}else{%>
-                                                    <button type="button" aria-label="Add To Cart" class="action-btn hover-up"
-                                                        onclick="addtocart('<%=product._id%>')">
-                                                        <i class="fi-rs-shopping-bag-add"></i></button>
 
-                                                    <%}%>
-                                        </div>
+                                            <div>
+                                                <span class="text-danger">
+                                                    Out of Stock
+                                                </span>
+                                            </div>
+                                            <%}%>
+                                                <div class="product-price">
+                                                    <span>₹ <%=product.offerPrice%></span>
+                                                    <span class="old-price">₹<%=product.Price%></span>
+                                                </div>
+                                                <div class="product-action-1 show">
+                                                    <%if(product.Quantity==0){%>
+                                                        <button type="button" aria-label="Add To Cart"
+                                                            class="action-btn hover-up"
+                                                            onclick="addtocart('<%=product._id%>')" disabled>
+                                                            <i class="fi-rs-shopping-bag-add" ></i></button>
+                                                        <%}else{%>
+                                                            <button type="button" aria-label="Add To Cart"
+                                                                class="action-btn hover-up"
+                                                                onclick="addtocart('<%=product._id%>')">
+                                                                <i class="fi-rs-shopping-bag-add"></i></button>
+
+                                                            <%}%>
+                                                </div>
                                     </div>
                                 </div>
                             </div>
@@ -165,6 +168,8 @@
 </section>
 
 <script>
+
+    //add to cart
     function addtocart(proId) {
         console.log(proId);
         $.ajax({
@@ -172,7 +177,7 @@
             method: "GET",
             success: (response) => {
                 console.log(response, 'reessss');
-                if (response.status==false) {
+                if (response.status == false) {
                     Swal.fire({
                         position: 'center',
                         icon: 'success',
@@ -180,9 +185,9 @@
                         showConfirmButton: false,
                         timer: 2000
                     })
-                    
 
-                }else if (response.status==true) {
+
+                } else if (response.status == true) {
                     Swal.fire({
                         position: 'center',
                         icon: 'success',
@@ -195,7 +200,7 @@
                     console.log(typeof (num));
                     $('#cartCount').html(num + 1)
 
-                }else if(response.err){
+                } else if (response.err) {
                     Swal.fire({
                         position: 'center',
                         icon: 'error',
@@ -211,6 +216,9 @@
 
     }
 
+
+
+    //add to wishlist
     function addtoWishlist(proId) {
         console.log(proId);
         $.ajax({
@@ -230,97 +238,106 @@
         // location.reload()
 
     }
-    function filterProduct(catName) {
-
-        let productloop = document.getElementById("product-loop")
-        let pageInation = document.getElementById('pageInation')
-        console.log(catName, 'catt');
-        $.ajax({
-            url: '/filterCategory?catName=' + catName,
-            method: 'post',
-            success: (response) => {
 
 
-                console.log(response);
-                let loop = ''
+    // //filter Product (NOT USED)
+    // function filterProduct(catName) {
 
-                for (let i = 0; i < response.length; i++) {
-                    loop +=
-                        `
-
-
-                            <div class="col-lg-4 col-md-4 col-12 col-sm-6">
-                                <div class="product-cart-wrap mb-30">
-                                    <div class="product-img-action-wrap">
-                                        <div class="product-img product-img-zoom">
-                                            <a href="/uploads/ ${response[i]._id}">
-                                                <img class="default-img" src="/uploads/${response[i].Image[0]}" alt="" style="width:20rem;height:19rem">
-                                                <img class="hover-img" src="/uploads/${response[i].Image[1]}" alt="" style="width:20rem;height:19rem">
-                                            </a>
-                                        </div>
-                                        <div class="product-action-1">
-                                            <a aria-label="Quick view" class="action-btn hover-up"
-                                                data-bs-toggle="modal" data-bs-target="#quickViewModal">
-                                                <i class="fi-rs-search"></i></a>
-                                            <a aria-label="Add To Wishlist" class="action-btn hover-up" onclick="addtoWishlist('${response[i]._id}'),Swal.fire({
-                                                position: 'center',
-                                                icon: 'success',
-                                                title: 'Item Added Successfully To Wishlist',
-                                                showConfirmButton: false,
-                                                timer: 2000
-                                              })" href="#"><i
-                                                    class="fi-rs-heart"></i></a>
-                                            <a aria-label="Compare" class="action-btn hover-up" href="#"><i
-                                                    class="fi-rs-shuffle"></i></a>
-                                        </div>
-
-                                    </div>
-                                    <div class="product-content-wrap">
-                                        <div class="product-category">
-                                            <a href="shop-grid-right.html">
-                                                ${response[i].Category}
-                                                
-                                            </a>
-                                        </div>
-                                        <h2><a href="/detailView/${response[i]._id}">
-                                                
-                                                ${response[i].Productname}
-                                            </a></h2>
-                                        <div class="rating-result" title="90%">
-                                            <span>
-                                                <span>90%</span>
-                                            </span>
-                                        </div>
-                                        <div class="product-price">
-                                            <span>₹ ${response[i].Price}</span>
-                                            <span class="old-price">₹ ${response[i].Price + 200}</span>
-                                        </div>
-                                        <div class="product-action-1 show">
-                                            <button type="button" aria-label="Add To Cart" class="action-btn hover-up" onclick="addtocart('${response[i]._id}'),Swal.fire({
-                                                position: 'center',
-                                                icon: 'success',
-                                                title: 'Item Added Successfully To Cart',
-                                                showConfirmButton: false,
-                                                timer: 2000
-                                              })">
-                                                <i class="fi-rs-shopping-bag-add"></i></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> 
-                            
-                `
-
-                }
-                console.log(loop)
-                productloop.innerHTML = loop
-                pageInation.innerHTML = ""
+    //     let productloop = document.getElementById("product-loop")
+    //     let pageInation = document.getElementById('pageInation')
+    //     console.log(catName, 'catt');
+    //     $.ajax({
+    //         url: '/filterCategory?catName=' + catName,
+    //         method: 'post',
+    //         success: (response) => {
 
 
-            }
-        })
-    }
+    //             console.log(response);
+    //             let loop = ''
 
+    //             for (let i = 0; i < response.length; i++) {
+    //                 loop +=
+    //                     `
+
+
+    //                         <div class="col-lg-4 col-md-4 col-12 col-sm-6">
+    //                             <div class="product-cart-wrap mb-30">
+    //                                 <div class="product-img-action-wrap">
+    //                                     <div class="product-img product-img-zoom">
+    //                                         <a href="/uploads/ ${response[i]._id}">
+    //                                             <img class="default-img" src="/uploads/${response[i].Image[0]}" alt="" style="width:20rem;height:19rem">
+    //                                             <img class="hover-img" src="/uploads/${response[i].Image[1]}" alt="" style="width:20rem;height:19rem">
+    //                                         </a>
+    //                                     </div>
+    //                                     <div class="product-action-1">
+    //                                         <a aria-label="Quick view" class="action-btn hover-up"
+    //                                             data-bs-toggle="modal" data-bs-target="#quickViewModal">
+    //                                             <i class="fi-rs-search"></i></a>
+    //                                         <a aria-label="Add To Wishlist" class="action-btn hover-up" onclick="addtoWishlist('${response[i]._id}'),Swal.fire({
+    //                                             position: 'center',
+    //                                             icon: 'success',
+    //                                             title: 'Item Added Successfully To Wishlist',
+    //                                             showConfirmButton: false,
+    //                                             timer: 2000
+    //                                           })" href="#"><i
+    //                                                 class="fi-rs-heart"></i></a>
+    //                                         <a aria-label="Compare" class="action-btn hover-up" href="#"><i
+    //                                                 class="fi-rs-shuffle"></i></a>
+    //                                     </div>
+
+    //                                 </div>
+    //                                 <div class="product-content-wrap">
+    //                                     <div class="product-category">
+    //                                         <a href="shop-grid-right.html">
+    //                                             ${response[i].Category}
+
+    //                                         </a>
+    //                                     </div>
+    //                                     <h2><a href="/detailView/${response[i]._id}">
+
+    //                                             ${response[i].Productname}
+    //                                         </a></h2>
+    //                                     <div class="rating-result" title="90%">
+    //                                         <span>
+    //                                             <span>90%</span>
+    //                                         </span>
+    //                                     </div>
+    //                                     <div class="product-price">
+    //                                         <span>₹ ${response[i].Price}</span>
+    //                                         <span class="old-price">₹ ${response[i].Price + 200}</span>
+    //                                     </div>
+    //                                     <div class="product-action-1 show">
+    //                                         <button type="button" aria-label="Add To Cart" class="action-btn hover-up" onclick="addtocart('${response[i]._id}'),Swal.fire({
+    //                                             position: 'center',
+    //                                             icon: 'success',
+    //                                             title: 'Item Added Successfully To Cart',
+    //                                             showConfirmButton: false,
+    //                                             timer: 2000
+    //                                           })">
+    //                                             <i class="fi-rs-shopping-bag-add"></i></button>
+    //                                     </div>
+    //                                 </div>
+    //                             </div>
+    //                         </div> 
+
+    //             `
+
+    //             }
+    //             console.log(loop)
+    //             productloop.innerHTML = loop
+    //             pageInation.innerHTML = ""
+
+
+    //         }
+    //     })
+    // }
+
+
+
+
+
+
+    //sort/filter/search---INTERCONNECTED
     function userQuery(pageNumber = 1) {
         let pageInation = document.getElementById('pageInation')
         event.preventDefault();

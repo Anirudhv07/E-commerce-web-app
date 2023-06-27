@@ -76,9 +76,13 @@
 
 
 <script>
+
+    //datatable
        $(document).ready( function () {
       $('#productList').DataTable();
   } )
+
+  //unlist Product
     function unlistProduct(proId, condition) {
         $.ajax({
             url: '/admin/unListProduct/',

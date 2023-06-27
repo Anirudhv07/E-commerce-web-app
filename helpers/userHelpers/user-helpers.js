@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt')
 
 module.exports = {
 
-    //SignUp
+    //to List Product
     homePage: () => {
         return new Promise(async (resolve, reject) => {
             await dbuser.product.find().then((response) => {
@@ -15,22 +15,24 @@ module.exports = {
 
 
     },
+
+    //post Sign up Function
     doSignUp: (userData) => {
         return new Promise(async (resolve, reject) => {
             try {
                 const email = userData.email
-                const phone =userData.phone
-                const existingEmail = await dbuser.user.findOne({ email:email })
-                const existingPhone = await dbuser.user.findOne({ phonenumber:phone })
-                console.log(existingEmail,'emailexist',existingPhone,'existing phone');
+                const phone = userData.phone
+                const existingEmail = await dbuser.user.findOne({ email: email })
+                const existingPhone = await dbuser.user.findOne({ phonenumber: phone })
+                console.log(existingEmail, 'emailexist', existingPhone, 'existing phone');
 
                 if (existingEmail) {
-                    reject({reason:'Email Already Exist'})
-                }else if(existingPhone){
-                    reject({reason:'Phone Number Already Exist'})
-                    
+                    reject({ reason: 'Email Already Exist' })
+                } else if (existingPhone) {
+                    reject({ reason: 'Phone Number Already Exist' })
 
-                
+
+
                 } else {
                     const hashedPassword = await bcrypt.hash(userData.password, 10)
                     const data = new dbuser.user({
@@ -85,6 +87,7 @@ module.exports = {
         })
 
     },
+    //otp login function
     doOtpLogin: (userData) => {
         return new Promise(async (resolve, reject) => {
             try {

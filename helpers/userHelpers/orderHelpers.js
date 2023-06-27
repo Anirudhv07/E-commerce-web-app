@@ -2,6 +2,8 @@ const { response } = require('express');
 const user = require('../../schema/dbSchma')
 const ObjectId = require("mongodb").ObjectId;
 const Razorpay = require("razorpay");
+const { resolve } = require('path');
+const bcrypt = require('bcrypt')
 const instance = new Razorpay({
     key_id: "rzp_test_pQj2XugS33hOJo",
     key_secret: "fEyxM29Rrx1eiAHLQeXCOnep",
@@ -10,6 +12,8 @@ const instance = new Razorpay({
 
 
 module.exports = {
+
+    //to get the product ID
     getProId: (userData) => {
         return new Promise(async (resolve, reject) => {
             const updateCart = await user.cart.aggregate([
@@ -53,6 +57,8 @@ module.exports = {
             resolve(updateCart)
         })
     },
+
+    //TO PLACE ORDER
     placeOrder: (userData, total, couponName, discountAmount, cartQuantity) => {
         return new Promise(async (resolve, reject) => {
             let updateCart = await user.cart.aggregate([
@@ -93,109 +99,111 @@ module.exports = {
                     }
                 }
             ])
-            let flag=0
+            let flag = 0
             updateCart.forEach(async function (response) {
 
 
                 if (response.mainQuantity < response.quantity) {
-                    flag=1
+                    flag = 1
                     await user.cart.updateOne(
                         { user: userData.user },
                         { $pull: { cartItems: { productId: response._id } } }
                     ).then((result) => {
-                        console.log('errr', result);
+                       
                         resolve({ err: 'This Product is Out of Stock' });
                     });
                     return;
                 }
             })
-                if(flag==0) {
-                    console.log(updateCart, 'cart');
+            if (flag == 0) {
+                console.log(updateCart, 'cart');
 
-                    let Address = await user.address.aggregate([
-                        { $match: { user: new ObjectId(userData.user) } },
-                        { $unwind: '$Address' },
-                        { $match: { 'Address._id': new ObjectId(userData.address) } },
-                        {
-                            $project: {
-                                item: '$Address'
-                            }
+                let Address = await user.address.aggregate([
+                    { $match: { user: new ObjectId(userData.user) } },
+                    { $unwind: '$Address' },
+                    { $match: { 'Address._id': new ObjectId(userData.address) } },
+                    {
+                        $project: {
+                            item: '$Address'
                         }
-                    ])
-
-                    const items = Address.map((obj) => obj.item)
-                    let status, orderStatus
-                    let orderAddress = items[0]
-                    if (userData['payment-method'] === 'COD') {
-                        status = 'Placed'
-                        orderStatus = 'Success'
-                    } else {
-                        status = 'pending'
-                        orderStatus = 'pending'
                     }
+                ])
 
-                    let orderdata = {
-                        name: orderAddress.fname,
-                        paymentStatus: status,
-                        paymentMode: userData['payment-method'],
-                        paymentMethod: userData['payment-method'],
-                        productDetails: updateCart,
-                        shippingAddress: orderAddress,
-                        orderStatus: orderStatus,
-                        discountAmount: discountAmount,
-                        totalPrice: total
-
-                    }
-                    const order = await user.order.findOne({ user: userData.user })
-                    if (order) {
-                        await user.order.updateOne({ user: userData.user },
-                            {
-                                $push: {
-                                    orders: orderdata
-                                }
-                            }).then((productDetails) => {
-                                resolve(productDetails)
-                            })
-                    } else {
-                        const newOrder = user.order({
-                            user: userData.user,
-                            orders: orderdata
-                        })
-                        await newOrder.save().then((orders) => {
-                            resolve(orders)
-                        })
-
-                    }
-                    await user.cart.deleteMany({ user: userData.user }).then(() => {
-                        resolve()
-                    })
-                    cartQuantity.map(async (quantity) => {
-
-                        await user.product.updateOne({ _id: quantity.productId }, {
-                            $inc: { Quantity: -quantity.cartQuantity }
-                        })
-                        try {
-                            const response = await user.product.findOne({ _id: quantity.productId });
-
-
-                            if (response.Quantity <= 0) {
-                                await user.product.findOneAndUpdate(
-                                    { _id: quantity.productId },
-                                    { $set: { Quantity: 0 } }
-                                );
-                            }
-                        } catch (error) {
-                        }
-
-
-                    })
-                    return
+                const items = Address.map((obj) => obj.item)
+                let status, orderStatus
+                let orderAddress = items[0]
+                if (userData['payment-method'] === 'COD') {
+                    status = 'Placed'
+                    orderStatus = 'Success'
+                } else {
+                    status = 'pending'
+                    orderStatus = 'pending'
                 }
-           
+
+                let orderdata = {
+                    name: orderAddress.fname,
+                    paymentStatus: status,
+                    paymentMode: userData['payment-method'],
+                    paymentMethod: userData['payment-method'],
+                    productDetails: updateCart,
+                    shippingAddress: orderAddress,
+                    orderStatus: orderStatus,
+                    discountAmount: discountAmount,
+                    totalPrice: total
+
+                }
+                const order = await user.order.findOne({ user: userData.user })
+                if (order) {
+                    await user.order.updateOne({ user: userData.user },
+                        {
+                            $push: {
+                                orders: orderdata
+                            }
+                        }).then((productDetails) => {
+                            resolve(productDetails)
+                        })
+                } else {
+                    const newOrder = user.order({
+                        user: userData.user,
+                        orders: orderdata
+                    })
+                    await newOrder.save().then((orders) => {
+                        resolve(orders)
+                    })
+
+                }
+                await user.cart.deleteMany({ user: userData.user }).then(() => {
+                    resolve()
+                })
+                cartQuantity.map(async (quantity) => {
+
+                    await user.product.updateOne({ _id: quantity.productId }, {
+                        $inc: { Quantity: -quantity.cartQuantity }
+                    })
+                    try {
+                        const response = await user.product.findOne({ _id: quantity.productId });
+
+
+                        if (response.Quantity <= 0) {
+                            await user.product.findOneAndUpdate(
+                                { _id: quantity.productId },
+                                { $set: { Quantity: 0 } }
+                            );
+                        }
+                    } catch (error) {
+                    }
+
+
+                })
+                return
+            }
+
 
         })
 
     },
+
+    //get Order list
     getOrderList: (userId) => {
         return new Promise(async (resolve, reject) => {
             await user.order.aggregate([
@@ -219,6 +227,8 @@ module.exports = {
         })
 
     },
+
+    //get Order Details
     getOrderDetails: (proId, userId) => {
 
         return new Promise(async (resolve, reject) => {
@@ -296,7 +306,7 @@ module.exports = {
         })
     },
 
-
+    //get Order Status
     getOrderStatus: (proId, userId) => {
 
         return new Promise(async (resolve, reject) => {
@@ -324,6 +334,8 @@ module.exports = {
 
         })
     },
+
+    //cancel order Function
     cancelOrder: (orderId) => {
         return new Promise(async (resolve, reject) => {
             await user.order.updateOne({ 'orders._id': orderId }, { $set: { 'orders.$.orderConfirm': 'cancelled' } }).then((response) => {
@@ -331,6 +343,8 @@ module.exports = {
             });
         });
     },
+
+    //return order Function
     returnOrder: (orderId) => {
 
         return new Promise(async (resolve, reject) => {
@@ -342,11 +356,24 @@ module.exports = {
     returnWalletAmount: (orderId, userId) => {
 
         return new Promise(async (resolve, reject) => {
+            const userData = await user.user.findOne({ _id: userId })
 
+            const walletAmount = userData.wallet
             const response = await user.order.findOne({ user: userId });
             const totalAmount = response.orders.find(order => order._id.toString() === orderId).totalPrice;
+            console.log(totalAmount, 'totalAmount');
+            await user.user.updateOne({ _id: userId }, { $inc: { wallet: +totalAmount } });
+            const walletAmountTransaction = {
+                transactionAmount: totalAmount,
+                type: 'credit',
+                createdAt: new Date(),
+                remainingBalance: walletAmount + totalAmount,
+                orderId: orderId
+            }
 
-            const walletAmount = await user.user.updateOne({ _id: userId }, { $inc: { wallet: +totalAmount } });
+            await user.user.updateOne({ _id: userId }, {
+                $push: { walletTransaction: walletAmountTransaction }
+            })
 
             resolve(walletAmount);
 
@@ -356,6 +383,8 @@ module.exports = {
     }
 
     ,
+
+    //to do online Payment (RazorPay)
     generateRazorpay: async (userId, total) => {
         const orders = await user.order.find({ user: userId });
         console.log(orders, 'ordersssssssssss');
@@ -372,21 +401,65 @@ module.exports = {
             instance.orders.create(options, function (err, order) {
                 if (err) {
                 } else {
-                    console.log('new Order:', order);
+                 
                     resolve(order);
                 }
             });
         });
     },
+
+    //to reduce the amount from the user Wallet
     reduceWallet: async (userId, total) => {
         console.log(userId, total, 'reduceeee');
         return new Promise(async (resolve, reject) => {
+            const userData = await user.user.findOne({ _id: userId })
+            const orderId = await user.order.aggregate([
+                {
+                    $match: {
+                        user: new ObjectId(userId)
+                    }
+                },
+                {
+                    $unwind: '$orders'
+                },
+                {
+                    $match: {
+                        "orders.paymentMethod": "wallet"
+                    }
+                }, {
+                    $project: {
+                        orderId: '$orders._id',
+                        createdAt: '$orders.createdAt'
+                    }
+                }, {
+                    $sort: {
+                        createdAt: -1
+                    }
+                }
+
+            ])
+            console.log(orderId, 'orderId');
+            const walletAmount = userData.wallet
+            console.log(userData, 'data', walletAmount, 'alll');
             await user.user.updateOne({ _id: userId },
                 { $inc: { wallet: -total } })
+            const walletAmountTransaction = {
+                transactionAmount: total,
+                type: 'debit',
+                createdAt: new Date(),
+                remainingBalance: walletAmount - total,
+                orderId: orderId[0].orderId
+            }
+            console.log(walletAmountTransaction, 'walletAmount');
+            await user.user.updateOne({ _id: userId }, {
+                $push: { walletTransaction: walletAmountTransaction }
+            })
         }).then((response) => {
-
+            resolve()
         })
     },
+
+    //to verify the online payment (Razorpay code from Website)
     verifyPayment: (details) => {
         return new Promise((resolve, reject) => {
             const crypto = require("crypto");
@@ -405,6 +478,8 @@ module.exports = {
             }
         })
     },
+
+    //change payment status
     changePaymentStatus: (orderId) => {
         return new Promise(async (resolve, reject) => {
             await user.order.updateOne({ "orders._id": orderId },
@@ -418,6 +493,8 @@ module.exports = {
                 })
         })
     },
+
+    //validate coupon function
     validateCouponCode: (code, total, userId) => {
         return new Promise(async (resolve, reject) => {
             let discountAmount
@@ -461,6 +538,8 @@ module.exports = {
             })
         })
     },
+
+    //To add the used coupon to User DB
     addCoupontoUser: (couponName, userId) => {
         return new Promise(async (resolve, reject) => {
             await user.user.updateOne({ _id: userId },
@@ -469,63 +548,48 @@ module.exports = {
                 })
         })
     },
-    createData: (details) => {
-        let address = details[0].ShippingAddress;
-
-        var data = {
-            // Customize enables you to provide your own templates
-            // Please review the documentation for instructions and examples
-            customize: {
-                //  "template": fs.readFileSync('template.html', 'base64') // Must be base64 encoded html
-            },
-            images: {
-                // The logo on top of your invoice
-                logo: "../public/assets/imgs/theme/as-logo.webp",
-                // The invoice background
-                // background: "https://public.easyinvoice.cloud/img/watermark-draft.jpg",
-            },
-            // Your own data
-            sender: {
-                company: "Aristocratic Style",
-                address: "Washington DC",
-                zip: "4567 CD",
-                city: "Los santos",
-                country: "America",
-            },
-            // Your recipient
-            client: {
-                company: address.fname,
-                address: address.street,
-                zip: address.pincode,
-                city: address.city,
-                country: "India",
-            },
-
-            information: {
-                number: address.phone,
-                date: new Date(details.creditedAt),
-                "due-date": "31-12-2021",
-            },
-
-            products: [
+    
+    //get Wallet Transaction
+    walletTransaction: (userId) => {
+        return new Promise(async (resolve, reject) => {
+            await user.user.aggregate([
                 {
-                    quantity: details.productQuantity,
-                    description: details.productName,
-                    "tax-rate": 6,
-                    price: details.productPrice,
-                },
-            ],
-            // The message you would like to display on the bottom of your invoice
-            "bottom-notice": "Thank you for your order from Rapid Delux",
-            // Settings to customize your invoice
-            settings: {
-                currency: "INR", // See documentation 'Locales and Currency' for more info. Leave empty for no currency.
-            },
-            // Translate your invoice to your preferred language
-            translate: {},
-        };
+                    $match: {
+                        _id: new ObjectId(userId)
+                    }
+                }, {
+                    $unwind: '$walletTransaction'
+                }, {
+                    $project: {
+                        username: 1,
+                        transactionAmount: '$walletTransaction.transactionAmount',
+                        type: '$walletTransaction.type',
+                        dateAndTime: '$walletTransaction.createdAt',
+                        remainingBalance: '$walletTransaction.remainingBalance',
+                        orderId: '$walletTransaction.orderId'
 
-        return data;
+
+                    }
+                }
+            ]).then((response) => {
+             
+                resolve(response)
+            })
+        })
+    },
+
+    //post change Password function
+    postChangePassword: async (body, userId) => {
+        const hashedPassword = await bcrypt.hash(body.password, 10)
+        return new Promise(async (resolve, reject) => {
+            await user.user.findOneAndUpdate({ _id: new ObjectId(userId) }, {
+                $set: {
+                    password: hashedPassword
+                }
+            }).then((response) => {
+                resolve(response)
+            })
+        })
     }
 
 

@@ -90,11 +90,4 @@ router.post('/salesReport',auths.auth,adminOrderController.postSalesReport)
 
 
 
-
-
-express.Router
-
-
-
-
 module.exports = router;
