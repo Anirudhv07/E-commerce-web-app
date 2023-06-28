@@ -53,7 +53,7 @@ module.exports = {
 
             const users = req.session.user
             await userProductHelpers.detailView(req.params.id).then((response) => {
-                console.log(response);
+                
 
                 res.render('user/productDetailView', { layout: 'layout', users, wishlistCount,count, response })
 

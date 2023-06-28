@@ -17,6 +17,7 @@ module.exports = {
     },
     //get Add Product
     getAddProducts: (req, res) => {
+        console.log(req.body);
         if (req.session.adminloggedIn) {
             adminProductHelper.addProducts().then((response) => {
                 const admin = req.session.admin
@@ -34,6 +35,7 @@ module.exports = {
 
     //post Add Product
     postAddProducts: (req, res) => {
+        console.log(req.body);
         const images = req.files.map((files) => files.filename)
 
         adminProductHelper.postAddProduct(req.body, images).then((response) => {

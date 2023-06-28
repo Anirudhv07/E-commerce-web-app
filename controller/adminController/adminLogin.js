@@ -66,7 +66,7 @@ module.exports = {
                 dates.push(response._id)
                 dateCount.push(response.count)
             })
-
+            console.log(totalRevenue,'rebe')
             res.render('admin/dashboard', { layout: "adminLayout", dates, dateCount, catName, orderByDays, catCount, codCount, categoryCount, walletCount, onlineCount, totalRevenue, orderCount, totalProduct, admin, totalProduct, currentPage: 'dashboard' })
 
         } else {

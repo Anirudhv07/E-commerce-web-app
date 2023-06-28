@@ -75,7 +75,7 @@
                         <div class="col-sm-6 mb-3">
                             <label class="form-label">Sub-category</label>
                             <select class="form-select" id="subCategories" name="productSubCategory">
-                                <%response[0].SubCategory.forEach(function(response){%>
+                                <%response[0]?.SubCategory?.forEach(function(response){%>
                                     <option>
                                         <%=response %>
                                     </option>
@@ -93,7 +93,7 @@
                         </div>
                         <div class="mb-4">
                             <label for="product_name" class="form-label">Offer Percentage</label>
-                            <input type="number" name="productOfferPercentage" onkeyup="validateOfferPercentage()" id="offerPercentage" class="form-control">
+                            <input type="number" name="productOfferPercentage"  onkeyup="validateOfferPercentage()" id="offerProductPercentage" class="form-control">
                             <p id="offerpercentageerror" class="validation-label"></p>
 
                         </div>
@@ -228,7 +228,7 @@
         return true
 
     }
-
+   
 
     function validatePrice() {
         const price = document.getElementById('price').value.trim()
@@ -328,9 +328,9 @@
     }
 
     function validateOfferPercentage() {
-    const offerPercentage = document.getElementById('offerPercentage').value;
-    const offerPercentageInput = document.getElementById('offerPercentage');
-    const offerpercentageError = document.getElementById('offerpercentageError');
+    const offerPercentage = document.getElementById('offerProductPercentage').value
+    const offerPercentageInput = document.getElementById('offerProductPercentage')
+    const offerpercentageError = document.getElementById('offerpercentageerror')
 
     if (offerPercentage.length === 0) {
         offerpercentageError.innerHTML = 'Offer Percentage is required';
@@ -357,6 +357,7 @@
 
     return true;
 }
+
 
 
 

@@ -76,18 +76,7 @@
         passwordInput.style.border = ''
 
     }
-    form.addEventListener('submit', (event) => {
-        event.preventDefault()
-        if (!validateEmail() || !validatePassword()) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Enter details correctly!!'
-            })
-            return false
-        } else {
-            form.submit()
-        }
-    })
+   
 
 
 

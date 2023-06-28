@@ -34,8 +34,8 @@ module.exports = {
         const firstOrder = await adminOrderHelpers.firstOrderDate()
         const lastOrder = await adminOrderHelpers.lastOrderDate()
 
-        const start = firstOrder.date
-        const end = lastOrder.date
+        const start = firstOrder?.date
+        const end = lastOrder?.date
 
         adminOrderHelpers.salesReport().then((response) => {
 

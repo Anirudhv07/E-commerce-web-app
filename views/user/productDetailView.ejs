@@ -23,16 +23,21 @@
                                         <!-- MAIN SLIDES -->
                                         <div class="product-image-slider">
                                             <%response.Image.forEach(function(response){%>
+                                                <%if(response!=0){%>
                                                 <figure class="border-radius-10 ">
                                                     <img src="/uploads/<%=response%>" alt="product image">
                                                 </figure>
+                                            <%}%>
                                                 <%})%>
                                            
                                         </div>
                                         <!-- THUMBNAILS -->
                                         <div class="slider-nav-thumbnails pl-15 pr-15">
                                             <%response.Image.forEach(function(response){%>
+                                                <%if(response!=0){%>
                                                 <div><img src="/uploads/<%=response %>" alt="product image"></div>
+                                            <%}%>
+                                               
                                                 <%})%>
                                            
                                         </div>

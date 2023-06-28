@@ -118,7 +118,7 @@
                             </div>
                             <div class="mb-4">
                                 <label for="product_name" class="form-label">Offer Percentage</label>
-                                <input type="number" name="productOfferPercentage" onkeyup="validateOfferPercentage()" id="offerPercentage" 
+                                <input type="number" name="productOfferPercentage" onkeyup="validateOfferPercentage()" id="offerProductPercentage" 
                                     class="form-control" value="<%=editProduct.offerPercentage%>">
                                 <p id="offerpercentageerror" class="validation-label"></p>
 
@@ -336,31 +336,36 @@
 
     }
     function validateOfferPercentage() {
-        const offerPercentage = document.getElementById('offerPercentage').value
-        const offerPercentageInput = document.getElementById('offerPercentage')
+    const offerPercentage = document.getElementById('offerProductPercentage').value
+    const offerPercentageInput = document.getElementById('offerProductPercentage')
+    const offerpercentageError = document.getElementById('offerpercentageerror')
 
+    if (offerPercentage.length === 0) {
+        offerpercentageError.innerHTML = 'Offer Percentage is required';
+        offerpercentageError.style.color = 'red';
+        offerPercentageInput.style.border = 'solid 2px red';
 
+        return false;
+    } else if (/^\s+$/.test(offerPercentage)) { // Check if title contains only spaces
+        offerpercentageError.innerHTML = 'Offer Percentage cannot be just spaces';
+        offerpercentageError.style.color = 'red';
+        offerPercentageInput.style.border = 'solid 2px red';
 
-        if (offerPercentage.length == 0) {
-            offerpercentageError.innerHTML = 'Offer Percentage is required'
-            offerpercentageError.style.color = 'red'
-            offerpercentageInput.style.border = 'solid 2px red'
-
-            return false
-
-        }else if (/^\s+$/.test(offerPercentage)) { // Check if title contains only spaces
-            offerpercentageError.innerHTML = 'Offer Percentage cannot be just spaces';
-            offerpercentageError.style.color = "red";
-            offerpercentageInput.style.border = "solid 2px red";
+        return false;
+    } else if (isNaN(offerPercentage) || offerPercentage < 0 || offerPercentage > 100) {
+        offerpercentageError.innerHTML = 'Offer Percentage must be a number between 0 and 100';
+        offerpercentageError.style.color = 'red';
+        offerPercentageInput.style.border = 'solid 2px red';
 
         return false;
     }
-    offerpercentageError.innerHTML = ''
-    offerpercentageInput.style.border = "solid 2px green"
 
-        return true
+    offerpercentageError.innerHTML = '';
+    offerPercentageInput.style.border = 'solid 2px green';
 
-    }
+    return true;
+}
+
  
     form.addEventListener('submit', (event) => {
         event.preventDefault()

@@ -6,9 +6,10 @@ const logger = require('morgan');
 const expressLayouts = require("express-ejs-layouts");
 const userRouter = require('./routes/user');
 const adminRouter = require('./routes/admin');
-const dotenv=require('dotenv')
+const dotenv = require('dotenv')
 const app = express();
-const connection=require('./schema/connection')
+const connection = require('./schema/connection')
+const connectionDB = require('./schema/connectionAtlas')
 
 
 
@@ -27,8 +28,20 @@ app.use(express.static(path.join(__dirname, "public/admin-assets")))
 // Add session middleware before any routes or error handlers
 app.use(connection);
 
+
+
 app.use('/', userRouter);
 app.use('/admin', adminRouter);
+
+const start = function () {
+  try {
+    connectionDB("mongodb+srv://anirudhvinod00:Anirudh2000@magesticgarments.lhts5rx.mongodb.net/?retryWrites=true&w=majority")
+  }
+  catch (err) {
+    console.log(err);
+  }
+}
+start()
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -42,9 +55,9 @@ app.use(function (err, req, res, next) {
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   // render the error page
-  const users=req.session.user
+  const users = req.session.user
   res.status(err.status || 500);
-  res.render('error',{layout:'emptylayout',users});
+  res.render('error', { layout: 'emptylayout', users });
 });
 
 module.exports = app;
