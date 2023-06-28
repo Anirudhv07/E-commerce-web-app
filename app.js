@@ -35,7 +35,7 @@ app.use('/admin', adminRouter);
 
 const start = function () {
   try {
-    connectionDB("mongodb+srv://anirudhvinod00:Anirudh2000@magesticgarments.lhts5rx.mongodb.net/?retryWrites=true&w=majority")
+    connectionDB(process.env.MONGO_URI)
   }
   catch (err) {
     console.log(err);
