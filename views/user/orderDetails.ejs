@@ -84,7 +84,7 @@
                                                                 </h5>
                                                             </td>
                                                             <td>
-                                                                <h5>₹ <%=response.productPrice%>
+                                                                <h5>₹ <%=response.totalPrice%>
                                                                 </h5>
 
                                                             </td>
@@ -184,9 +184,11 @@
 
                             </div>
                             <div class="text-end col-lg-6 pt-2">
+                                <%if(response[0].discountAmount){%>
                                 <h5 class="text-muted"><span class="fw-bold">Discount Amount:</span>₹
                                     <%=response[0].discountAmount%>
                                 </h5>
+                                <%}%>
 
                                 <h5 class="text-muted"><span class="fw-bold">Total:</span> ₹ <%=response[0].totalPrice
                                         %>
