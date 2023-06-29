@@ -97,7 +97,7 @@ module.exports = {
     getChangePassword: async (req, res) => {
         const users = req.session.user
 
-        res.render('user/changePassword', { layout: 'emptyLayout', users })
+        res.render('user/changePassword', { layout: 'emptylayout', users })
 
     },
 
@@ -112,7 +112,7 @@ module.exports = {
     getChangePassword2: async (req, res) => {
         const users = req.session.user
 
-        res.render('user/changePassword2', { layout: 'emptyLayout', users })
+        res.render('user/changePassword2', { layout: 'emptylayout', users })
 
     },
     //post change user Password (forgot password)
