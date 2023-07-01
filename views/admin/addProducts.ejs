@@ -186,7 +186,7 @@
             titleInput.style.border = "solid 2px red";
 
             return false;
-        } else if (!title.match(/^[A-Za-z0-9\s]{3,15}$/)) { // Allow letters, numbers, and spaces with a length of 3 to 15 characters
+        } else if (!title.match(/^[A-Za-z0-9\s]{3,25}$/)) { // Allow letters, numbers, and spaces with a length of 3 to 15 characters
             titleError.innerHTML = 'Enter a valid title (3 to 15 characters)';
             titleError.style.color = 'red';
             titleInput.style.border = 'solid 2px red';
