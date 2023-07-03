@@ -9,6 +9,7 @@ module.exports = {
 
     //get Home page
     getHomePage: async (req, res, next) => {
+        console.log(req.session);
         try {
             if (req.session.loggedIn) {
                 const users = req.session.user;
@@ -19,7 +20,11 @@ module.exports = {
                 const response = await userHelpers.homePage();
                 res.render('user/home', { layout: "layout", users, userExist: true, response, count, wishlistCount, banner });
             } else {
-                res.render('user/login', { layout: "emptylayout", userExist: false });
+                const banner = await adminBannerHelpers.getBanner()
+                const response = await userHelpers.homePage();
+
+
+                res.render('user/home', { layout: "layout", userExist: false ,banner,response});
             }
         } catch (error) {
             // Handle any errors that occurred during the process
@@ -67,9 +72,13 @@ module.exports = {
 
     //to get Login 
     getLogIn: (req, res, next) => {
+        console.log(req.session,'logiimm');
+
         if (req.session.loggedIn) {
             res.redirect('/')
         } else {
+        console.log(req.session,'logiimm');
+
 
 
             res.render('user/login', { layout: "emptylayout" })
@@ -97,7 +106,10 @@ module.exports = {
 
     //Logout
     getLogout: (req, res) => {
+        console.log(req.session,'logout');
+
         req.session.loggedIn = null
+        req.session.user = null
         res.redirect('/login')
     },
 

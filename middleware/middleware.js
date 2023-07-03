@@ -18,6 +18,7 @@ module.exports={
       }
     }),
     userBlockBug:(async(req,res,next)=>{
+        
         const userId=req.session.user.userId
         const user=await dbuser.user.findOne({_id:userId})
 

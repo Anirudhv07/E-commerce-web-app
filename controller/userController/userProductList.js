@@ -7,7 +7,10 @@ const userCheckOutHelper = require('../../helpers/userHelpers/checkOutHelper')
 module.exports = {
     //get Shop Page
     getShop: async (req, res) => {
-        try {
+        console.log(req.session);
+        if(req.session.user){
+
+        
             let users = req.session.user
             let count = await cartAndWishlistHelpers.getCartCount(req.session.user.userId);
             const wishlistCount = await cartAndWishlistHelpers.getWishlistCount(req.session.user.userId);
@@ -39,9 +42,40 @@ module.exports = {
                 req.session.noProductFound = false
             }
 
-        } catch (error) {
-            console.log(error)
+        }else{
+            
+           
+            //pagination
+            const page = parseInt(req.query?.page) || 1
+            const perPage = 6
+            const docCount = await userProductHelpers.getDocCount()
+            const pages = Math.ceil(parseInt(docCount) / perPage)
+            const pageNum = parseInt(req.query.page) || 1
+            //
+            const category = await adminCategoryHelper.viewCategory()
+            const response = await userProductHelpers.shopListProducts(pageNum)
+
+            //if any query occured
+            if (req.query?.search || req.query?.sort || req.query?.filter) {
+                const { product, noProductFound } = await userProductHelpers.getQueriesOnShop(req.query, page)
+                noProductFound ?
+                    req.session.noProductFound = noProductFound
+                    : req.session.selectedProducts = product
+                res.render('user/shop', { layout: 'layout', product, pageNum, category, response, pages, docCount, productResult: req.session.noProductFound })
+            } else {
+                //if no query occur
+                let currentPage = 1
+                const { product, totalPages } = await userProductHelpers.getAllProducts(page, perPage);
+
+                if (product?.length != 0)
+                    req.session.noProductFound = false
+                res.render('user/shop', { layout: 'layout', product, category, pageNum, response, pages, docCount, totalPages, currentPage, productResult: req.session.noProduct })
+                req.session.noProductFound = false
+            }
         }
+
+
+       
     },
 
     //detailed view of Product

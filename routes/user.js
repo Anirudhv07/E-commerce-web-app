@@ -8,9 +8,9 @@ const auths=require('../middleware/middleware')
 var router = express.Router();
 
 /* GET home page. */
-router.get('/',auths.userauth,auths.userBlockBug, userController.getHomePage)
+router.get('/', userController.getHomePage)
 
-router.get('/login',auths.userauth, userController.getLogIn)
+router.get('/login', userController.getLogIn)
 
 router.post('/login', userController.postLogIn)
 
@@ -32,7 +32,7 @@ router.post('/otpMainLogin', userController.postOtpLogin)
 
 router.post('/otp2MainLogin', userController.postOtp2Login)
 
-router.get('/shop',auths.userauth,auths.userBlockBug, userProductController.getShop)
+router.get('/shop', userProductController.getShop)
 
 router.get('/detailView/:id',auths.userauth,auths.userBlockBug, userProductController.getDetailView)
 
